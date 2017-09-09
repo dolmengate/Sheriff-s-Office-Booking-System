@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainClass>info.sroman.sheriffofficebookingsystem.MainApp</mainClass>
+        <mainClass>info.sroman.SOBS.MainApp</mainClass>
     </properties>
 	
     <dependencies>
