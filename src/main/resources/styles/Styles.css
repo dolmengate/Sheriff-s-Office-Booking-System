@@ -1,3 +1,28 @@
 .button {
     -fx-font-weight: bold;
 }
+
+.button:hover {
+    -fx-underline: true;
+}
+
+TextField {
+    -fx-background-color: skyblue;
+}
+
+Label {
+    -fx-padding: 5 10 5 5;
+}
+
+StackPane {
+    -fx-padding: 20 20 20 20;
+}
+
+.TEST {
+    -fx-font-size: 500px;
+}
+
+HBox {
+    -fx-padding: 20 20 20 20;
+    background-color: skyblue;
+}
