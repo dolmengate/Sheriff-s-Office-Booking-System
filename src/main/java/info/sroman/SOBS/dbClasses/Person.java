@@ -4,78 +4,98 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public abstract class Person {
 	
-	private final int PERSON_ID = (int)(Math.random() * 100);					// TODO implement new ID assignment system
-	private String firstName;
-	private String lastName;
-	private final int HEIGHT;
-	private int weight;
-	private final String DOB;
-	private final String RACE;
+	protected final IntegerProperty PERSON_ID;
+	protected StringProperty firstName;
+	protected StringProperty lastName;
+	protected final IntegerProperty HEIGHT;
+	protected IntegerProperty weight;
+	protected final StringProperty DOB;
+	protected final StringProperty RACE;
 	
-	// Constructor
-	// Also generates database entry for constructed person
+	/*
+		Constructor
+	*/
 	Person (String firstName, String lastName, int height,
-			int weight, String DOB, String ethnicity) {
+			int weight, String DOB, String race) {
 		
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.HEIGHT = height;
-		this.weight = weight;
-		this.DOB = DOB;
-		this.RACE = ethnicity;
-		
-		Connection conn = null;
-		PreparedStatement createPerson = null;
-		
-		try {
-			conn = DriverManager.getConnection(
-					"jdbc:sqlite:./src/main/resources/db/SOBS.db"
-			);
-			conn.setAutoCommit(false);
-			createPerson = conn.prepareStatement(
-					"INSERT INTO Person VALUES (?, ?, ?, ?, ?, ?, ?)"
-			);
-			createPerson.setInt(1, this.PERSON_ID);
-			createPerson.setString(2, this.firstName);
-			createPerson.setString(3, this.lastName);
-			createPerson.setInt(4, this.HEIGHT);
-			createPerson.setInt(5, this.weight);
-			createPerson.setString(6, this.DOB);
-			createPerson.setString(7, this.RACE);
-			createPerson.executeUpdate();
-			conn.commit();
-			
-		} catch (SQLException ex) {
-			System.err.println(ex.getMessage());
-		} finally {
-			try {
-				if(conn != null)
-					conn.close();
-			} catch(SQLException ex) {
-				System.err.println(ex);
-			}
-		}
+		this.PERSON_ID = new SimpleIntegerProperty(					// TODO implement new ID assignment system
+			this, "PERSON_ID", (int)(Math.random() * 100)
+		);
+		this.firstName = new SimpleStringProperty(this, "firstName", firstName);
+		this.lastName = new SimpleStringProperty(this, "lastName", lastName);
+		this.HEIGHT = new SimpleIntegerProperty(this, "HEIGHT", height);
+		this.weight = new SimpleIntegerProperty(this, "weight", weight);
+		this.DOB = new SimpleStringProperty(this, "DOB", DOB);
+		this.RACE = new SimpleStringProperty(this, "RACE", race);
+	}
+	
+	/*
+		Setter methods						TODO update db on setter invokation
+	*/
+	public void setFirstname(String value) {
+		firstNameProperty().set(value);
+	}
+	public void setLastName(String value) {
+		lastNameProperty().set(value);
+	}
+	public void setWeight(int value) {
+		weightProperty().set(value);
 	}
 	 
-	// Getters
-	protected int getPERSON_ID() { return this.PERSON_ID; }
-	protected String getFirstName() { return this.firstName; }
-	protected String getLastName() { return this.lastName; }
-	protected int getHeight() { return this.HEIGHT; }
-	protected int getWeight() { return this.weight; }
-	protected String getRace() { return this.RACE; }
+	/*
+		Getter Methods
+	*/
+	public int getPERSON_ID() { return PERSON_IDProperty().getValue(); }
+	public String getFirstName() { return firstNameProperty().getValue(); }
+	public String getLastName() { return lastNameProperty().getValue(); }
+	public int getHeight() { return HEIGHTProperty().getValue(); }
+	public int getWeight() { return weightProperty().getValue(); }
+	public String getDOB() { return DOBProperty().getValue(); }
+	public String getRace() { return RACEProperty().getValue(); }
 	
-	// Setters								// TODO update DB when setters invoked
-	public void setFirstname(String fn) {
-		this.firstName = fn;
+	/*
+		Property Getter Methods
+	*/
+	public IntegerProperty PERSON_IDProperty() {
+		return this.PERSON_ID;
 	}
-	public void setLastName(String ln) {
-		this.lastName = ln;
+	public StringProperty firstNameProperty() {
+		if (this.firstName == null) firstName = new SimpleStringProperty(this, "firstName");
+		return firstName;
 	}
-	public void setWeight(int weight) {
-		this.weight = weight;
+	public StringProperty lastNameProperty() {
+		if (this.lastName == null) lastName = new SimpleStringProperty(this, "lastName");
+		return lastName;
+	}
+	public IntegerProperty HEIGHTProperty() {
+		return HEIGHT;
+	}
+	public IntegerProperty weightProperty() {
+		if (this.weight == null) weight = new SimpleIntegerProperty(this, "weight");
+		return weight;
+	}
+	public StringProperty DOBProperty() {
+		return DOB;
+	}
+	public StringProperty RACEProperty() {
+		return RACE;
+	}
+
+	@Override
+	public String toString() {
+		return "PERSON_ID: " + PERSON_IDProperty().getValue()
+				+ ", First Name: " + firstNameProperty().getValue()
+				+ ", Last Name: " + lastNameProperty().getValue()
+				+ ", HEIGHT: " + HEIGHTProperty().getValue()
+				+ ", Weight: " + weightProperty().getValue()
+				+ ", DOB: " + DOBProperty().getValue()
+				+ ", Race: " + RACEProperty().getValue();
 	}
 }
