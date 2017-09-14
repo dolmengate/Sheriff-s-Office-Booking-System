@@ -8,69 +8,54 @@
 <?import javafx.scene.layout.*?>
 
 
-<Pane xmlns:fx="http://javafx.com/fxml" fx:controller="info.sroman.SOBS.MainPageController" minWidth="1280" minHeight="720">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="info.sroman.SOBS.MainPageController" minWidth="1280" minHeight="720">
     <TabPane minWidth="1280">
         <Tab text="Prisoners" fx:id="PrisonerTab" closable="false">
-            <SplitPane dividerPositions="0.6f" orientation="vertical" minWidth="1280">
-                <StackPane prefHeight="100" minHeight="50" maxHeight="100"> 
-                    <children>
-                        <FlowPane prefHeight="600" hgap="40" vgap="10" prefWrapLength="1000">
-                            <children>
+            <TabPane>
+                <Tab text="Search" closable="false">
+                    <VBox>
+                        <FlowPane prefHeight="80" hgap="40" vgap="10" prefWrapLength="1000">
                                 <HBox>
                                     <Label text="First Name"/>
-                                    <TextField fx:id="prisonerFirstNameField" prefWidth="200" minHeight="20"/>
+                                    <TextField fx:id="prisonerFirstNameField" prefWidth="200" minHeight="18"/>
                                 </HBox>
                                 <HBox>
                                     <Label text="Last Name"/>
-                                    <TextField fx:id="prisonerLastNameField" prefWidth="200" minHeight="20"/>
+                                    <TextField fx:id="prisonerLastNameField" prefWidth="200" minHeight="18"/>
                                 </HBox>
                                 <HBox>
                                     <Label text="Height"/>
-                                    <TextField fx:id="prisonerHeightField" prefWidth="50" minHeight="20"/>
+                                    <TextField fx:id="prisonerHeightField" prefWidth="50" minHeight="18"/>
                                 </HBox>
                                 <HBox>
                                     <Label text="Weight"/>
-                                    <TextField fx:id="prisonerWeightField" prefWidth="50" minHeight="20"/>
+                                    <TextField fx:id="prisonerWeightField" prefWidth="50" minHeight="18"/>
                                 </HBox>
                                 <HBox>
                                     <Label text="Date of Birth"/>
-                                    <TextField fx:id="prisonerDOBField" prefWidth="100" minHeight="20"/>
+                                    <TextField fx:id="prisonerDOBField" prefWidth="100" minHeight="18"/>
                                 </HBox>
                                 <HBox>
                                     <Label text="Race"/>
-                                    <TextField fx:id="prisonerRaceField" prefWidth="100" minHeight="20"/>
+                                    <TextField fx:id="prisonerRaceField" prefWidth="100" minHeight="18"/>
                                 </HBox>
-                                <Button text="Submit" onAction="#submitBtn"/>
-                                <Button text="Reset" />
-                            </children>
+                                <HBox>
+                                    <Button text="Submit" onAction="#submitBtn"/>
+                                    <Button text="Reset" />
+                                </HBox>
                         </FlowPane>
-                    </children>
-                </StackPane>
-                <ScrollPane vbarPolicy="always">
-                    <ScrollBar orientation="vertical" />
-                    <FlowPane>
-                        <HBox alignment="center">
-                            <Label text="First Name" prefWidth="200"/>
-                            <Label text="Last Name" prefWidth="200"/>
-                            <Label text="Height" prefWidth="100"/>
-                            <Label text="Weight" prefWidth="100"/>
-                            <Label text="DOB" prefWidth="100"/>
-                            <Label text="Race" prefWidth="100"/>
-                            
-                            <Label fx:id="resultFirstName" prefWidth="200"/>
-                            <Label fx:id="resultLastName" prefWidth="200"/>
-                            <Label fx:id="resultHeight" prefWidth="100"/>
-                            <Label fx:id="resultWidth" prefWidth="100"/>
-                            <Label fx:id="resultDOB" prefWidth="100"/>
-                            <Label fx:id="resultRace" prefWidth="100"/>
-                        </HBox>
-                    </FlowPane>
-                </ScrollPane>
-            </SplitPane>
+                        <TableView fx:id="resultsTableView" AnchorPane.topAnchor="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+                        </TableView>
+                    </VBox>
+                </Tab>
+                <Tab text="Add New" closable="false">
+                    
+                </Tab>
+            </TabPane>
         </Tab>
         <Tab text="Visitors" closable="false">
         </Tab>
         <Tab text="Court Dates" closable="false">
         </Tab>
     </TabPane>
-</Pane>
+</AnchorPane>
