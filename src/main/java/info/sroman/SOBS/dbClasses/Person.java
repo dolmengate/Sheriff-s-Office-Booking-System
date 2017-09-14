@@ -1,9 +1,6 @@
 package info.sroman.SOBS.dbClasses;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import info.sroman.SOBS.Database;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -26,7 +23,7 @@ public abstract class Person {
 			int weight, String DOB, String race) {
 		
 		this.PERSON_ID = new SimpleIntegerProperty(					// TODO implement new ID assignment system
-			this, "PERSON_ID", (int)(Math.random() * 100)
+			this, "PERSON_ID", Database.assignPersonID()
 		);
 		this.firstName = new SimpleStringProperty(this, "firstName", firstName);
 		this.lastName = new SimpleStringProperty(this, "lastName", lastName);

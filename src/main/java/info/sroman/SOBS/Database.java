@@ -1,12 +1,16 @@
 package info.sroman.SOBS;
 
+import info.sroman.SOBS.dbClasses.Prisoner;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Database {
-
+	
+	private static int personID = 100;
+	private static int prisonerID = 400;
+	private static int bunkID = 800;
 	
 	public static void genDB() {
 			try {
@@ -56,7 +60,7 @@ public class Database {
 						+ "PRISONER_ID INTEGER PRIMARY KEY, "
 						+ "arrest_date STRING, "	// CONSTRAINT Prisoner_arrest_date_lt_now_CK CHECK (arrest_date < date('now')		TODO add date formatting
 						+ "release_date STRING CONSTRAINT Prisoner_release_date_gt_arrest_date_CK CHECK (release_date > arrest_date), "
-						+ "person_id CONSTRAINT Prisoner_person_id_NN NOT NULL, "
+						+ "person_id INTEGER CONSTRAINT Prisoner_person_id_NN NOT NULL, "
 						+ "bunk_id INTEGER CONSTRAINT Prisoner_bunk_id_NN NOT NULL, "
 						+ "FOREIGN KEY(person_id) REFERENCES Person(PERSON_ID), "
 						+ "FOREIGN KEY(bunk_id) REFERENCES Bunk(BUNK_ID)"
@@ -102,5 +106,136 @@ public class Database {
 			} catch (SQLException ex) {
 				System.err.println("SQLException: " + ex.getMessage());
 			}
+	}
+	
+	public static void createPrisoner() {
+		Prisoner p = new Prisoner(randomFirstName(), randomLastName(), randomHeight(), randomWeight(), randomDOB(), randomRace(), randomDate(), randomDate(), assignBunkID());
+		System.out.println("Prisoner created:\n" + p.toString());
+		
+	}
+	
+	private static String randomFirstName() {
+		String[] FIRST_NAMES = {
+			"Felix", 
+			"Alfonso",
+			"Roland",
+			"Jonathon",
+			"Shane",
+			"Jay",
+			"Garry",
+			"Chris",
+			"Allan",
+			"Jamie",
+			"Maurice",
+			"Bennie",
+			"Orlando",
+			"Gilberto",
+			"Stewart",
+			"Brent",
+			"Santiago",
+			"Bob",
+			"Kevin",
+			"Willie",
+			"Courtney",
+			"Garrett",
+			"Jermaine",
+			"Jan",
+			"Rudy",
+			"Adrian",
+			"Wade",
+			"Ira",
+			"Curtis"
+		};
+		
+		return FIRST_NAMES[(int)(Math.random() * FIRST_NAMES.length)];
+	}
+	
+	public static String randomLastName() {
+		
+		String[] LAST_NAMES = {
+			"Vargas",
+			"Burns",
+			"Bass",
+			"Hernandez",
+			"Reyes",
+			"Gilbert",
+			"Knight",
+			"Robinson",
+			"Marshall",
+			"Jenkins",
+			"Mendez",
+			"Garza",
+			"Nash",
+			"Wood",
+			"Maldonado",
+			"Fernandez",
+			"Baldwin",
+			"Harvey",
+			"Sutton",
+			"Mason",
+			"Pearson",
+			"Hall",
+			"Green",
+			"May",
+			"Lawrence",
+			"Schmidt",
+			"Thompson"
+		};
+		
+		return LAST_NAMES[(int)(Math.random() * LAST_NAMES.length)];
+	}
+	
+	public static int randomHeight() {
+		return (int)(Math.random() * 72) + 60;
+	}
+	
+	public static int randomWeight() {
+		return (int)(Math.random() * 250) + 150;
+	}
+	
+	// Temporary placeholder until Date implementation
+	public static String randomDOB() {
+		StringBuilder date = new StringBuilder();
+		date.append(Integer.toString((int)(Math.random() * 12) + 1));
+		date.append("/");
+		date.append(Integer.toString((int)(Math.random() * 31) + 1));
+		date.append("/19");
+		date.append(Integer.toString((int)(Math.random() * 99) + 30));
+		return new String(date);
+	}
+	
+	public static String randomRace() {
+		String[] RACES = {
+			"White",
+			"Black",
+			"Hispanic"
+		};
+		return RACES[(int)(Math.random() * 2)];
+	}
+	
+		// Temporary placeholder until Date implementation
+	public static String randomDate() {
+		StringBuilder date = new StringBuilder();
+		date.append(Integer.toString((int)(Math.random() * 12) + 1));
+		date.append("/");
+		date.append(Integer.toString((int)(Math.random() * 31) + 1));
+		date.append("/20");
+		date.append(Integer.toString((int)(Math.random() * 17) + 30));
+		return new String(date);
+	}
+	
+	public static int assignPersonID() {
+		++Database.personID;
+		return personID;
+	}
+	
+	public static int assignPrisonerID() {
+		++Database.prisonerID;
+		return prisonerID;
+	}
+	
+	public static int assignBunkID() {
+		++Database.bunkID;
+		return bunkID;
 	}
 }

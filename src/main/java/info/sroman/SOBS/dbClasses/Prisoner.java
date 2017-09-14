@@ -1,5 +1,6 @@
 package info.sroman.SOBS.dbClasses;
 
+import info.sroman.SOBS.Database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,7 +23,7 @@ public class Prisoner extends Person {
 	public Prisoner(String firstName, String lastName, Integer weight, Integer height, String DOB, String race, String arrestDate, String releaseDate, Integer bunkID) {
 		super(firstName, lastName, weight, height, DOB, race);
 		
-		this.PRISONER_ID = new SimpleIntegerProperty((int)(Math.random() * 100));	// TODO implement new ID assignment system
+		this.PRISONER_ID = new SimpleIntegerProperty(Database.assignPrisonerID());	// TODO implement new ID assignment system
 		this.bunkID = new SimpleIntegerProperty(bunkID);
 		this.ARREST_DATE = new SimpleStringProperty(arrestDate);
 		this.releaseDate = new SimpleStringProperty(releaseDate);
