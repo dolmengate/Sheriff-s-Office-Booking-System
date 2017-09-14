@@ -28,7 +28,7 @@ public class Database {
 						+ "height INTEGER CONSTRAINT Person_height_NN NOT NULL, "
 						+ "weight INTEGER CONSTRAINT Person_weight_NN NOT NULL, "
 						+ "date_of_birth STRING CONSTRAINT Person_dob_NN NOT NULL, " // CONSTRAINT Person_dob_lt_now_CK CHECK (date_of_birth < date('now')		TODO add date formatting
-						+ "race STRING CONSTRAINT Person_race_NN NOT NULL CONSTRAINT Person_race_wbh_CK CHECK (race = 'white' OR race = 'black' OR race = 'hispanic')"
+						+ "race STRING CONSTRAINT Person_race_NN NOT NULL CONSTRAINT Person_race_wbh_CK CHECK (race = 'White' OR race = 'Black' OR race = 'Hispanic')"
 					+ ")"
 				);
 				
@@ -110,6 +110,7 @@ public class Database {
 	
 	public static void createPrisoner() {
 		Prisoner p = new Prisoner(randomFirstName(), randomLastName(), randomHeight(), randomWeight(), randomDOB(), randomRace(), randomDate(), randomDate(), assignBunkID());
+		p.createDBEntry();
 		System.out.println("Prisoner created:\n" + p.toString());
 		
 	}
