@@ -16,6 +16,10 @@
                     <VBox>
                         <FlowPane prefHeight="80" hgap="40" vgap="10" prefWrapLength="1000">
                                 <HBox>
+                                    <Label text="Person ID"/>
+                                    <TextField fx:id="prisonerPersonIDField" prefWidth="100" minHeight="18"/>
+                                </HBox>
+                                <HBox>
                                     <Label text="First Name"/>
                                     <TextField fx:id="prisonerFirstNameField" prefWidth="200" minHeight="18"/>
                                 </HBox>
@@ -38,6 +42,22 @@
                                 <HBox>
                                     <Label text="Race"/>
                                     <TextField fx:id="prisonerRaceField" prefWidth="100" minHeight="18"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="Prisoner ID"/>
+                                    <TextField fx:id="prisonerPrisonerIDField" prefWidth="100" minHeight="18"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="Arrest Date"/>
+                                    <TextField fx:id="prisonerArrestDateField" prefWidth="100" minHeight="18"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="Release Date"/>
+                                    <TextField fx:id="prisonerReleaseDateField" prefWidth="100" minHeight="18"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="Bunk ID"/>
+                                    <TextField fx:id="prisonerBunkIDField" prefWidth="100" minHeight="18"/>
                                 </HBox>
                                 <HBox>
                                     <Button text="Submit" onAction="#submitBtn"/>

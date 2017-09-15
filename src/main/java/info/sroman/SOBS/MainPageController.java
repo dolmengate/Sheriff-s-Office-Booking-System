@@ -21,6 +21,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class MainPageController implements Initializable {
 		
 	@FXML
+	private TextField prisonerPersonIDField;
+	@FXML
 	private TextField prisonerFirstNameField;
 	@FXML
 	private TextField prisonerLastNameField;
@@ -32,6 +34,15 @@ public class MainPageController implements Initializable {
 	private TextField prisonerDOBField;
 	@FXML
 	private TextField prisonerRaceField;
+	@FXML
+	private TextField prisonerPrisonerIDField;
+	@FXML
+	private TextField prisonerArrestDateField;
+	@FXML
+	private TextField prisonerReleaseDateField;
+	@FXML
+	private TextField prisonerBunkIDField;
+	
 	@FXML
 	private TableView resultsTableView;
 	
@@ -90,10 +101,16 @@ public class MainPageController implements Initializable {
 		);
 		StringBuilder stmt = new StringBuilder();
 		TextField[] fields = {
-			prisonerFirstNameField, prisonerLastNameField, prisonerHeightField,
-			prisonerWeightField, prisonerDOBField, prisonerRaceField
+			prisonerPersonIDField, prisonerFirstNameField, prisonerLastNameField, 
+			prisonerHeightField, prisonerWeightField, prisonerDOBField, prisonerRaceField, 
+			prisonerPrisonerIDField, prisonerArrestDateField, prisonerReleaseDateField, 
+			prisonerBunkIDField
 		};
-		String[] columns = {"first_name", "last_name", "height", "weight", "date_of_birth", "race"};
+		String[] columns = {
+			"PERSON_ID", "first_name", "last_name", "height", 
+			"weight", "date_of_birth", "race", "PRISONER_ID", "arrest_date", 
+			"release_date", "bunk_id"
+		};
 		
 		// if the statement has multiple WHERE clauses include an "AND" between them
 		for (int i = 0; i < fields.length; i++) {
@@ -103,9 +120,15 @@ public class MainPageController implements Initializable {
 				stmt.append(" AND ").append(checkField(fields[i], columns[i]));
 		}
 		
-		baseStatement.append(stmt);		
+		baseStatement.append(stmt);	
 		
-		return new String(baseStatement);
+		// Prevent "Ambugious column" error by adding Table name
+		if (!prisonerPersonIDField.getText().equals(""))
+			baseStatement.insert(baseStatement.indexOf(" PERSON_ID ") + 1, "Person.", 0, 7);
+				
+		String completedStatement = new String(baseStatement);
+		System.out.println(completedStatement);
+		return completedStatement;
 	}
 	
 	/*
