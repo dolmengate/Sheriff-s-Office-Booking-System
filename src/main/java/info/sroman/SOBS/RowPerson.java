@@ -33,9 +33,9 @@ public class RowPerson {
 		this.DOB = new SimpleStringProperty(this, "DOB", DOB);
 		this.RACE = new SimpleStringProperty(this, "RACE", race);
 		this.PRISONER_ID = new SimpleIntegerProperty(this, "PRISONER_ID", prisonerID);	// TODO implement new ID assignment system
-		this.bunkID = new SimpleIntegerProperty(bunkID);
-		this.ARREST_DATE = new SimpleStringProperty(arrestDate);
-		this.releaseDate = new SimpleStringProperty(releaseDate);
+		this.bunkID = new SimpleIntegerProperty(this, "bunkID", bunkID);
+		this.ARREST_DATE = new SimpleStringProperty(this, "ARREST_DATE", arrestDate);
+		this.releaseDate = new SimpleStringProperty(this, "releaseDate", releaseDate);
 	}
 	
 	/*

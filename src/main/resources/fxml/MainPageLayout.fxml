@@ -44,8 +44,6 @@
                                     <Button text="Reset" />
                                 </HBox>
                         </FlowPane>
-                        <TableView fx:id="resultsTableView" AnchorPane.topAnchor="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
-                        </TableView>
                     </VBox>
                 </Tab>
                 <Tab text="Add New" closable="false">
@@ -58,4 +56,5 @@
         <Tab text="Court Dates" closable="false">
         </Tab>
     </TabPane>
+        <TableView fx:id="resultsTableView" AnchorPane.topAnchor="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"></TableView>
 </AnchorPane>
