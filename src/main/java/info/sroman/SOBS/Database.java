@@ -1,6 +1,6 @@
 package info.sroman.SOBS;
 
-import info.sroman.SOBS.dbClasses.Prisoner;
+import info.sroman.SOBS.Model.Prisoner;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,7 +22,7 @@ public class Database {
 				// create Person table
 				statement.executeUpdate(
 					"CREATE TABLE Person ("
-						+ "PERSON_ID INTEGER PRIMARY KEY, "
+						+ "PERSON_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
 						+ "first_name STRING CONSTRAINT Person_first_name_NN NOT NULL, "
 						+ "last_name STRING CONSTRAINT Person_last_name_NN NOT NULL, "
 						+ "height INTEGER CONSTRAINT Person_height_NN NOT NULL, "
@@ -35,7 +35,7 @@ public class Database {
 				// create Visitor table
 				statement.executeUpdate(
 					"CREATE TABLE Visitor ("
-						+ "VISITOR_ID INTEGER PRIMARY KEY, "
+						+ "VISITOR_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
 						+ "ssn INTEGER CONSTRAINT Visitor_ssn_UK UNIQUE, "
 						+ "person_id INTEGER CONSTRAINT Visitor_person_id_NN NOT NULL, "
 						+ "FOREIGN KEY(person_id) REFERENCES Person(PERSON_ID)"
@@ -45,7 +45,7 @@ public class Database {
 				// create Bunk table
 				statement.executeUpdate(
 					"CREATE TABLE Bunk ("
-						+ "BUNK_ID INTEGER PRIMARY KEY, "
+						+ "BUNK_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
 						+ "position STRING CONSTRAINT Bunk_position_CK CHECK (position = 'top' OR position = 'bottom') CONSTRAINT Bunk_position_NN NOT NULL, "
 						+ "cell_id INTEGER CONSTRAINT Bunk_cell_id_NN NOT NULL, "
 						+ "prisoner_id INTEGER, "
@@ -57,7 +57,7 @@ public class Database {
 				// create Prisoner table
 				statement.executeUpdate(
 					"CREATE TABLE Prisoner ("
-						+ "PRISONER_ID INTEGER PRIMARY KEY, "
+						+ "PRISONER_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
 						+ "arrest_date STRING, "	// CONSTRAINT Prisoner_arrest_date_lt_now_CK CHECK (arrest_date < date('now')		TODO add date formatting
 						+ "release_date STRING CONSTRAINT Prisoner_release_date_gt_arrest_date_CK CHECK (release_date > arrest_date), "
 						+ "person_id INTEGER CONSTRAINT Prisoner_person_id_NN NOT NULL, "
@@ -70,7 +70,7 @@ public class Database {
 				// create Visit table
 				statement.executeUpdate(
 					"CREATE TABLE Visit ("
-						+ "VISIT_ID INTEGER PRIMARY KEY, "
+						+ "VISIT_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
 						+ "start_time STRING CONSTRAINT Visit_start_time_NN NOT NULL, "		// CONSTRAINT Visit_start_time_lt_now_CK CHECK (start_time < date('now')		 TODO add date formatting
 						+ "end_time STRING CONSTRAINT Visit_end_time_gt_start_time_CK CHECK (end_time > start_time) CONSTRAINT Visit_end_time_NN NOT NULL, "
 						+ "notes STRING, "
@@ -85,7 +85,7 @@ public class Database {
 				// create Cell table
 				statement.executeUpdate(
 					"CREATE TABLE Cell ("
-						+ "CELL_ID INTEGER PRIMARY KEY, "
+						+ "CELL_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
 						+ "type STRING CONSTRAINT Cell_type_CK CHECK (type = 'MinSec' OR type = 'MaxSec' OR type = 'Hospital' OR type = 'Isolation'), "
 						+ "lower_bunk INTEGER CONSTRAINT Cell_lower_bunk_NN NOT NULL, "
 						+ "upper_bunk INTEGER, "
@@ -97,7 +97,7 @@ public class Database {
 				// create Court_Date table
 				statement.executeUpdate(
 					"CREATE TABLE Court_Date ("
-						+ "COURT_DATE_ID INTEGER PRIMARY KEY, "
+						+ "COURT_DATE_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
 						+ "verdict STRING CONSTRAINT Court_Date_verdict_g_ng_CK CHECK (verdict = 'guilty' OR verdict = 'not guilty'), "
 						+ "prisoner_id INTEGER, "
 						+ "FOREIGN KEY(prisoner_id) REFERENCES Prisoner(PRISONER_ID)"
@@ -109,7 +109,9 @@ public class Database {
 	}
 	
 	public static void createPrisoner() {
-		Prisoner p = new Prisoner(randomFirstName(), randomLastName(), randomHeight(), randomWeight(), randomDOB(), randomRace(), randomDate(), randomDate(), assignBunkID());
+		Prisoner p = new Prisoner(assignPersonID(), randomFirstName(), randomLastName(), 
+				randomHeight(), randomWeight(), randomDOB(), randomRace(), assignPrisonerID(), 
+				randomDate(), randomDate(), assignBunkID());
 		p.createDBEntry();
 		System.out.println("Prisoner created:\n" + p.toString());
 		
