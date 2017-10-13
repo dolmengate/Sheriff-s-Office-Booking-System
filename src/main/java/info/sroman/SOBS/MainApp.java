@@ -5,14 +5,66 @@ import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
+	
+	BorderPane container;
+	
+	HBox sidebarNavigation;
+	
+	TabPane tabs;
+	Tab prisonersTab;
+	Tab visitorsTab;
+	Tab visitsTab;
+	Tab courtDatesTab;
+	
+	PrisonerSearchComponent prisonerSearchComponent;
+	PrisonerSearchModel prisonerSearchModel;
+	PrisonerSearchController prisonerSearchController;
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainPageLayout.fxml"));
-        
+
+		prisonerSearchModel = new PrisonerSearchModel();
+		prisonerSearchController = new PrisonerSearchController();
+		prisonerSearchComponent = new PrisonerSearchComponent(prisonerSearchController);
+		
+		AnchorPane root = new AnchorPane();
+		tabs = new TabPane();
+		tabs.setMinSize(1280, 720);
+		
+		prisonersTab = new Tab("Prisoners");
+		
+		prisonersTab.setContent(prisonerSearchComponent.getNode());
+		
+		visitorsTab = new Tab("Visitors");
+		visitsTab = new Tab("Visits");
+		courtDatesTab = new Tab("Court Dates");
+		
+		tabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+		tabs.getTabs().addAll(prisonersTab, visitorsTab, visitsTab, courtDatesTab);
+		
+		sidebarNavigation = new HBox();
+		sidebarNavigation.setPrefWidth(200);
+		
+		container = new BorderPane();
+		container.setLeft(sidebarNavigation);
+		container.setRight(tabs);
+		
+		root.getChildren().add(container);
+		
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
         

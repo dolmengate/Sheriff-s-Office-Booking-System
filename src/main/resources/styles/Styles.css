@@ -1,23 +1,30 @@
-.button {
+Button {
     -fx-font-weight: bold;
-}
-
-TextField {
-    -fx-background-color: skyblue;
+    -fx-padding: 5;
 }
 
 Label {
-    -fx-padding: 2 10 0 5;
+    -fx-padding: 5;
+    -fx-alignment: center-right;
 }
 
 StackPane {
     -fx-padding: 20 20 20 20;
 }
 
-FlowPane {
+HBox.resultsPane {
     -fx-padding: 20 20 20 20;
 }
 
-HBox.resultsPane {
-    -fx-padding: 20 20 20 20;
+.search-container {
+    -fx-padding: 10;
+}
+
+.search-control-pair {
+    -fx-padding: 5;
+    -fx-alignment: center-right;
+}
+
+.search-container {
+    -fx-padding: 10;
 }
