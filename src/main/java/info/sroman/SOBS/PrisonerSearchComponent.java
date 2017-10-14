@@ -47,7 +47,7 @@ public class PrisonerSearchComponent {
 	
 	HBox prisonersRaceBox;
 	Label prisonersRaceLabel;
-	TextField prisonersRaceField;
+	ComboBox prisonersRaceCombo;
 	
 	HBox prisonersPrisonerIdBox;
 	Label prisonersPrisonerIdLabel;
@@ -113,7 +113,7 @@ public class PrisonerSearchComponent {
 
 		prisonersRaceBox = new HBox();
 		prisonersRaceLabel = new Label("Race");
-		prisonersRaceField = new TextField();
+		prisonersRaceCombo = new ComboBox();
 
 		prisonersPrisonerIdBox = new HBox();
 		prisonersPrisonerIdLabel = new Label("Prisoner ID");
@@ -145,7 +145,7 @@ public class PrisonerSearchComponent {
 					stringifyHeightFields(),
 					prisonersWeightField.getText(),
 					prisonersDOBField.getText(),
-					prisonersRaceField.getText(),
+					prisonersRaceCombo.getValue().toString(),
 					prisonersPrisonerIdField.getText(),
 					prisonersArrestDateField.getText(),
 					prisonersReleaseDateField.getText(),
@@ -176,12 +176,19 @@ public class PrisonerSearchComponent {
 				
 		prisonersHeightFeetField.setPrefWidth(50);
 		prisonersHeightInchesCombo.setItems(
-				FXCollections.observableArrayList(
+			FXCollections.observableArrayList(
 				"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"
-		));
-		
+			)
+		);
 		prisonersHeightInchesCombo.setMinSize(10, prisonersHeightBox.getWidth() * 0.25);
 		prisonersHeightFeetField.setMinWidth(prisonersHeightBox.getWidth() * 0.75);
+		
+		prisonersRaceCombo.setItems(
+			FXCollections.observableArrayList(
+				"White", "Black", "Hispanic"	
+			)
+		);
+		prisonersRaceCombo.setMinSize(10, prisonersRaceBox.getWidth());
 		
 		// Add controls to container boxes and set style classes
 		prisonersPersonIdBox.getChildren().addAll(prisonersPersonIdLabel, prisonersPersonIdField);
@@ -190,7 +197,7 @@ public class PrisonerSearchComponent {
 		prisonersHeightBox.getChildren().addAll(prisonersHeightLabel, prisonersHeightFeetField, prisonersHeightInchesCombo);
 		prisonersWeightBox.getChildren().addAll(prisonersWeightLabel, prisonersWeightField);
 		prisonersDOBBox.getChildren().addAll(prisonersDOBLabel, prisonersDOBField);
-		prisonersRaceBox.getChildren().addAll(prisonersRaceLabel, prisonersRaceField);
+		prisonersRaceBox.getChildren().addAll(prisonersRaceLabel, prisonersRaceCombo);
 		prisonersPrisonerIdBox.getChildren().addAll(prisonersPrisonerIdLabel, prisonersPrisonerIdField);
 		prisonersArrestDateBox.getChildren().addAll(prisonersArrestDateLabel, prisonersArrestDateField);
 		prisonersReleaseDateBox.getChildren().addAll(prisonersReleaseDateLabel, prisonersReleaseDateField);
