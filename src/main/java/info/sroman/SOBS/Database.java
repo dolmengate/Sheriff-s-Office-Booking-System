@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class Database {
 	
@@ -200,13 +201,7 @@ public class Database {
 	
 	// Temporary placeholder until Date implementation
 	public static String randomDOB() {
-		StringBuilder date = new StringBuilder();
-		date.append(Integer.toString((int)(Math.random() * 12) + 1));
-		date.append("/");
-		date.append(Integer.toString((int)(Math.random() * 31) + 1));
-		date.append("/19");
-		date.append(Integer.toString((int)(Math.random() * 99) + 30));
-		return new String(date);
+		return randomDate();
 	}
 	
 	public static String randomRace() {
@@ -220,13 +215,12 @@ public class Database {
 	
 		// Temporary placeholder until Date implementation
 	public static String randomDate() {
-		StringBuilder date = new StringBuilder();
-		date.append(Integer.toString((int)(Math.random() * 12) + 1));
-		date.append("/");
-		date.append(Integer.toString((int)(Math.random() * 31) + 1));
-		date.append("/20");
-		date.append(Integer.toString((int)(Math.random() * 17) + 30));
-		return new String(date);
+		
+		return LocalDate.of(
+				randomInRange(1950, 2017), 
+				randomInRange(1, 12), 
+				randomInRange(1, 30)
+		).toString();
 	}
 	
 	public static int assignPersonID() {
@@ -242,5 +236,10 @@ public class Database {
 	public static int assignBunkID() {
 		++Database.bunkID;
 		return bunkID;
+	}
+	
+	private static int randomInRange(int min, int max) {
+		int range = (max - min) + 1;     
+		return (int)(Math.random() * range) + min;
 	}
 }

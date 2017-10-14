@@ -20,7 +20,7 @@ HBox.resultsPane {
     -fx-padding: 10;
 }
 
-.search-control-pair {
+.search-control-group {
     -fx-padding: 5;
     -fx-alignment: center-right;
 }

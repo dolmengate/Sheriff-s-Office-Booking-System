@@ -1,10 +1,12 @@
 package info.sroman.SOBS;
 
 import info.sroman.SOBS.Model.Prisoner;
+import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -18,59 +20,59 @@ public class PrisonerSearchComponent {
 	
 	VBox container;
 	
-	TilePane prisonersSearchContainer;
+	TilePane prisonerSearchContainer;
 	
-	HBox prisonersPersonIdBox;
-	Label prisonersPersonIdLabel;
-	TextField prisonersPersonIdField;
+	HBox prisonerPersonIdBox;
+	Label prisonerPersonIdLabel;
+	TextField prisonerPersonIdField;
 	
-	HBox prisonersFirstNameBox;
-	Label prisonersFirstNameLabel;
-	TextField prisonersFirstNameField;
+	HBox prisonerFirstNameBox;
+	Label prisonerFirstNameLabel;
+	TextField prisonerFirstNameField;
 	
-	HBox prisonersLastNameBox;
-	Label prisonersLastNameLabel;
-	TextField prisonersLastNameField;
+	HBox prisonerLastNameBox;
+	Label prisonerLastNameLabel;
+	TextField prisonerLastNameField;
 	
-	HBox prisonersHeightBox;
-	Label prisonersHeightLabel;
-	TextField prisonersHeightFeetField;
-	ComboBox prisonersHeightInchesCombo;
+	HBox prisonerHeightBox;
+	Label prisonerHeightLabel;
+	TextField prisonerHeightFeetField;
+	ComboBox prisonerHeightInchesCombo;
 	
-	HBox prisonersWeightBox;
-	Label prisonersWeightLabel;
-	TextField prisonersWeightField;
+	HBox prisonerWeightBox;
+	Label prisonerWeightLabel;
+	TextField prisonerWeightField;
 	
-	HBox prisonersDOBBox;
-	Label prisonersDOBLabel;
-	TextField prisonersDOBField;
+	HBox prisonerDOBBox;
+	Label prisonerDOBLabel;
+	DatePicker prisonerDOBPicker;
 	
-	HBox prisonersRaceBox;
-	Label prisonersRaceLabel;
-	ComboBox prisonersRaceCombo;
+	HBox prisonerRaceBox;
+	Label prisonerRaceLabel;
+	ComboBox prisonerRaceCombo;
 	
-	HBox prisonersPrisonerIdBox;
-	Label prisonersPrisonerIdLabel;
-	TextField prisonersPrisonerIdField;
+	HBox prisonerPrisonerIdBox;
+	Label prisonerPrisonerIdLabel;
+	TextField prisonerPrisonerIdField;
 	
-	HBox prisonersArrestDateBox;
-	Label prisonersArrestDateLabel;
-	TextField prisonersArrestDateField;
+	HBox prisonerArrestDateBox;
+	Label prisonerArrestDateLabel;
+	TextField prisonerArrestDateField;
 	
-	HBox prisonersReleaseDateBox;
-	Label prisonersReleaseDateLabel;
-	TextField prisonersReleaseDateField;
+	HBox prisonerReleaseDateBox;
+	Label prisonerReleaseDateLabel;
+	TextField prisonerReleaseDateField;
 	
-	HBox prisonersBunkIdBox;
-	Label prisonersBunkIdLabel;
-	TextField prisonersBunkIdField;
+	HBox prisonerBunkIdBox;
+	Label prisonerBunkIdLabel;
+	TextField prisonerBunkIdField;
 	
-	HBox prisonersSubmitResetBox;
-	Button prisonersSubmitBtn;
-	Button prisonersResetBtn;
+	HBox prisonerSubmitResetBox;
+	Button prisonerSubmitBtn;
+	Button prisonerResetBtn;
 	
-	VBox prisonersContentContainer;
-	TableView prisonersSearchResults;
+	VBox prisonerContentContainer;
+	TableView prisonerSearchResults;
 	
 	PrisonerSearchModel model;
 	PrisonerSearchController controller;
@@ -79,138 +81,144 @@ public class PrisonerSearchComponent {
 		
 		this.controller = controller;
 		
-		prisonersSearchResults = new TableView();
+		prisonerSearchResults = new TableView();
 		
-		prisonersContentContainer = new VBox(10);
+		prisonerContentContainer = new VBox(10);
 		
-		prisonersSearchContainer = new TilePane();
-		prisonersSearchContainer.setPrefColumns(4);
+		prisonerSearchContainer = new TilePane();
+		prisonerSearchContainer.setPrefColumns(4);
 
-		prisonersPersonIdBox = new HBox();
-		prisonersPersonIdLabel = new Label("Person ID");
-		prisonersPersonIdField = new TextField();
+		prisonerPersonIdBox = new HBox();
+		prisonerPersonIdLabel = new Label("Person ID");
+		prisonerPersonIdField = new TextField();
 
-		prisonersFirstNameBox = new HBox();
-		prisonersFirstNameLabel = new Label("First Name");
-		prisonersFirstNameField = new TextField();
+		prisonerFirstNameBox = new HBox();
+		prisonerFirstNameLabel = new Label("First Name");
+		prisonerFirstNameField = new TextField();
 
-		prisonersLastNameBox = new HBox();
-		prisonersLastNameLabel = new Label("Last Name");
-		prisonersLastNameField = new TextField();
+		prisonerLastNameBox = new HBox();
+		prisonerLastNameLabel = new Label("Last Name");
+		prisonerLastNameField = new TextField();
 
-		prisonersHeightBox = new HBox();
-		prisonersHeightLabel = new Label("Height");
-		prisonersHeightFeetField = new TextField();
-		prisonersHeightInchesCombo = new ComboBox();
+		prisonerHeightBox = new HBox();
+		prisonerHeightLabel = new Label("Height");
+		prisonerHeightFeetField = new TextField();
+		prisonerHeightInchesCombo = new ComboBox();
 		
-		prisonersWeightBox = new HBox();
-		prisonersWeightLabel = new Label("Weight");
-		prisonersWeightField = new TextField();
+		prisonerWeightBox = new HBox();
+		prisonerWeightLabel = new Label("Weight");
+		prisonerWeightField = new TextField();
 
-		prisonersDOBBox = new HBox();
-		prisonersDOBLabel = new Label("Date of Birth");
-		prisonersDOBField = new TextField();
+		prisonerDOBBox = new HBox();
+		prisonerDOBLabel = new Label("Date of Birth");
+		prisonerDOBPicker = new DatePicker();
 
-		prisonersRaceBox = new HBox();
-		prisonersRaceLabel = new Label("Race");
-		prisonersRaceCombo = new ComboBox();
+		prisonerRaceBox = new HBox();
+		prisonerRaceLabel = new Label("Race");
+		prisonerRaceCombo = new ComboBox();
 
-		prisonersPrisonerIdBox = new HBox();
-		prisonersPrisonerIdLabel = new Label("Prisoner ID");
-		prisonersPrisonerIdField = new TextField();
+		prisonerPrisonerIdBox = new HBox();
+		prisonerPrisonerIdLabel = new Label("Prisoner ID");
+		prisonerPrisonerIdField = new TextField();
 
-		prisonersArrestDateBox = new HBox();
-		prisonersArrestDateLabel = new Label("Arrest Date");
-		prisonersArrestDateField = new TextField();
+		prisonerArrestDateBox = new HBox();
+		prisonerArrestDateLabel = new Label("Arrest Date");
+		prisonerArrestDateField = new TextField();
 
-		prisonersReleaseDateBox = new HBox();
-		prisonersReleaseDateLabel = new Label("Release Date");
-		prisonersReleaseDateField = new TextField();
+		prisonerReleaseDateBox = new HBox();
+		prisonerReleaseDateLabel = new Label("Release Date");
+		prisonerReleaseDateField = new TextField();
 
-		prisonersBunkIdBox = new HBox();
-		prisonersBunkIdLabel = new Label("Bunk ID");
-		prisonersBunkIdField = new TextField();
+		prisonerBunkIdBox = new HBox();
+		prisonerBunkIdLabel = new Label("Bunk ID");
+		prisonerBunkIdField = new TextField();
 
-		prisonersSubmitResetBox = new HBox();
-		prisonersSubmitBtn = new Button("Submit");
-		prisonersResetBtn = new Button("Reset");
+		prisonerSubmitResetBox = new HBox();
+		prisonerSubmitBtn = new Button("Submit");
+		prisonerResetBtn = new Button("Reset");
 		
-		prisonersSubmitBtn.setOnAction(e-> {
-			this.prisonersSearchResults.getItems().clear();
+		prisonerSubmitBtn.setOnAction(e-> {
+			this.prisonerSearchResults.getItems().clear();
 			
 			model = new PrisonerSearchModel(
-					prisonersPersonIdField.getText(), 
-					prisonersFirstNameField.getText(), 
-					prisonersLastNameField.getText(), 
+					prisonerPersonIdField.getText(), 
+					prisonerFirstNameField.getText(), 
+					prisonerLastNameField.getText(), 
 					stringifyHeightFields(),
-					prisonersWeightField.getText(),
-					prisonersDOBField.getText(),
-					prisonersRaceCombo.getValue().toString(),
-					prisonersPrisonerIdField.getText(),
-					prisonersArrestDateField.getText(),
-					prisonersReleaseDateField.getText(),
-					prisonersBunkIdField.getText()
+					prisonerWeightField.getText(),
+					getDOBPickerValue(),
+					getRaceComboValue(),
+					prisonerPrisonerIdField.getText(),
+					prisonerArrestDateField.getText(),
+					prisonerReleaseDateField.getText(),
+					prisonerBunkIdField.getText()
 			);
 			PrisonerSearchModel sentModel = controller.submitBtn(model, e);
-			this.prisonersSearchResults.getItems().addAll(sentModel.getResultsList());
+			this.prisonerSearchResults.getItems().addAll(sentModel.getResultsList());
 		});
 		
 		// Style controls
-		prisonersPersonIdBox.getStyleClass().add("search-control-pair");
-		prisonersFirstNameBox.getStyleClass().add("search-control-pair");
-		prisonersLastNameBox.getStyleClass().add("search-control-pair");
-		prisonersHeightBox.getStyleClass().add("search-control-pair");
-		prisonersWeightBox.getStyleClass().add("search-control-pair");
-		prisonersDOBBox.getStyleClass().add("search-control-pair");
-		prisonersRaceBox.getStyleClass().add("search-control-pair");
-		prisonersPrisonerIdBox.getStyleClass().add("search-control-pair");
-		prisonersArrestDateBox.getStyleClass().add("search-control-pair");
-		prisonersReleaseDateBox.getStyleClass().add("search-control-pair");
-		prisonersBunkIdBox.getStyleClass().add("search-control-pair");
-		prisonersSubmitResetBox.getStyleClass().add("search-control-pair");
-		prisonersSearchContainer.getStyleClass().add("search-container");
+		prisonerPersonIdBox.getStyleClass().add("search-control-group");
+		prisonerFirstNameBox.getStyleClass().add("search-control-group");
+		prisonerLastNameBox.getStyleClass().add("search-control-group");
+		prisonerHeightBox.getStyleClass().add("search-control-group");
+		prisonerWeightBox.getStyleClass().add("search-control-group");
+		prisonerDOBBox.getStyleClass().add("search-control-group");
+		prisonerRaceBox.getStyleClass().add("search-control-group");
+		prisonerPrisonerIdBox.getStyleClass().add("search-control-group");
+		prisonerArrestDateBox.getStyleClass().add("search-control-group");
+		prisonerReleaseDateBox.getStyleClass().add("search-control-group");
+		prisonerBunkIdBox.getStyleClass().add("search-control-group");
+		prisonerSubmitResetBox.getStyleClass().add("search-control-group");
+		prisonerSearchContainer.getStyleClass().add("search-container");
 
 		
 		// Configure controls
 		setSearchResultsCols();
 				
-		prisonersHeightFeetField.setPrefWidth(50);
-		prisonersHeightInchesCombo.setItems(
+		prisonerHeightFeetField.setPrefWidth(50);
+		prisonerHeightInchesCombo.setItems(
 			FXCollections.observableArrayList(
 				"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"
 			)
 		);
-		prisonersHeightInchesCombo.setMinSize(10, prisonersHeightBox.getWidth() * 0.25);
-		prisonersHeightFeetField.setMinWidth(prisonersHeightBox.getWidth() * 0.75);
+		prisonerHeightInchesCombo.setMinSize(10, prisonerHeightBox.getWidth() * 0.25);
+		prisonerHeightFeetField.setMinWidth(prisonerHeightBox.getWidth() * 0.75);
 		
-		prisonersRaceCombo.setItems(
+		
+		prisonerRaceCombo.setItems(
 			FXCollections.observableArrayList(
 				"White", "Black", "Hispanic"	
 			)
 		);
-		prisonersRaceCombo.setMinSize(10, prisonersRaceBox.getWidth());
+		prisonerRaceCombo.setMinSize(10, prisonerRaceBox.getWidth());
+
+
+		prisonerDOBPicker.setMinHeight(12);
+		prisonerDOBPicker.setMaxWidth(170);
+		prisonerDOBPicker.setShowWeekNumbers(true);
 		
 		// Add controls to container boxes and set style classes
-		prisonersPersonIdBox.getChildren().addAll(prisonersPersonIdLabel, prisonersPersonIdField);
-		prisonersFirstNameBox.getChildren().addAll(prisonersFirstNameLabel, prisonersFirstNameField);
-		prisonersLastNameBox.getChildren().addAll(prisonersLastNameLabel, prisonersLastNameField);
-		prisonersHeightBox.getChildren().addAll(prisonersHeightLabel, prisonersHeightFeetField, prisonersHeightInchesCombo);
-		prisonersWeightBox.getChildren().addAll(prisonersWeightLabel, prisonersWeightField);
-		prisonersDOBBox.getChildren().addAll(prisonersDOBLabel, prisonersDOBField);
-		prisonersRaceBox.getChildren().addAll(prisonersRaceLabel, prisonersRaceCombo);
-		prisonersPrisonerIdBox.getChildren().addAll(prisonersPrisonerIdLabel, prisonersPrisonerIdField);
-		prisonersArrestDateBox.getChildren().addAll(prisonersArrestDateLabel, prisonersArrestDateField);
-		prisonersReleaseDateBox.getChildren().addAll(prisonersReleaseDateLabel, prisonersReleaseDateField);
-		prisonersBunkIdBox.getChildren().addAll(prisonersBunkIdLabel, prisonersBunkIdField);
-		prisonersSubmitResetBox.getChildren().addAll(prisonersSubmitBtn, prisonersResetBtn);
+		prisonerPersonIdBox.getChildren().addAll(prisonerPersonIdLabel, prisonerPersonIdField);
+		prisonerFirstNameBox.getChildren().addAll(prisonerFirstNameLabel, prisonerFirstNameField);
+		prisonerLastNameBox.getChildren().addAll(prisonerLastNameLabel, prisonerLastNameField);
+		prisonerHeightBox.getChildren().addAll(prisonerHeightLabel, prisonerHeightFeetField, prisonerHeightInchesCombo);
+		prisonerWeightBox.getChildren().addAll(prisonerWeightLabel, prisonerWeightField);
+		prisonerDOBBox.getChildren().addAll(prisonerDOBLabel, prisonerDOBPicker);
+		prisonerRaceBox.getChildren().addAll(prisonerRaceLabel, prisonerRaceCombo);
+		prisonerPrisonerIdBox.getChildren().addAll(prisonerPrisonerIdLabel, prisonerPrisonerIdField);
+		prisonerArrestDateBox.getChildren().addAll(prisonerArrestDateLabel, prisonerArrestDateField);
+		prisonerReleaseDateBox.getChildren().addAll(prisonerReleaseDateLabel, prisonerReleaseDateField);
+		prisonerBunkIdBox.getChildren().addAll(prisonerBunkIdLabel, prisonerBunkIdField);
+		prisonerSubmitResetBox.getChildren().addAll(prisonerSubmitBtn, prisonerResetBtn);
 		
-		prisonersSearchContainer.getChildren().addAll(prisonersPersonIdBox, prisonersFirstNameBox, 
-				prisonersLastNameBox, prisonersHeightBox, prisonersWeightBox, prisonersDOBBox,
-				prisonersRaceBox, prisonersPrisonerIdBox, prisonersArrestDateBox, 
-				prisonersReleaseDateBox, prisonersBunkIdBox, prisonersSubmitResetBox);
-				
+		prisonerSearchContainer.getChildren().addAll(prisonerPersonIdBox, prisonerFirstNameBox, 
+				prisonerLastNameBox, prisonerHeightBox, prisonerWeightBox, prisonerDOBBox,
+				prisonerRaceBox, prisonerPrisonerIdBox, prisonerArrestDateBox, 
+				prisonerReleaseDateBox, prisonerBunkIdBox, prisonerSubmitResetBox);
+		
 		container = new VBox(10);
-		container.getChildren().addAll(prisonersSearchContainer, prisonersSearchResults);
+		container.getChildren().addAll(prisonerSearchContainer, prisonerSearchResults);
 	}
 	
 	public Node getNode() {
@@ -218,68 +226,78 @@ public class PrisonerSearchComponent {
 	}
 	
 	private String stringifyHeightFields() {
-		String feet = prisonersHeightFeetField.getText();
-		System.out.println("feet: " + prisonersHeightFeetField.getText());
+		String feet = prisonerHeightFeetField.getText();
 		String inches;
-		if (prisonersHeightInchesCombo.getValue() == null) {
+		if (prisonerHeightInchesCombo.getValue() == null) {
 			inches = "";
 		} else {
-			inches = prisonersHeightInchesCombo.getValue().toString();
+			inches = prisonerHeightInchesCombo.getValue().toString();
 		}
-				System.out.println("inches: " + prisonersHeightInchesCombo.getValue());
 		return feet.concat(inches);
+	}
+	
+	private String getRaceComboValue() {
+		if (prisonerRaceCombo.getValue() == null)
+			return "";
+		return prisonerRaceCombo.getValue().toString();
+	}
+	
+	private String getDOBPickerValue() {
+		if (prisonerDOBPicker.getValue() == null)
+			return "";
+		return prisonerDOBPicker.getValue().toString();
 	}
 	
 	private void setSearchResultsCols() {
 		TableColumn<Prisoner,String> personIDCol = new TableColumn<>("Person ID");
 		personIDCol.setCellValueFactory(new PropertyValueFactory("PERSON_ID"));
-		personIDCol.prefWidthProperty().bind(prisonersSearchResults.widthProperty().multiply(.09));
+		personIDCol.prefWidthProperty().bind(prisonerSearchResults.widthProperty().multiply(.09));
 		
 		TableColumn<Prisoner,String> firstNameCol = new TableColumn<>("First Name");
 		firstNameCol.setCellValueFactory(new PropertyValueFactory("firstName"));
-		firstNameCol.prefWidthProperty().bind(prisonersSearchResults.widthProperty().multiply(.09));
+		firstNameCol.prefWidthProperty().bind(prisonerSearchResults.widthProperty().multiply(.09));
 		
 		TableColumn<Prisoner,String> lastNameCol = new TableColumn<>("Last Name");
 		lastNameCol.setCellValueFactory(new PropertyValueFactory("lastName"));
-		lastNameCol.prefWidthProperty().bind(prisonersSearchResults.widthProperty().multiply(.09));
+		lastNameCol.prefWidthProperty().bind(prisonerSearchResults.widthProperty().multiply(.09));
 		
 		TableColumn<Prisoner,Integer> heightCol = new TableColumn<>("Height");
 		heightCol.setCellValueFactory(new PropertyValueFactory("HEIGHT"));
-		heightCol.prefWidthProperty().bind(prisonersSearchResults.widthProperty().multiply(.09));
+		heightCol.prefWidthProperty().bind(prisonerSearchResults.widthProperty().multiply(.09));
 		
 		TableColumn<Prisoner,Integer> weightCol = new TableColumn<>("Weight");
 		weightCol.setCellValueFactory(new PropertyValueFactory("weight"));
-		weightCol.prefWidthProperty().bind(prisonersSearchResults.widthProperty().multiply(.09));
+		weightCol.prefWidthProperty().bind(prisonerSearchResults.widthProperty().multiply(.09));
 		
 		TableColumn<Prisoner,String> DOBCol = new TableColumn<>("DOB");
 		DOBCol.setCellValueFactory(new PropertyValueFactory("DOB"));
-		DOBCol.prefWidthProperty().bind(prisonersSearchResults.widthProperty().multiply(.09));
+		DOBCol.prefWidthProperty().bind(prisonerSearchResults.widthProperty().multiply(.09));
 		
 		TableColumn<Prisoner,String> raceCol = new TableColumn<>("Race");
 		raceCol.setCellValueFactory(new PropertyValueFactory("RACE"));
-		raceCol.prefWidthProperty().bind(prisonersSearchResults.widthProperty().multiply(.09));
+		raceCol.prefWidthProperty().bind(prisonerSearchResults.widthProperty().multiply(.09));
 		
 		TableColumn<Prisoner,String> prisonerIDCol = new TableColumn<>("Prisoner ID");
 		prisonerIDCol.setCellValueFactory(new PropertyValueFactory("PRISONER_ID"));
-		prisonerIDCol.prefWidthProperty().bind(prisonersSearchResults.widthProperty().multiply(.09));
+		prisonerIDCol.prefWidthProperty().bind(prisonerSearchResults.widthProperty().multiply(.09));
 		
 		TableColumn<Prisoner,String> bunkIDCol = new TableColumn<>("Bunk ID");
 		bunkIDCol.setCellValueFactory(new PropertyValueFactory("bunkID"));
-		bunkIDCol.prefWidthProperty().bind(prisonersSearchResults.widthProperty().multiply(.09));
+		bunkIDCol.prefWidthProperty().bind(prisonerSearchResults.widthProperty().multiply(.09));
 		
 		TableColumn<Prisoner,String> arrestDateCol = new TableColumn<>("Arrest Date");
 		arrestDateCol.setCellValueFactory(new PropertyValueFactory("ARREST_DATE"));
-		arrestDateCol.prefWidthProperty().bind(prisonersSearchResults.widthProperty().multiply(.09));
+		arrestDateCol.prefWidthProperty().bind(prisonerSearchResults.widthProperty().multiply(.09));
 		
 		TableColumn<Prisoner,String> releaseDateCol = new TableColumn<>("Release Date");
 		releaseDateCol.setCellValueFactory(new PropertyValueFactory("releaseDate"));
-		releaseDateCol.prefWidthProperty().bind(prisonersSearchResults.widthProperty().multiply(.09));
+		releaseDateCol.prefWidthProperty().bind(prisonerSearchResults.widthProperty().multiply(.09));
 		
-		prisonersSearchResults.getColumns().setAll(personIDCol, firstNameCol, 
+		prisonerSearchResults.getColumns().setAll(personIDCol, firstNameCol, 
 				lastNameCol, heightCol, weightCol, DOBCol, raceCol, prisonerIDCol, 
 				bunkIDCol, arrestDateCol, releaseDateCol);
 		
-//		prisonersSearchResults.
+//		prisonerSearchResults.
 	}
 	
 }
