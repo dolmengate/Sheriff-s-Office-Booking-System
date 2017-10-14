@@ -199,7 +199,6 @@ public class Database {
 		return (int)(Math.random() * 250) + 150;
 	}
 	
-	// Temporary placeholder until Date implementation
 	public static String randomDOB() {
 		return randomDate();
 	}
@@ -213,7 +212,6 @@ public class Database {
 		return RACES[(int)(Math.random() * 2)];
 	}
 	
-		// Temporary placeholder until Date implementation
 	public static String randomDate() {
 		
 		return LocalDate.of(
