@@ -217,7 +217,7 @@ public class Database {
 		return LocalDate.of(
 				randomInRange(1950, 2017), 
 				randomInRange(1, 12), 
-				randomInRange(1, 30)
+				randomInRange(1, 29)
 		).toString();
 	}
 	

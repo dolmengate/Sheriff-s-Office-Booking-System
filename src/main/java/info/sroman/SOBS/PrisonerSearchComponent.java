@@ -63,7 +63,7 @@ public class PrisonerSearchComponent {
 
 	HBox prisonerReleaseDateBox;
 	Label prisonerReleaseDateLabel;
-	TextField prisonerReleaseDateField;
+	DatePicker prisonerReleaseDatePicker;
 
 	HBox prisonerBunkIdBox;
 	Label prisonerBunkIdLabel;
@@ -129,7 +129,7 @@ public class PrisonerSearchComponent {
 
 		prisonerReleaseDateBox = new HBox();
 		prisonerReleaseDateLabel = new Label("Release Date");
-		prisonerReleaseDateField = new TextField();
+		prisonerReleaseDatePicker = new DatePicker();
 
 		prisonerBunkIdBox = new HBox();
 		prisonerBunkIdLabel = new Label("Bunk ID");
@@ -152,7 +152,7 @@ public class PrisonerSearchComponent {
 					getRaceComboValue(),
 					prisonerPrisonerIdField.getText(),
 					getArrestDatePickerValue(),
-					prisonerReleaseDateField.getText(),
+					getReleaseDatePickerValue(),
 					prisonerBunkIdField.getText()
 			);
 			PrisonerSearchModel sentModel = controller.submitBtn(model, e);
@@ -193,16 +193,21 @@ public class PrisonerSearchComponent {
 		);
 		prisonerRaceCombo.setMinSize(10, prisonerRaceBox.getWidth());
 
+		
 		prisonerDOBPicker.setMinHeight(12);
 		prisonerDOBPicker.setMaxWidth(170);
 		prisonerDOBPicker.setShowWeekNumbers(true);
 		configPrisonerDOBPickerDateFormat();
-		
 
 		prisonerArrestDatePicker.setMinHeight(12);
 		prisonerArrestDatePicker.setMaxWidth(170);
 		prisonerArrestDatePicker.setShowWeekNumbers(true);
 		configPrisonerArrestDatePickerDateFormat();
+		
+		prisonerReleaseDatePicker.setMinHeight(12);
+		prisonerReleaseDatePicker.setMaxWidth(170);
+		prisonerReleaseDatePicker.setShowWeekNumbers(true);
+		configPrisonerReleaseDatePickerDateFormat();
 		
 
 		// Add controls to container boxes and set style classes
@@ -215,7 +220,7 @@ public class PrisonerSearchComponent {
 		prisonerRaceBox.getChildren().addAll(prisonerRaceLabel, prisonerRaceCombo);
 		prisonerPrisonerIdBox.getChildren().addAll(prisonerPrisonerIdLabel, prisonerPrisonerIdField);
 		prisonerArrestDateBox.getChildren().addAll(prisonerArrestDateLabel, prisonerArrestDatePicker);
-		prisonerReleaseDateBox.getChildren().addAll(prisonerReleaseDateLabel, prisonerReleaseDateField);
+		prisonerReleaseDateBox.getChildren().addAll(prisonerReleaseDateLabel, prisonerReleaseDatePicker);
 		prisonerBunkIdBox.getChildren().addAll(prisonerBunkIdLabel, prisonerBunkIdField);
 		prisonerSubmitResetBox.getChildren().addAll(prisonerSubmitBtn, prisonerResetBtn);
 
@@ -264,21 +269,30 @@ public class PrisonerSearchComponent {
 		return prisonerArrestDatePicker.getValue().toString();
 	}
 	
+	private String getReleaseDatePickerValue() {
+		if (prisonerReleaseDatePicker.getValue() == null) {
+			return "";
+		}
+		return prisonerReleaseDatePicker.getValue().toString();
+	}
+	
 	private void configPrisonerDOBPickerDateFormat() {
-		prisonerDOBPicker.setConverter(creatStringConverter());
+		prisonerDOBPicker.setConverter(createStringConverter());
 	}
 	
 	private void configPrisonerArrestDatePickerDateFormat() {
-		prisonerArrestDatePicker.setConverter(creatStringConverter());
+		prisonerArrestDatePicker.setConverter(createStringConverter());
 	}
 	
-	private StringConverter creatStringConverter() {
+	private void configPrisonerReleaseDatePickerDateFormat() {
+		prisonerReleaseDatePicker.setConverter(createStringConverter());
+	}
+	
+	private StringConverter createStringConverter() {
 		return new StringConverter<LocalDate>() {
 			String pattern = "yyyy-MM-dd";
 			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-			{
-				prisonerArrestDatePicker.setPromptText(pattern.toLowerCase());
-			}
+			
 			@Override
 			public String toString(LocalDate date) {
 				if (date != null) {
