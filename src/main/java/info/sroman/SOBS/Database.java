@@ -189,7 +189,9 @@ public class Database {
 	}
 	
 	public static int randomHeight() {
-		return (int)(Math.random() * 72) + 60;
+		String feet = Integer.toString((int) (Math.random() * 6) + 4);
+		String inches = Integer.toString((int) (Math.random() * 12));
+		return Integer.valueOf(feet.concat(inches));
 	}
 	
 	public static int randomWeight() {

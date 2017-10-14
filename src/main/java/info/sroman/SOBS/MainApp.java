@@ -21,9 +21,7 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 	
 	BorderPane container;
-	
-	HBox sidebarNavigation;
-	
+		
 	TabPane tabs;
 	Tab prisonersTab;
 	Tab visitorsTab;
@@ -56,12 +54,9 @@ public class MainApp extends Application {
 		tabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 		tabs.getTabs().addAll(prisonersTab, visitorsTab, visitsTab, courtDatesTab);
 		
-		sidebarNavigation = new HBox();
-		sidebarNavigation.setPrefWidth(200);
 		
 		container = new BorderPane();
-		container.setLeft(sidebarNavigation);
-		container.setRight(tabs);
+		container.setCenter(tabs);
 		
 		root.getChildren().add(container);
 		

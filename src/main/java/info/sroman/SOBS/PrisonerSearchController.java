@@ -24,7 +24,7 @@ public class PrisonerSearchController implements Initializable {
 		
 		Connection conn = null;
 		Statement statement = null;
-		ObservableList<Prisoner> prisoners = null;
+		ObservableList<Prisoner> prisoners = FXCollections.observableArrayList();
     
 		try {
 			conn = DriverManager.getConnection(
@@ -33,19 +33,16 @@ public class PrisonerSearchController implements Initializable {
 			statement = conn.createStatement();
 			statement.setQueryTimeout(10);
 			ResultSet rs = statement.executeQuery(constructStatement());
-			
-			ArrayList<Prisoner> al = new ArrayList<>();
-			
+						
 			while (rs.next()) {
-				al.add(new Prisoner(
+				prisoners.add(new Prisoner(
 						rs.getInt("PERSON_ID"), rs.getString("first_name"), 
-						rs.getString("last_name"), rs.getInt("weight"), rs.getInt("height"), 
+						rs.getString("last_name"), rs.getInt("height"), rs.getInt("weight"), 
 						rs.getString("date_of_birth"), rs.getString("race"), rs.getInt("PRISONER_ID"),
 						rs.getString("arrest_date"), rs.getString("release_date"), rs.getInt("bunk_ID")
 					)
 				);
 			}
-			prisoners = FXCollections.observableArrayList(al);
 						
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
@@ -77,7 +74,7 @@ public class PrisonerSearchController implements Initializable {
 		
 		
 		// parallel arrays that associate a TextField with its relevant table column
-		String[] fields = {
+		String[] fieldValues = {
 			model.getPersonId(), model.getFirstName(), model.getLastName(), 
 			model.getHeight(), model.getWeight(), model.getDob(), model.getRace(), 
 			model.getPrisonerId(), model.getArrestDate(), model.getReleaseDate(), 
@@ -92,11 +89,11 @@ public class PrisonerSearchController implements Initializable {
 		StringBuilder stmt = new StringBuilder();
 		
 		// if the statement has multiple WHERE clauses include an "AND" between them
-		for (int i = 0; i < fields.length; i++) {
+		for (int i = 0; i < fieldValues.length; i++) {
 			if (stmt.length() == 0)
-				stmt.append(checkField(fields[i], columns[i]));
-			else if (!fields[i].equals(""))
-				stmt.append(" AND ").append(checkField(fields[i], columns[i]));
+				stmt.append(checkField(fieldValues[i], columns[i]));
+			else if (!fieldValues[i].equals(""))
+				stmt.append(" AND ").append(checkField(fieldValues[i], columns[i]));
 		}
 		
 		baseStatement.append(stmt);	

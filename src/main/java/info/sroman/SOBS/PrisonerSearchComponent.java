@@ -1,8 +1,10 @@
 package info.sroman.SOBS;
 
 import info.sroman.SOBS.Model.Prisoner;
+import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -32,7 +34,8 @@ public class PrisonerSearchComponent {
 	
 	HBox prisonersHeightBox;
 	Label prisonersHeightLabel;
-	TextField prisonersHeightField;
+	TextField prisonersHeightFeetField;
+	ComboBox prisonersHeightInchesCombo;
 	
 	HBox prisonersWeightBox;
 	Label prisonersWeightLabel;
@@ -77,8 +80,7 @@ public class PrisonerSearchComponent {
 		this.controller = controller;
 		
 		prisonersSearchResults = new TableView();
-		setSearchResultsCols();
-
+		
 		prisonersContentContainer = new VBox(10);
 		
 		prisonersSearchContainer = new TilePane();
@@ -98,8 +100,9 @@ public class PrisonerSearchComponent {
 
 		prisonersHeightBox = new HBox();
 		prisonersHeightLabel = new Label("Height");
-		prisonersHeightField = new TextField();
-
+		prisonersHeightFeetField = new TextField();
+		prisonersHeightInchesCombo = new ComboBox();
+		
 		prisonersWeightBox = new HBox();
 		prisonersWeightLabel = new Label("Weight");
 		prisonersWeightField = new TextField();
@@ -139,7 +142,7 @@ public class PrisonerSearchComponent {
 					prisonersPersonIdField.getText(), 
 					prisonersFirstNameField.getText(), 
 					prisonersLastNameField.getText(), 
-					prisonersHeightField.getText(),
+					stringifyHeightFields(),
 					prisonersWeightField.getText(),
 					prisonersDOBField.getText(),
 					prisonersRaceField.getText(),
@@ -148,60 +151,76 @@ public class PrisonerSearchComponent {
 					prisonersReleaseDateField.getText(),
 					prisonersBunkIdField.getText()
 			);
-			PrisonerSearchModel send = controller.submitBtn(model, e);
-			this.prisonersSearchResults.getItems().addAll(send.getResultsList());
+			PrisonerSearchModel sentModel = controller.submitBtn(model, e);
+			this.prisonersSearchResults.getItems().addAll(sentModel.getResultsList());
 		});
 		
-		// Add controls to container boxes and set style classes
+		// Style controls
 		prisonersPersonIdBox.getStyleClass().add("search-control-pair");
-		prisonersPersonIdBox.getChildren().addAll(prisonersPersonIdLabel, prisonersPersonIdField);
-		
 		prisonersFirstNameBox.getStyleClass().add("search-control-pair");
-		prisonersFirstNameBox.getChildren().addAll(prisonersFirstNameLabel, prisonersFirstNameField);
-		
 		prisonersLastNameBox.getStyleClass().add("search-control-pair");
-		prisonersLastNameBox.getChildren().addAll(prisonersLastNameLabel, prisonersLastNameField);
-		
 		prisonersHeightBox.getStyleClass().add("search-control-pair");
-		prisonersHeightBox.getChildren().addAll(prisonersHeightLabel, prisonersHeightField);
-		
 		prisonersWeightBox.getStyleClass().add("search-control-pair");
-		prisonersWeightBox.getChildren().addAll(prisonersWeightLabel, prisonersWeightField);
-		
 		prisonersDOBBox.getStyleClass().add("search-control-pair");
-		prisonersDOBBox.getChildren().addAll(prisonersDOBLabel, prisonersDOBField);
-		
 		prisonersRaceBox.getStyleClass().add("search-control-pair");
-		prisonersRaceBox.getChildren().addAll(prisonersRaceLabel, prisonersRaceField);
-		
 		prisonersPrisonerIdBox.getStyleClass().add("search-control-pair");
-		prisonersPrisonerIdBox.getChildren().addAll(prisonersPrisonerIdLabel, prisonersPrisonerIdField);
-		
 		prisonersArrestDateBox.getStyleClass().add("search-control-pair");
-		prisonersArrestDateBox.getChildren().addAll(prisonersArrestDateLabel, prisonersArrestDateField);
-		
 		prisonersReleaseDateBox.getStyleClass().add("search-control-pair");
-		prisonersReleaseDateBox.getChildren().addAll(prisonersReleaseDateLabel, prisonersReleaseDateField);
-		
 		prisonersBunkIdBox.getStyleClass().add("search-control-pair");
-		prisonersBunkIdBox.getChildren().addAll(prisonersBunkIdLabel, prisonersBunkIdField);
-		
 		prisonersSubmitResetBox.getStyleClass().add("search-control-pair");
+		prisonersSearchContainer.getStyleClass().add("search-container");
+
+		
+		// Configure controls
+		setSearchResultsCols();
+				
+		prisonersHeightFeetField.setPrefWidth(50);
+		prisonersHeightInchesCombo.setItems(
+				FXCollections.observableArrayList(
+				"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"
+		));
+		
+		prisonersHeightInchesCombo.setMinSize(10, prisonersHeightBox.getWidth() * 0.25);
+		prisonersHeightFeetField.setMinWidth(prisonersHeightBox.getWidth() * 0.75);
+		
+		// Add controls to container boxes and set style classes
+		prisonersPersonIdBox.getChildren().addAll(prisonersPersonIdLabel, prisonersPersonIdField);
+		prisonersFirstNameBox.getChildren().addAll(prisonersFirstNameLabel, prisonersFirstNameField);
+		prisonersLastNameBox.getChildren().addAll(prisonersLastNameLabel, prisonersLastNameField);
+		prisonersHeightBox.getChildren().addAll(prisonersHeightLabel, prisonersHeightFeetField, prisonersHeightInchesCombo);
+		prisonersWeightBox.getChildren().addAll(prisonersWeightLabel, prisonersWeightField);
+		prisonersDOBBox.getChildren().addAll(prisonersDOBLabel, prisonersDOBField);
+		prisonersRaceBox.getChildren().addAll(prisonersRaceLabel, prisonersRaceField);
+		prisonersPrisonerIdBox.getChildren().addAll(prisonersPrisonerIdLabel, prisonersPrisonerIdField);
+		prisonersArrestDateBox.getChildren().addAll(prisonersArrestDateLabel, prisonersArrestDateField);
+		prisonersReleaseDateBox.getChildren().addAll(prisonersReleaseDateLabel, prisonersReleaseDateField);
+		prisonersBunkIdBox.getChildren().addAll(prisonersBunkIdLabel, prisonersBunkIdField);
 		prisonersSubmitResetBox.getChildren().addAll(prisonersSubmitBtn, prisonersResetBtn);
 		
-		prisonersSearchContainer.getStyleClass().add("search-container");
 		prisonersSearchContainer.getChildren().addAll(prisonersPersonIdBox, prisonersFirstNameBox, 
 				prisonersLastNameBox, prisonersHeightBox, prisonersWeightBox, prisonersDOBBox,
 				prisonersRaceBox, prisonersPrisonerIdBox, prisonersArrestDateBox, 
 				prisonersReleaseDateBox, prisonersBunkIdBox, prisonersSubmitResetBox);
-		
-		
+				
 		container = new VBox(10);
 		container.getChildren().addAll(prisonersSearchContainer, prisonersSearchResults);
 	}
 	
 	public Node getNode() {
 		return container;
+	}
+	
+	private String stringifyHeightFields() {
+		String feet = prisonersHeightFeetField.getText();
+		System.out.println("feet: " + prisonersHeightFeetField.getText());
+		String inches;
+		if (prisonersHeightInchesCombo.getValue() == null) {
+			inches = "";
+		} else {
+			inches = prisonersHeightInchesCombo.getValue().toString();
+		}
+				System.out.println("inches: " + prisonersHeightInchesCombo.getValue());
+		return feet.concat(inches);
 	}
 	
 	private void setSearchResultsCols() {
