@@ -135,7 +135,7 @@ public class PrisonerSearchComponent {
 		prisonerBunkIdLabel = new Label("Bunk ID");
 		prisonerBunkIdField = new TextField();
 
-		prisonerSubmitResetBox = new HBox();
+		prisonerSubmitResetBox = new HBox(20);
 		prisonerSubmitBtn = new Button("Submit");
 		prisonerResetBtn = new Button("Reset");
 
@@ -208,6 +208,21 @@ public class PrisonerSearchComponent {
 		prisonerReleaseDatePicker.setMaxWidth(170);
 		prisonerReleaseDatePicker.setShowWeekNumbers(true);
 		configPrisonerReleaseDatePickerDateFormat();
+		
+		prisonerResetBtn.setOnAction(e -> {
+			prisonerPersonIdField.setText("");
+			prisonerFirstNameField.setText("");
+			prisonerLastNameField.setText("");
+			prisonerHeightFeetField.setText("");
+			prisonerHeightInchesCombo.setValue("");
+			prisonerWeightField.setText("");
+			prisonerDOBPicker.setValue(null);
+			prisonerRaceCombo.setValue("");
+			prisonerPrisonerIdField.setText("");
+			prisonerArrestDatePicker.setValue(null);
+			prisonerReleaseDatePicker.setValue(null);
+			prisonerBunkIdField.setText("");
+		});
 		
 
 		// Add controls to container boxes and set style classes
@@ -362,7 +377,5 @@ public class PrisonerSearchComponent {
 				lastNameCol, heightCol, weightCol, DOBCol, raceCol, prisonerIDCol,
 				bunkIDCol, arrestDateCol, releaseDateCol);
 
-//		prisonerSearchResults.
 	}
-
 }
