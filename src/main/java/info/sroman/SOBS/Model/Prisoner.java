@@ -58,6 +58,7 @@ public class Prisoner extends Person {
 		return bunkID;
 	}
 	
+	@Override
 	public void createDBEntry() {
 		Connection conn = null;
 		PreparedStatement stmt = null;

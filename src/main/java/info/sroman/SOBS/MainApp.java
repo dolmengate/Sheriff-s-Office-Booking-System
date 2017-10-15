@@ -22,6 +22,10 @@ public class MainApp extends Application {
 	PrisonerSearchComponent prisonerSearchComponent;
 	PrisonerSearchModel prisonerSearchModel;
 	PrisonerSearchController prisonerSearchController;
+	
+	VisitorSearchComponent visitorSearchComponent;
+	VisitorSearchModel visitorSearchModel;
+	VisitorSearchController visitorSearchController;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -30,15 +34,20 @@ public class MainApp extends Application {
 		prisonerSearchController = new PrisonerSearchController();
 		prisonerSearchComponent = new PrisonerSearchComponent(prisonerSearchController);
 		
+		visitorSearchModel = new VisitorSearchModel();
+		visitorSearchController = new VisitorSearchController();
+		visitorSearchComponent = new VisitorSearchComponent(visitorSearchController);
+		
 		AnchorPane root = new AnchorPane();
 		tabs = new TabPane();
 		tabs.setMinSize(1280, 720);
 		
 		prisonersTab = new Tab("Prisoners");
-		
 		prisonersTab.setContent(prisonerSearchComponent.getNode());
 		
 		visitorsTab = new Tab("Visitors");
+		visitorsTab.setContent(visitorSearchComponent.getNode());
+		
 		visitsTab = new Tab("Visits");
 		courtDatesTab = new Tab("Court Dates");
 		
@@ -58,11 +67,15 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();	
 		
-		Database.genDB();
-		
-		for (int i = 0; i < 50; i++) {
-			Database.createPrisoner();
-		}
+//		Database.genDB();
+//		
+//		for (int i = 0; i < 50; i++) {
+//			Database.createPrisoner();
+//		}
+//		
+//		for (int i = 0; i < 50; i++) {
+//			Database.createVisitor();
+//		}
     }
 
     /**

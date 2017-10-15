@@ -1,7 +1,5 @@
 package info.sroman.SOBS.Model;
 
-import info.sroman.SOBS.Database;
-
 public abstract class Person {
 	
 	protected final int PERSON_ID;
@@ -15,7 +13,6 @@ public abstract class Person {
 	/*
 		Constructor
 	*/
-		// Constructor with PERSON_ID perameter used to populate rows in ListView
 	Person(int PERSON_ID, String firstName, String lastName, int height,
 			int weight, String DOB, String race) {
 		this.PERSON_ID = PERSON_ID;
@@ -75,6 +72,8 @@ public abstract class Person {
 	public String getRACE() {
 		return RACE;
 	}
+	
+	public abstract void createDBEntry();
 	
 	@Override
 	public String toString() {

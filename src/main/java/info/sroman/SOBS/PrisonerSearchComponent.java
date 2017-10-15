@@ -171,6 +171,7 @@ public class PrisonerSearchComponent {
 		prisonerArrestDateBox.getStyleClass().add("search-control-group");
 		prisonerReleaseDateBox.getStyleClass().add("search-control-group");
 		prisonerBunkIdBox.getStyleClass().add("search-control-group");
+		
 		prisonerSubmitResetBox.getStyleClass().add("search-control-group");
 		prisonerSearchContainer.getStyleClass().add("search-container");
 
@@ -197,7 +198,7 @@ public class PrisonerSearchComponent {
 		prisonerDOBPicker.setMinHeight(12);
 		prisonerDOBPicker.setMaxWidth(170);
 		prisonerDOBPicker.setShowWeekNumbers(true);
-		configPrisonerDOBPickerDateFormat();
+		configDOBPickerDateFormat();
 
 		prisonerArrestDatePicker.setMinHeight(12);
 		prisonerArrestDatePicker.setMaxWidth(170);
@@ -291,7 +292,7 @@ public class PrisonerSearchComponent {
 		return prisonerReleaseDatePicker.getValue().toString();
 	}
 	
-	private void configPrisonerDOBPickerDateFormat() {
+	private void configDOBPickerDateFormat() {
 		prisonerDOBPicker.setConverter(createStringConverter());
 	}
 	

@@ -1,6 +1,7 @@
 package info.sroman.SOBS;
 
 import info.sroman.SOBS.Model.Prisoner;
+import info.sroman.SOBS.Model.Visitor;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,6 +12,7 @@ public class Database {
 	
 	private static int personID = 100;
 	private static int prisonerID = 400;
+	private static int visitorID = 600;
 	private static int bunkID = 800;
 	
 	public static void genDB() {
@@ -115,7 +117,13 @@ public class Database {
 				randomDate(), randomDate(), assignBunkID());
 		p.createDBEntry();
 		System.out.println("Prisoner created:\n" + p.toString());
-		
+	}
+	
+	public static void createVisitor() {
+		Visitor v = new Visitor(assignPersonID(), randomFirstName(), randomLastName(), 
+		randomHeight(), randomWeight(), randomDOB(), randomRace(), assignVisitorID(), randomSSN());
+		v.createDBEntry();
+		System.out.println("Visitor created:\n" + v.toString());
 	}
 	
 	private static String randomFirstName() {
@@ -236,8 +244,17 @@ public class Database {
 		return bunkID;
 	}
 	
+	public static int assignVisitorID() {
+		++Database.visitorID;
+		return visitorID;
+	}
+	
 	private static int randomInRange(int min, int max) {
 		int range = (max - min) + 1;     
 		return (int)(Math.random() * range) + min;
+	}
+	
+	private static int randomSSN() {
+		return randomInRange(100000000, 999999999);
 	}
 }
