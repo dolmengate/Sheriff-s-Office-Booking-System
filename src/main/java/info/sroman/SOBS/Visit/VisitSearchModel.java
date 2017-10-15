@@ -1,4 +1,4 @@
-package info.sroman.SOBS;
+package info.sroman.SOBS.Visit;
 
 import javafx.collections.ObservableList;
 

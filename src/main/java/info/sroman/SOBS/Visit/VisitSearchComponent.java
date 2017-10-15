@@ -1,4 +1,4 @@
-package info.sroman.SOBS;
+package info.sroman.SOBS.Visit;
 
 import info.sroman.SOBS.Model.Visit;
 import javafx.scene.Node;

@@ -1,31 +1,27 @@
-package info.sroman.SOBS;
+package info.sroman.SOBS.Visit;
 
-import info.sroman.SOBS.Model.Prisoner;
-import java.net.URL;
+import info.sroman.SOBS.Model.Visit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
 
-public class PrisonerSearchController implements Initializable {
-		
-	PrisonerSearchModel model;
+public class VisitSearchController {
 	
-    public PrisonerSearchModel submitBtn(PrisonerSearchModel model, ActionEvent event) {
+	VisitSearchModel model;
+	
+	public VisitSearchModel submitBtn(VisitSearchModel model, ActionEvent event) {
 		
         this.model = model;
 		
 		Connection conn = null;
 		Statement statement = null;
-		ObservableList<Prisoner> prisoners = FXCollections.observableArrayList();
-    
+		ObservableList<Visit> visits = FXCollections.observableArrayList();
+		
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:sqlite:./src/main/resources/db/SOBS.db"
@@ -35,11 +31,10 @@ public class PrisonerSearchController implements Initializable {
 			ResultSet rs = statement.executeQuery(constructStatement());
 						
 			while (rs.next()) {
-				prisoners.add(new Prisoner(
-						rs.getInt("PERSON_ID"), rs.getString("first_name"), 
-						rs.getString("last_name"), rs.getInt("height"), rs.getInt("weight"), 
-						rs.getString("date_of_birth"), rs.getString("race"), rs.getInt("PRISONER_ID"),
-						rs.getString("arrest_date"), rs.getString("release_date"), rs.getInt("bunk_ID")
+				visits.add(new Visit(
+						rs.getInt("VISIT_ID"), rs.getString("start_time"), 
+						rs.getString("end_time"), rs.getString("notes"),
+						rs.getInt("visitor_id"), rs.getInt("prisoner_id")
 					)
 				);
 			}
@@ -54,36 +49,26 @@ public class PrisonerSearchController implements Initializable {
 				System.err.println(ex);
 			}
 		}
-		model.setResultsList(prisoners);
+		model.setResultsList(visits);
 		return this.model;
     }
 	
-	/*
-	*	Check each TextField to see if it has input. If it does create a 
-	*	statement that includes a WHERE clause including that field's value and
-	*	which references that field's column in the table
-	*/
 	private String constructStatement() {
 		
 		StringBuilder baseStatement = new StringBuilder(
-				"SELECT * FROM Person "
-						+ "INNER JOIN "
-							+ "Prisoner ON Person.PERSON_ID = Prisoner.PERSON_ID "
+				"SELECT * FROM Visit "
 						+ "WHERE "
 		);
 		
 		
 		// parallel arrays that associate a TextField with its relevant table column
 		String[] fieldValues = {
-			model.getPersonId(), model.getFirstName(), model.getLastName(), 
-			model.getHeight(), model.getWeight(), model.getDob(), model.getRace(), 
-			model.getPrisonerId(), model.getArrestDate(), model.getReleaseDate(), 
-			model.getBunkId()
+			model.getVisitId(), model.getStartTime(), model.getEndTime(), 
+			model.getNotes(), model.getVisitorId(), model.getPrisonerId()
 		};
 		
 		String[] columns = {
-			"PERSON_ID", "first_name", "last_name", "height", "weight", "date_of_birth", 
-			"race", "PRISONER_ID", "arrest_date", "release_date", "bunk_id"
+			"VISIT_ID", "start_time", "end_time", "notes", "visitor_id", "prisoner_id"
 		};
 		
 		StringBuilder stmt = new StringBuilder();
@@ -97,10 +82,6 @@ public class PrisonerSearchController implements Initializable {
 		}
 		
 		baseStatement.append(stmt);	
-		
-		// Prevent "Ambugious column" error by adding Table name
-		if (!model.getPersonId().equals(""))
-			baseStatement.insert(baseStatement.indexOf(" PERSON_ID ") + 1, "Person.", 0, 7);
 		
 		String completedStatement = new String(baseStatement);
 		System.out.println(completedStatement);
@@ -117,9 +98,5 @@ public class PrisonerSearchController implements Initializable {
 			return new String(fieldWhere.append(colName).append(" = '").append(fieldText).append("'"));
 		return "";
 	}
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
-    }    
+
 }

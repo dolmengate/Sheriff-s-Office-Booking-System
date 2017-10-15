@@ -1,4 +1,4 @@
-package info.sroman.SOBS;
+package info.sroman.SOBS.Prisoner;
 
 import info.sroman.SOBS.Model.Prisoner;
 import java.time.LocalDate;

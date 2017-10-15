@@ -1,4 +1,4 @@
-package info.sroman.SOBS;
+package info.sroman.SOBS.Visitor;
 
 import info.sroman.SOBS.Model.Visitor;
 import java.net.URL;
