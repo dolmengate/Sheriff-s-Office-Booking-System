@@ -1,5 +1,6 @@
 package info.sroman.SOBS;
 
+import java.time.LocalDateTime;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Scene;
@@ -26,6 +27,10 @@ public class MainApp extends Application {
 	VisitorSearchComponent visitorSearchComponent;
 	VisitorSearchModel visitorSearchModel;
 	VisitorSearchController visitorSearchController;
+	
+	VisitSearchComponent visitSearchComponent;
+	VisitSearchModel visitSearchModel;
+	VisitSearchController visitSearchController;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -38,6 +43,11 @@ public class MainApp extends Application {
 		visitorSearchController = new VisitorSearchController();
 		visitorSearchComponent = new VisitorSearchComponent(visitorSearchController);
 		
+		visitSearchModel = new VisitSearchModel();
+		visitSearchController = new VisitSearchController();
+		visitSearchComponent = new VisitSearchComponent(visitSearchController);
+		
+		
 		AnchorPane root = new AnchorPane();
 		tabs = new TabPane();
 		tabs.setMinSize(1280, 720);
@@ -49,6 +59,8 @@ public class MainApp extends Application {
 		visitorsTab.setContent(visitorSearchComponent.getNode());
 		
 		visitsTab = new Tab("Visits");
+		visitsTab.setContent(visitSearchComponent.getNode());
+		
 		courtDatesTab = new Tab("Court Dates");
 		
 		tabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -67,15 +79,19 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();	
 		
-//		Database.genDB();
-//		
-//		for (int i = 0; i < 50; i++) {
-//			Database.createPrisoner();
-//		}
-//		
-//		for (int i = 0; i < 50; i++) {
-//			Database.createVisitor();
-//		}
+		Database.genDB();
+		
+		for (int i = 0; i < 50; i++) {
+			Database.createPrisoner();
+		}
+		
+		for (int i = 0; i < 50; i++) {
+			Database.createVisitor();
+		}
+		
+		for (int i = 0; i < 50; i++) {
+			Database.createVisit();
+		}
     }
 
     /**

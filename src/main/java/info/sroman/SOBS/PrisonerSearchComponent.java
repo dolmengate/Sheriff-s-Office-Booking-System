@@ -73,7 +73,6 @@ public class PrisonerSearchComponent {
 	Button prisonerSubmitBtn;
 	Button prisonerResetBtn;
 
-	VBox prisonerContentContainer;
 	TableView prisonerSearchResults;
 
 	PrisonerSearchModel model;
@@ -84,8 +83,6 @@ public class PrisonerSearchComponent {
 		this.controller = controller;
 
 		prisonerSearchResults = new TableView();
-
-		prisonerContentContainer = new VBox(10);
 
 		prisonerSearchContainer = new TilePane();
 		prisonerSearchContainer.setPrefColumns(4);
@@ -138,26 +135,7 @@ public class PrisonerSearchComponent {
 		prisonerSubmitResetBox = new HBox(20);
 		prisonerSubmitBtn = new Button("Submit");
 		prisonerResetBtn = new Button("Reset");
-
-		prisonerSubmitBtn.setOnAction(e -> {
-			this.prisonerSearchResults.getItems().clear();
-
-			model = new PrisonerSearchModel(
-					prisonerPersonIdField.getText(),
-					prisonerFirstNameField.getText(),
-					prisonerLastNameField.getText(),
-					stringifyHeightFields(),
-					prisonerWeightField.getText(),
-					getDOBPickerValue(),
-					getRaceComboValue(),
-					prisonerPrisonerIdField.getText(),
-					getArrestDatePickerValue(),
-					getReleaseDatePickerValue(),
-					prisonerBunkIdField.getText()
-			);
-			PrisonerSearchModel sentModel = controller.submitBtn(model, e);
-			this.prisonerSearchResults.getItems().addAll(sentModel.getResultsList());
-		});
+		
 
 		// Style controls
 		prisonerPersonIdBox.getStyleClass().add("search-control-group");
@@ -209,6 +187,26 @@ public class PrisonerSearchComponent {
 		prisonerReleaseDatePicker.setMaxWidth(170);
 		prisonerReleaseDatePicker.setShowWeekNumbers(true);
 		configPrisonerReleaseDatePickerDateFormat();
+		
+		prisonerSubmitBtn.setOnAction(e -> {
+			this.prisonerSearchResults.getItems().clear();
+
+			model = new PrisonerSearchModel(
+					prisonerPersonIdField.getText(),
+					prisonerFirstNameField.getText(),
+					prisonerLastNameField.getText(),
+					stringifyHeightFields(),
+					prisonerWeightField.getText(),
+					getDOBPickerValue(),
+					getRaceComboValue(),
+					prisonerPrisonerIdField.getText(),
+					getArrestDatePickerValue(),
+					getReleaseDatePickerValue(),
+					prisonerBunkIdField.getText()
+			);
+			PrisonerSearchModel receivedModel = controller.submitBtn(model, e);
+			this.prisonerSearchResults.getItems().addAll(receivedModel.getResultsList());
+		});
 		
 		prisonerResetBtn.setOnAction(e -> {
 			prisonerPersonIdField.setText("");

@@ -65,7 +65,6 @@ public class VisitorSearchComponent {
 	Button visitorSubmitBtn;
 	Button visitorrResetBtn;
 
-	VBox visitorContentContainer;
 	TableView visitorSearchResults;
 
 	VisitorSearchModel model;
@@ -76,8 +75,6 @@ public class VisitorSearchComponent {
 		this.controller = controller;
 
 		visitorSearchResults = new TableView();
-
-		visitorContentContainer = new VBox(10);
 
 		visitorSearchContainer = new TilePane();
 		visitorSearchContainer.setPrefColumns(4);
@@ -123,24 +120,6 @@ public class VisitorSearchComponent {
 		visitorSubmitBtn = new Button("Submit");
 		visitorrResetBtn = new Button("Reset");
 
-		visitorSubmitBtn.setOnAction(e -> {
-			this.visitorSearchResults.getItems().clear();
-
-			model = new VisitorSearchModel(
-					visitorPersonIdField.getText(),
-					visitorFirstNameField.getText(),
-					visitorLastNameField.getText(),
-					stringifyHeightFields(),
-					visitorWeightField.getText(),
-					getDOBPickerValue(),
-					getRaceComboValue(), 
-					visitorVisitorIdField.getText(),
-					visitorSSNField.getText()
-			);
-			VisitorSearchModel sentModel = controller.submitBtn(model, e);
-			this.visitorSearchResults.getItems().addAll(sentModel.getResultsList());
-		});
-
 		// Style controls
 		visitorPersonIdBox.getStyleClass().add("search-control-group");
 		visitorFirstNameBox.getStyleClass().add("search-control-group");
@@ -169,7 +148,7 @@ public class VisitorSearchComponent {
 
 		visitorRaceCombo.setItems(
 				FXCollections.observableArrayList(
-						"White", "Black", "Hispanic"
+						"Black", "Hispanic", "White"
 				)
 		);
 		visitorRaceCombo.setMinSize(10, visitorRaceBox.getWidth());
@@ -179,6 +158,24 @@ public class VisitorSearchComponent {
 		visitorDOBPicker.setMaxWidth(170);
 		visitorDOBPicker.setShowWeekNumbers(true);
 		configDOBPickerDateFormat();
+		
+		visitorSubmitBtn.setOnAction(e -> {
+			this.visitorSearchResults.getItems().clear();
+
+			model = new VisitorSearchModel(
+					visitorPersonIdField.getText(),
+					visitorFirstNameField.getText(),
+					visitorLastNameField.getText(),
+					stringifyHeightFields(),
+					visitorWeightField.getText(),
+					getDOBPickerValue(),
+					getRaceComboValue(), 
+					visitorVisitorIdField.getText(),
+					visitorSSNField.getText()
+			);
+			VisitorSearchModel receivedModel = controller.submitBtn(model, e);
+			this.visitorSearchResults.getItems().addAll(receivedModel.getResultsList());
+		});
 		
 		visitorrResetBtn.setOnAction(e -> {
 			visitorPersonIdField.setText("");
@@ -192,7 +189,7 @@ public class VisitorSearchComponent {
 		});
 		
 
-		// Add controls to container boxes and set style classes
+		// Add controls to container boxes
 		visitorPersonIdBox.getChildren().addAll(visitorPersonIdLabel, visitorPersonIdField);
 		visitorFirstNameBox.getChildren().addAll(visitorFirstNameLabel, visitorFirstNameField);
 		visitorLastNameBox.getChildren().addAll(visitorLastNameLabel, visitorLastNameField);
