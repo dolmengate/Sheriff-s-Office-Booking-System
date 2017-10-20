@@ -1,8 +1,9 @@
 package info.sroman.SOBS.Prisoner;
 
+import info.sroman.SOBS.SearchModel;
 import javafx.collections.ObservableList;
 
-public class PrisonerSearchModel {
+public class PrisonerSearchModel extends SearchModel {
 	
 	private String personId;
 	private String firstName;
@@ -15,9 +16,7 @@ public class PrisonerSearchModel {
 	private String arrestDate;
 	private String releaseDate;
 	private String bunkId;
-	
-	private ObservableList resultsList;
-	
+		
 	public PrisonerSearchModel() {}
 	
 	public PrisonerSearchModel(String personId, String firstName, String lastName, String height, 
@@ -122,13 +121,5 @@ public class PrisonerSearchModel {
 
 	public void setBunkId(String bunkId) {
 		this.bunkId = bunkId;
-	}
-
-	public ObservableList getResultsList() {
-		return resultsList;
-	}
-
-	public void setResultsList(ObservableList resultsList) {
-		this.resultsList = resultsList;
 	}
 }

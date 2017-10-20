@@ -1,25 +1,25 @@
 package info.sroman.SOBS.Prisoner;
 
+import info.sroman.SOBS.SearchController;
 import info.sroman.SOBS.Model.Prisoner;
-import java.net.URL;
+import info.sroman.SOBS.SearchModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
 
-public class PrisonerSearchController implements Initializable {
+public class PrisonerSearchController extends SearchController {
 		
 	PrisonerSearchModel model;
 	
-    public PrisonerSearchModel submitBtn(PrisonerSearchModel model, ActionEvent event) {
+	@Override
+    public SearchModel makeQuery(SearchModel model, ActionEvent event) {
 		
-        this.model = model;
+        this.model = (PrisonerSearchModel) model;
 		
 		Connection conn = null;
 		Statement statement = null;
@@ -62,7 +62,8 @@ public class PrisonerSearchController implements Initializable {
 	*	statement that includes a WHERE clause including that field's value and
 	*	which references that field's column in the table
 	*/
-	private String constructStatement() {
+	@Override
+	public String constructStatement() {
 		
 		StringBuilder baseStatement = new StringBuilder(
 				"SELECT * FROM Person "
@@ -90,9 +91,9 @@ public class PrisonerSearchController implements Initializable {
 		// if the statement has multiple WHERE clauses include an "AND" between them
 		for (int i = 0; i < fieldValues.length; i++) {
 			if (stmt.length() == 0)
-				stmt.append(checkField(fieldValues[i], columns[i]));
+				stmt.append(checkFieldForAndStatement(fieldValues[i], columns[i]));
 			else if (!fieldValues[i].equals(""))
-				stmt.append(" AND ").append(checkField(fieldValues[i], columns[i]));
+				stmt.append(" AND ").append(checkFieldForAndStatement(fieldValues[i], columns[i]));
 		}
 		
 		baseStatement.append(stmt);	
@@ -106,19 +107,4 @@ public class PrisonerSearchController implements Initializable {
 
 		return completedStatement;
 	}
-	
-	/*
-	*	Return AND statement if TextField has input, otherwise returns an empty string
-	*/
-	private String checkField(String fieldText, String colName) {
-		StringBuilder fieldWhere = new StringBuilder();
-		if (!fieldText.equals(""))
-			return new String(fieldWhere.append(colName).append(" = '").append(fieldText).append("'"));
-		return "";
-	}
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
-    }    
 }

@@ -173,7 +173,7 @@ public class VisitorSearchView implements IComponent {
 					visitorVisitorIdField.getText(),
 					visitorSSNField.getText()
 			);
-			VisitorSearchModel receivedModel = controller.submitBtn(model, e);
+			VisitorSearchModel receivedModel = (VisitorSearchModel) controller.makeQuery(model, e);
 			this.visitorSearchResults.getItems().addAll(receivedModel.getResultsList());
 		});
 		

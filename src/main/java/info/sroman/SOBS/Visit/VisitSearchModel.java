@@ -1,8 +1,9 @@
 package info.sroman.SOBS.Visit;
 
+import info.sroman.SOBS.SearchModel;
 import javafx.collections.ObservableList;
 
-public class VisitSearchModel {
+public class VisitSearchModel extends SearchModel {
 	
 	private String visitId;
 	private String startTime;
@@ -10,9 +11,7 @@ public class VisitSearchModel {
 	private String notes;
 	private String visitorId;
 	private String prisonerId;
-	
-	private ObservableList resultsList;
-	
+		
 	public VisitSearchModel() {}
 
 	public VisitSearchModel(String visitId, String startTime, String endTime, 
@@ -71,13 +70,5 @@ public class VisitSearchModel {
 
 	public void setPrisonerId(String prisonerId) {
 		this.prisonerId = prisonerId;
-	}
-
-	public ObservableList getResultsList() {
-		return resultsList;
-	}
-
-	public void setResultsList(ObservableList resultsList) {
-		this.resultsList = resultsList;
 	}
 }

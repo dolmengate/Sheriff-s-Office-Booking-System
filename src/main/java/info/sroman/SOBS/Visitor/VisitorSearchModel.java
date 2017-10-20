@@ -1,8 +1,8 @@
 package info.sroman.SOBS.Visitor;
 
-import javafx.collections.ObservableList;
+import info.sroman.SOBS.SearchModel;
 
-public class VisitorSearchModel {
+public class VisitorSearchModel extends SearchModel {
 	
 	private String personId;
 	private String firstName;
@@ -13,8 +13,6 @@ public class VisitorSearchModel {
 	private String race;
 	private String visitorId;
 	private String ssn;
-
-	private ObservableList resultsList;
 	
 	public VisitorSearchModel() {}
 	
@@ -102,13 +100,5 @@ public class VisitorSearchModel {
 
 	public void setSsn(String ssn) {
 		this.ssn = ssn;
-	}
-
-	public ObservableList getResultsList() {
-		return resultsList;
-	}
-
-	public void setResultsList(ObservableList resultsList) {
-		this.resultsList = resultsList;
 	}
 }

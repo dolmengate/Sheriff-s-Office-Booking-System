@@ -44,7 +44,7 @@ public class PrisonerSearchView implements IComponent {
 					getReleaseDatePickerValue(),
 					prisonerFields.getBunkIdField().getText()
 			);
-			PrisonerSearchModel receivedModel = controller.submitBtn(model, e);
+			PrisonerSearchModel receivedModel = (PrisonerSearchModel) controller.makeQuery(model, e);
 			this.prisonerSearchResults.getItems().addAll(receivedModel.getResultsList());
 		});
 

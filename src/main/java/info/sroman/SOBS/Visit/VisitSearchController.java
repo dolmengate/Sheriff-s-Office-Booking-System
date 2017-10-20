@@ -1,6 +1,8 @@
 package info.sroman.SOBS.Visit;
 
+import info.sroman.SOBS.SearchController;
 import info.sroman.SOBS.Model.Visit;
+import info.sroman.SOBS.SearchModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -10,13 +12,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
-public class VisitSearchController {
+public class VisitSearchController extends SearchController {
 	
 	VisitSearchModel model;
 	
-	public VisitSearchModel submitBtn(VisitSearchModel model, ActionEvent event) {
+	@Override
+	public SearchModel makeQuery(SearchModel model, ActionEvent event) {
 		
-        this.model = model;
+        this.model = (VisitSearchModel) model;
 		
 		Connection conn = null;
 		Statement statement = null;
@@ -53,7 +56,8 @@ public class VisitSearchController {
 		return this.model;
     }
 	
-	private String constructStatement() {
+	@Override
+	public String constructStatement() {
 		
 		StringBuilder baseStatement = new StringBuilder(
 				"SELECT * FROM Visit "
@@ -76,9 +80,9 @@ public class VisitSearchController {
 		// if the statement has multiple WHERE clauses include an "AND" between them
 		for (int i = 0; i < fieldValues.length; i++) {
 			if (stmt.length() == 0)
-				stmt.append(checkField(fieldValues[i], columns[i]));
+				stmt.append(checkFieldForAndStatement(fieldValues[i], columns[i]));
 			else if (!fieldValues[i].equals(""))
-				stmt.append(" AND ").append(checkField(fieldValues[i], columns[i]));
+				stmt.append(" AND ").append(checkFieldForAndStatement(fieldValues[i], columns[i]));
 		}
 		
 		baseStatement.append(stmt);	
@@ -88,15 +92,4 @@ public class VisitSearchController {
 
 		return completedStatement;
 	}
-	
-	/*
-	*	Return AND statement if TextField has input, otherwise returns an empty string
-	*/
-	private String checkField(String fieldText, String colName) {
-		StringBuilder fieldWhere = new StringBuilder();
-		if (!fieldText.equals(""))
-			return new String(fieldWhere.append(colName).append(" = '").append(fieldText).append("'"));
-		return "";
-	}
-
 }

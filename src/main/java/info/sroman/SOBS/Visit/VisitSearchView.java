@@ -113,7 +113,7 @@ public class VisitSearchView implements IComponent{		// separate controls for Da
 					visitVisitorIdField.getText(),
 					visitPrisonerIdField.getText()
 			);
-			VisitSearchModel receivedModel = controller.submitBtn(model, e);
+			VisitSearchModel receivedModel = (VisitSearchModel) controller.makeQuery(model, e);
 			this.visitSearchResults.getItems().addAll(receivedModel.getResultsList());
 		});
 		
