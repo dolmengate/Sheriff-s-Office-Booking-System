@@ -4,20 +4,15 @@ import info.sroman.SOBS.Model.Visit;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
+import info.sroman.SOBS.SearchView;
 
-public class VisitSearchView implements IComponent{		// separate controls for Date and Time?
+public class VisitSearchView extends SearchView implements IComponent {		// separate controls for Date and Time?
 	// separate search date range controls?
-
-	VBox container;
-
-	TilePane visitSearchContainer;
 
 	HBox visitVisitIdBox;
 	Label visitVisitIdLabel;
@@ -47,18 +42,8 @@ public class VisitSearchView implements IComponent{		// separate controls for Da
 	Button visitSubmitBtn;
 	Button visitResetBtn;
 
-	TableView visitSearchResults;
-
-	VisitSearchModel model;
-	VisitSearchController controller;
-
 	public VisitSearchView(VisitSearchController controller) {
-		this.controller = controller;
-
-		visitSearchResults = new TableView();
-
-		visitSearchContainer = new TilePane();
-		visitSearchContainer.setPrefColumns(4);
+		super(controller);
 
 		visitVisitIdBox = new HBox();
 		visitVisitIdLabel = new Label("Visit ID");
@@ -88,7 +73,15 @@ public class VisitSearchView implements IComponent{		// separate controls for Da
 		visitSubmitBtn = new Button("Submit");
 		visitResetBtn = new Button("Reset");
 
-		// Style controls
+		styleControls();
+		configureControls();
+		addControlsToContainers();
+		setSearchResultsCols();
+		
+	}
+
+	@Override
+	public void styleControls() {
 		visitVisitIdBox.getStyleClass().add("search-control-group");
 		visitStartTimeBox.getStyleClass().add("search-control-group");
 		visitEndTimeBox.getStyleClass().add("search-control-group");
@@ -97,14 +90,14 @@ public class VisitSearchView implements IComponent{		// separate controls for Da
 		visitPrisonerIdBox.getStyleClass().add("search-control-group");
 
 		visitSubmitResetBox.getStyleClass().add("search-control-group");
-		visitSearchContainer.getStyleClass().add("search-container");
+		this.searchInputsContainer.getStyleClass().add("search-container");
+	}
 
-		// Configure controls
-		setSearchResultsCols();
-		
+	@Override
+	public void configureControls() {
 		visitSubmitBtn.setOnAction(e -> {
-			this.visitSearchResults.getItems().clear();
-			
+			this.searchResults.getItems().clear();
+
 			model = new VisitSearchModel(
 					visitVisitIdField.getText(),
 					visitStartTimeField.getText(),
@@ -114,9 +107,9 @@ public class VisitSearchView implements IComponent{		// separate controls for Da
 					visitPrisonerIdField.getText()
 			);
 			VisitSearchModel receivedModel = (VisitSearchModel) controller.makeQuery(model, e);
-			this.visitSearchResults.getItems().addAll(receivedModel.getResultsList());
+			this.searchResults.getItems().addAll(receivedModel.getResultsList());
 		});
-		
+
 		visitResetBtn.setOnAction(e -> {
 			visitVisitIdField.setText("");
 			visitStartTimeField.setText("");
@@ -125,8 +118,10 @@ public class VisitSearchView implements IComponent{		// separate controls for Da
 			visitVisitorIdField.setText("");
 			visitPrisonerIdField.setText("");
 		});
+	}
 
-		// Add controls to container boxes
+	@Override
+	public void addControlsToContainers() {
 		visitVisitIdBox.getChildren().addAll(visitVisitIdLabel, visitVisitIdField);
 		visitStartTimeBox.getChildren().addAll(visitStartTimeLabel, visitStartTimeField);
 		visitEndTimeBox.getChildren().addAll(visitEndTimeLabel, visitEndTimeField);
@@ -135,45 +130,45 @@ public class VisitSearchView implements IComponent{		// separate controls for Da
 		visitPrisonerIdBox.getChildren().addAll(visitPrisonerIdLabel, visitPrisonerIdField);
 		visitSubmitResetBox.getChildren().addAll(visitSubmitBtn, visitResetBtn);
 
-		visitSearchContainer.getChildren().addAll(visitVisitIdBox, visitStartTimeBox,
-				visitEndTimeBox, visitNotesBox, visitVisitorIdBox, visitPrisonerIdBox, 
+		this.searchInputsContainer.getChildren().addAll(visitVisitIdBox, visitStartTimeBox,
+				visitEndTimeBox, visitNotesBox, visitVisitorIdBox, visitPrisonerIdBox,
 				visitSubmitResetBox);
-		
-		container = new VBox(10);
-		container.getChildren().addAll(visitSearchContainer, visitSearchResults);
+
+		container.getChildren().addAll(this.searchInputsContainer, this.searchResults);
 
 	}
 
-	private void setSearchResultsCols() {
+	@Override
+	public void setSearchResultsCols() {
 		TableColumn<Visit, String> visitIdCol = new TableColumn<>("Visit ID");
 		visitIdCol.setCellValueFactory(new PropertyValueFactory("VISIT_ID"));
-		visitIdCol.prefWidthProperty().bind(visitSearchResults.widthProperty().multiply(0.1));
+		visitIdCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(0.1));
 
 		TableColumn<Visit, String> startTimeCol = new TableColumn<>("Start Time");
 		startTimeCol.setCellValueFactory(new PropertyValueFactory("START_TIME"));
-		startTimeCol.prefWidthProperty().bind(visitSearchResults.widthProperty().multiply(0.1));
+		startTimeCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(0.1));
 
 		TableColumn<Visit, String> endTimeCol = new TableColumn<>("End Time");
 		endTimeCol.setCellValueFactory(new PropertyValueFactory("END_TIME"));
-		endTimeCol.prefWidthProperty().bind(visitSearchResults.widthProperty().multiply(0.1));
+		endTimeCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(0.1));
 
 		TableColumn<Visit, Integer> notesCol = new TableColumn<>("Notes");
 		notesCol.setCellValueFactory(new PropertyValueFactory("notes"));
-		notesCol.prefWidthProperty().bind(visitSearchResults.widthProperty().multiply(0.1));
+		notesCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(0.1));
 
 		TableColumn<Visit, Integer> visitorIdCol = new TableColumn<>("Visitor ID");
 		visitorIdCol.setCellValueFactory(new PropertyValueFactory("VISITOR_ID"));
-		visitorIdCol.prefWidthProperty().bind(visitSearchResults.widthProperty().multiply(0.1));
+		visitorIdCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(0.1));
 
 		TableColumn<Visit, String> prisonerIdCol = new TableColumn<>("Prisoner ID");
 		prisonerIdCol.setCellValueFactory(new PropertyValueFactory("PRISONER_ID"));
-		prisonerIdCol.prefWidthProperty().bind(visitSearchResults.widthProperty().multiply(0.1));
+		prisonerIdCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(0.1));
 
-		visitSearchResults.getColumns().setAll(visitIdCol, startTimeCol, endTimeCol,
+		this.searchResults.getColumns().setAll(visitIdCol, startTimeCol, endTimeCol,
 				notesCol, visitorIdCol, prisonerIdCol);
 
 	}
-	
+
 	@Override
 	public VBox getPane() {
 		return container;
