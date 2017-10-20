@@ -66,5 +66,5 @@ public abstract class PersonSearchView extends SearchView {
 				}
 			}
 		};
-	}	
+	}
 }

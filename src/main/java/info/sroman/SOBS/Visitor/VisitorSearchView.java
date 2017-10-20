@@ -196,7 +196,6 @@ public class VisitorSearchView extends PersonSearchView implements IComponent {
 				visitorLastNameBox, visitorrHeightBox, visitorWeightBox, visitorDOBBox,
 				visitorRaceBox, visitorSSNBox, visitorVisitorIdBox, visitorSubmitResetBox);
 
-		this.container = new VBox(10);
 		this.container.getChildren().addAll(this.searchInputsContainer, this.searchResults);
 	}
 	

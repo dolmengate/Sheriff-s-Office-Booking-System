@@ -18,6 +18,8 @@ public abstract class SearchView implements IComponent {
 		this.controller = controller;
 		this.searchResults = new TableView();
 		
+		this.container = new VBox(10);
+		
 		searchInputsContainer = new TilePane();
 		searchInputsContainer.setPrefColumns(4);
 	}
