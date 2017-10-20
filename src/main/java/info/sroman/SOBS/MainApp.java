@@ -28,15 +28,15 @@ public class MainApp extends Application {
 	Tab visitsTab;
 	Tab courtDatesTab;
 
-	PrisonerSearchView prisonerSearchComponent;
+	PrisonerSearchView prisonerSearchView;
 	PrisonerSearchModel prisonerSearchModel;
 	PrisonerSearchController prisonerSearchController;
 
-	VisitorSearchView visitorSearchComponent;
+	VisitorSearchView visitorSearchView;
 	VisitorSearchModel visitorSearchModel;
 	VisitorSearchController visitorSearchController;
 
-	VisitSearchView visitSearchComponent;
+	VisitSearchView visitSearchView;
 	VisitSearchModel visitSearchModel;
 	VisitSearchController visitSearchController;
 
@@ -45,28 +45,28 @@ public class MainApp extends Application {
 
 		prisonerSearchModel = new PrisonerSearchModel();
 		prisonerSearchController = new PrisonerSearchController();
-		prisonerSearchComponent = new PrisonerSearchView(prisonerSearchController);
+		prisonerSearchView = new PrisonerSearchView(prisonerSearchController);
 
 		visitorSearchModel = new VisitorSearchModel();
 		visitorSearchController = new VisitorSearchController();
-		visitorSearchComponent = new VisitorSearchView(visitorSearchController);
+		visitorSearchView = new VisitorSearchView(visitorSearchController);
 
 		visitSearchModel = new VisitSearchModel();
 		visitSearchController = new VisitSearchController();
-		visitSearchComponent = new VisitSearchView(visitSearchController);
+		visitSearchView = new VisitSearchView(visitSearchController);
 
 		AnchorPane root = new AnchorPane();
 		tabs = new TabPane();
 		tabs.setMinSize(1280, 720);
 
 		prisonersTab = new Tab("Prisoners");
-		prisonersTab.setContent(prisonerSearchComponent.getPane());
+		prisonersTab.setContent(prisonerSearchView.getPane());
 
 		visitorsTab = new Tab("Visitors");
-		visitorsTab.setContent(visitorSearchComponent.getPane());
+		visitorsTab.setContent(visitorSearchView.getPane());
 
 		visitsTab = new Tab("Visits");
-		visitsTab.setContent(visitSearchComponent.getPane());
+		visitsTab.setContent(visitSearchView.getPane());
 
 		courtDatesTab = new Tab("Court Dates");
 

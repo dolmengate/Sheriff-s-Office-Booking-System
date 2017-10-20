@@ -1,28 +1,20 @@
 package info.sroman.SOBS.Visitor;
 
 import info.sroman.SOBS.Model.Visitor;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
 import info.sroman.SOBS.IComponent;
+import info.sroman.SOBS.PersonSearchView;
 
-public class VisitorSearchView implements IComponent {
-
-	VBox container;
-
-	TilePane visitorSearchContainer;
+public class VisitorSearchView extends PersonSearchView implements IComponent {
 
 	HBox visitorPersonIdBox;
 	Label visitorPersonIdLabel;
@@ -63,21 +55,10 @@ public class VisitorSearchView implements IComponent {
 
 	HBox visitorSubmitResetBox;
 	Button visitorSubmitBtn;
-	Button visitorrResetBtn;
-
-	TableView visitorSearchResults;
-
-	VisitorSearchModel model;
-	VisitorSearchController controller;
+	Button visitorResetBtn;
 
 	public VisitorSearchView(VisitorSearchController controller) {
-
-		this.controller = controller;
-
-		visitorSearchResults = new TableView();
-
-		visitorSearchContainer = new TilePane();
-		visitorSearchContainer.setPrefColumns(4);
+		super(controller);
 
 		visitorPersonIdBox = new HBox();
 		visitorPersonIdLabel = new Label("Person ID");
@@ -118,9 +99,16 @@ public class VisitorSearchView implements IComponent {
 
 		visitorSubmitResetBox = new HBox(20);
 		visitorSubmitBtn = new Button("Submit");
-		visitorrResetBtn = new Button("Reset");
-
-		// Style controls
+		visitorResetBtn = new Button("Reset");
+		
+		styleControls();
+		configureControls();
+		addControlsToContainers();
+		setSearchResultsCols();
+	}
+	
+	@Override
+	public void styleControls() {
 		visitorPersonIdBox.getStyleClass().add("search-control-group");
 		visitorFirstNameBox.getStyleClass().add("search-control-group");
 		visitorLastNameBox.getStyleClass().add("search-control-group");
@@ -132,9 +120,11 @@ public class VisitorSearchView implements IComponent {
 		visitorVisitorIdBox.getStyleClass().add("search-control-group");
 
 		visitorSubmitResetBox.getStyleClass().add("search-control-group");
-		visitorSearchContainer.getStyleClass().add("search-container");
-
-		// Configure controls
+		this.searchInputsContainer.getStyleClass().add("search-container");
+	}
+	
+	@Override
+	public void configureControls() {
 		setSearchResultsCols();
 
 		visitorHeightFeetField.setPrefWidth(50);
@@ -157,27 +147,27 @@ public class VisitorSearchView implements IComponent {
 		visitorDOBPicker.setMinHeight(12);
 		visitorDOBPicker.setMaxWidth(170);
 		visitorDOBPicker.setShowWeekNumbers(true);
-		configDOBPickerDateFormat();
+		configDOBPickerDateFormat(visitorDOBPicker);
 		
 		visitorSubmitBtn.setOnAction(e -> {
-			this.visitorSearchResults.getItems().clear();
+			this.searchResults.getItems().clear();
 
 			model = new VisitorSearchModel(
 					visitorPersonIdField.getText(),
 					visitorFirstNameField.getText(),
 					visitorLastNameField.getText(),
-					stringifyHeightFields(),
+					stringifyHeightFields(visitorHeightFeetField, visitorHeightInchesCombo),
 					visitorWeightField.getText(),
-					getDOBPickerValue(),
-					getRaceComboValue(), 
+					getDOBPickerValue(visitorDOBPicker),
+					getRaceComboValue(visitorRaceCombo), 
 					visitorVisitorIdField.getText(),
 					visitorSSNField.getText()
 			);
-			VisitorSearchModel receivedModel = (VisitorSearchModel) controller.makeQuery(model, e);
-			this.visitorSearchResults.getItems().addAll(receivedModel.getResultsList());
+			VisitorSearchModel receivedModel = (VisitorSearchModel) this.controller.makeQuery(model, e);
+			this.searchResults.getItems().addAll(receivedModel.getResultsList());
 		});
 		
-		visitorrResetBtn.setOnAction(e -> {
+		visitorResetBtn.setOnAction(e -> {
 			visitorPersonIdField.setText("");
 			visitorFirstNameField.setText("");
 			visitorLastNameField.setText("");
@@ -187,9 +177,10 @@ public class VisitorSearchView implements IComponent {
 			visitorDOBPicker.setValue(null);
 			visitorRaceCombo.setValue("");
 		});
-		
-
-		// Add controls to container boxes
+	}
+	
+	@Override
+	public void addControlsToContainers() {
 		visitorPersonIdBox.getChildren().addAll(visitorPersonIdLabel, visitorPersonIdField);
 		visitorFirstNameBox.getChildren().addAll(visitorFirstNameLabel, visitorFirstNameField);
 		visitorLastNameBox.getChildren().addAll(visitorLastNameLabel, visitorLastNameField);
@@ -197,115 +188,62 @@ public class VisitorSearchView implements IComponent {
 		visitorWeightBox.getChildren().addAll(visitorWeightLabel, visitorWeightField);
 		visitorDOBBox.getChildren().addAll(visitorDOBLabel, visitorDOBPicker);
 		visitorRaceBox.getChildren().addAll(visitorRaceLabel, visitorRaceCombo);
-		visitorSubmitResetBox.getChildren().addAll(visitorSubmitBtn, visitorrResetBtn);
+		visitorSubmitResetBox.getChildren().addAll(visitorSubmitBtn, visitorResetBtn);
 		visitorSSNBox.getChildren().addAll(visitorSSNLabel, visitorSSNField);
 		visitorVisitorIdBox.getChildren().addAll(visitorVisitorIdLabel, visitorVisitorIdField);
 
-		visitorSearchContainer.getChildren().addAll(visitorPersonIdBox, visitorFirstNameBox,
+		this.searchInputsContainer.getChildren().addAll(visitorPersonIdBox, visitorFirstNameBox,
 				visitorLastNameBox, visitorrHeightBox, visitorWeightBox, visitorDOBBox,
 				visitorRaceBox, visitorSSNBox, visitorVisitorIdBox, visitorSubmitResetBox);
 
-		container = new VBox(10);
-		container.getChildren().addAll(visitorSearchContainer, visitorSearchResults);
-	}
-
-	private String stringifyHeightFields() {
-		String feet = visitorHeightFeetField.getText();
-		String inches;
-		if (visitorHeightInchesCombo.getValue() == null) {
-			inches = "";
-		} else {
-			inches = visitorHeightInchesCombo.getValue().toString();
-		}
-		return feet.concat(inches);
-	}
-
-	private String getRaceComboValue() {
-		if (visitorRaceCombo.getValue() == null) {
-			return "";
-		}
-		return visitorRaceCombo.getValue().toString();
-	}
-
-	private String getDOBPickerValue() {
-		if (visitorDOBPicker.getValue() == null) {
-			return "";
-		}
-		return visitorDOBPicker.getValue().toString();
+		this.container = new VBox(10);
+		this.container.getChildren().addAll(this.searchInputsContainer, this.searchResults);
 	}
 	
-	private void configDOBPickerDateFormat() {
-		visitorDOBPicker.setConverter(createStringConverter());
-	}
-	
-	private StringConverter createStringConverter() {
-		return new StringConverter<LocalDate>() {
-			String pattern = "yyyy-MM-dd";
-			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-			
-			@Override
-			public String toString(LocalDate date) {
-				if (date != null) {
-					return dateFormatter.format(date);
-				} else {
-					return "";
-				}
-			}
-
-			@Override
-			public LocalDate fromString(String string) {
-				if (string != null && !string.isEmpty()) {
-					return LocalDate.parse(string, dateFormatter);
-				} else {
-					return null;
-				}
-			}
-		};
-	}
-
-	private void setSearchResultsCols() {
+	@Override
+	public void setSearchResultsCols() {
 		TableColumn<Visitor, String> personIDCol = new TableColumn<>("Person ID");
 		personIDCol.setCellValueFactory(new PropertyValueFactory("PERSON_ID"));
-		personIDCol.prefWidthProperty().bind(visitorSearchResults.widthProperty().multiply(.11));
+		personIDCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.11));
 
 		TableColumn<Visitor, String> firstNameCol = new TableColumn<>("First Name");
 		firstNameCol.setCellValueFactory(new PropertyValueFactory("firstName"));
-		firstNameCol.prefWidthProperty().bind(visitorSearchResults.widthProperty().multiply(.11));
+		firstNameCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.11));
 
 		TableColumn<Visitor, String> lastNameCol = new TableColumn<>("Last Name");
 		lastNameCol.setCellValueFactory(new PropertyValueFactory("lastName"));
-		lastNameCol.prefWidthProperty().bind(visitorSearchResults.widthProperty().multiply(.11));
+		lastNameCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.11));
 
 		TableColumn<Visitor, Integer> heightCol = new TableColumn<>("Height");
 		heightCol.setCellValueFactory(new PropertyValueFactory("HEIGHT"));
-		heightCol.prefWidthProperty().bind(visitorSearchResults.widthProperty().multiply(.10));
+		heightCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.10));
 
 		TableColumn<Visitor, Integer> weightCol = new TableColumn<>("Weight");
 		weightCol.setCellValueFactory(new PropertyValueFactory("weight"));
-		weightCol.prefWidthProperty().bind(visitorSearchResults.widthProperty().multiply(.10));
+		weightCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.10));
 
 		TableColumn<Visitor, String> DOBCol = new TableColumn<>("DOB");
 		DOBCol.setCellValueFactory(new PropertyValueFactory("DOB"));
-		DOBCol.prefWidthProperty().bind(visitorSearchResults.widthProperty().multiply(.11));
+		DOBCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.11));
 
 		TableColumn<Visitor, String> raceCol = new TableColumn<>("Race");
 		raceCol.setCellValueFactory(new PropertyValueFactory("RACE"));
-		raceCol.prefWidthProperty().bind(visitorSearchResults.widthProperty().multiply(.11));
+		raceCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.11));
 		
 		TableColumn<Visitor, String> visitorCol = new TableColumn<>("Visitor ID");
 		visitorCol.setCellValueFactory(new PropertyValueFactory("VISITOR_ID"));
-		visitorCol.prefWidthProperty().bind(visitorSearchResults.widthProperty().multiply(.11));
+		visitorCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.11));
 		
 		TableColumn<Visitor, String> ssnCol = new TableColumn<>("SSN");
 		ssnCol.setCellValueFactory(new PropertyValueFactory("SSN"));
-		ssnCol.prefWidthProperty().bind(visitorSearchResults.widthProperty().multiply(.11));	
+		ssnCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.11));	
 
-		visitorSearchResults.getColumns().setAll(personIDCol, firstNameCol,
+		this.searchResults.getColumns().setAll(personIDCol, firstNameCol,
 				lastNameCol, heightCol, weightCol, DOBCol, raceCol, visitorCol, ssnCol);
 	}
 	
 	@Override
 	public VBox getPane() {
-		return container;
+		return this.container;
 	}
 }
