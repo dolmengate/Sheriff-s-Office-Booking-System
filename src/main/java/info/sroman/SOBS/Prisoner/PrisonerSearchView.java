@@ -8,7 +8,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
 
-public class PrisonerSearchComponent implements IComponent {
+public class PrisonerSearchView implements IComponent {
 
 	VBox container;
 
@@ -19,7 +19,7 @@ public class PrisonerSearchComponent implements IComponent {
 	PrisonerSearchModel model;
 	PrisonerSearchController controller;
 
-	public PrisonerSearchComponent(PrisonerSearchController controller) {
+	public PrisonerSearchView(PrisonerSearchController controller) {
 
 		this.controller = controller;
 

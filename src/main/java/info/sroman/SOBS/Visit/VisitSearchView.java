@@ -12,7 +12,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
 
-public class VisitSearchComponent implements IComponent{		// separate controls for Date and Time?
+public class VisitSearchView implements IComponent{		// separate controls for Date and Time?
 	// separate search date range controls?
 
 	VBox container;
@@ -52,7 +52,7 @@ public class VisitSearchComponent implements IComponent{		// separate controls f
 	VisitSearchModel model;
 	VisitSearchController controller;
 
-	public VisitSearchComponent(VisitSearchController controller) {
+	public VisitSearchView(VisitSearchController controller) {
 		this.controller = controller;
 
 		visitSearchResults = new TableView();

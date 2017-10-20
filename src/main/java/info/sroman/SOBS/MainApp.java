@@ -1,14 +1,14 @@
 package info.sroman.SOBS;
 
 import info.sroman.SOBS.Prisoner.PrisonerSearchModel;
-import info.sroman.SOBS.Prisoner.PrisonerSearchComponent;
+import info.sroman.SOBS.Prisoner.PrisonerSearchView;
 import info.sroman.SOBS.Prisoner.PrisonerSearchController;
 import info.sroman.SOBS.Visitor.VisitorSearchModel;
 import info.sroman.SOBS.Visitor.VisitorSearchController;
-import info.sroman.SOBS.Visitor.VisitorSearchComponent;
+import info.sroman.SOBS.Visitor.VisitorSearchView;
 import info.sroman.SOBS.Visit.VisitSearchController;
 import info.sroman.SOBS.Visit.VisitSearchModel;
-import info.sroman.SOBS.Visit.VisitSearchComponent;
+import info.sroman.SOBS.Visit.VisitSearchView;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Scene;
@@ -28,15 +28,15 @@ public class MainApp extends Application {
 	Tab visitsTab;
 	Tab courtDatesTab;
 
-	PrisonerSearchComponent prisonerSearchComponent;
+	PrisonerSearchView prisonerSearchComponent;
 	PrisonerSearchModel prisonerSearchModel;
 	PrisonerSearchController prisonerSearchController;
 
-	VisitorSearchComponent visitorSearchComponent;
+	VisitorSearchView visitorSearchComponent;
 	VisitorSearchModel visitorSearchModel;
 	VisitorSearchController visitorSearchController;
 
-	VisitSearchComponent visitSearchComponent;
+	VisitSearchView visitSearchComponent;
 	VisitSearchModel visitSearchModel;
 	VisitSearchController visitSearchController;
 
@@ -45,15 +45,15 @@ public class MainApp extends Application {
 
 		prisonerSearchModel = new PrisonerSearchModel();
 		prisonerSearchController = new PrisonerSearchController();
-		prisonerSearchComponent = new PrisonerSearchComponent(prisonerSearchController);
+		prisonerSearchComponent = new PrisonerSearchView(prisonerSearchController);
 
 		visitorSearchModel = new VisitorSearchModel();
 		visitorSearchController = new VisitorSearchController();
-		visitorSearchComponent = new VisitorSearchComponent(visitorSearchController);
+		visitorSearchComponent = new VisitorSearchView(visitorSearchController);
 
 		visitSearchModel = new VisitSearchModel();
 		visitSearchController = new VisitSearchController();
-		visitSearchComponent = new VisitSearchComponent(visitSearchController);
+		visitSearchComponent = new VisitSearchView(visitSearchController);
 
 		AnchorPane root = new AnchorPane();
 		tabs = new TabPane();

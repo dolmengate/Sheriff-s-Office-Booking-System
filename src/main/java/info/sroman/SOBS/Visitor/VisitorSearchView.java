@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import info.sroman.SOBS.IComponent;
 
-public class VisitorSearchComponent implements IComponent {
+public class VisitorSearchView implements IComponent {
 
 	VBox container;
 
@@ -70,7 +70,7 @@ public class VisitorSearchComponent implements IComponent {
 	VisitorSearchModel model;
 	VisitorSearchController controller;
 
-	public VisitorSearchComponent(VisitorSearchController controller) {
+	public VisitorSearchView(VisitorSearchController controller) {
 
 		this.controller = controller;
 
