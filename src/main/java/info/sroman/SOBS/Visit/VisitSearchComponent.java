@@ -1,7 +1,6 @@
 package info.sroman.SOBS.Visit;
 
 import info.sroman.SOBS.Model.Visit;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -11,8 +10,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import info.sroman.SOBS.IComponent;
 
-public class VisitSearchComponent {		// separate controls for Date and Time?
+public class VisitSearchComponent implements IComponent{		// separate controls for Date and Time?
 	// separate search date range controls?
 
 	VBox container;
@@ -144,10 +144,6 @@ public class VisitSearchComponent {		// separate controls for Date and Time?
 
 	}
 
-	public Node getNode() {
-		return container;
-	}
-
 	private void setSearchResultsCols() {
 		TableColumn<Visit, String> visitIdCol = new TableColumn<>("Visit ID");
 		visitIdCol.setCellValueFactory(new PropertyValueFactory("VISIT_ID"));
@@ -176,6 +172,11 @@ public class VisitSearchComponent {		// separate controls for Date and Time?
 		visitSearchResults.getColumns().setAll(visitIdCol, startTimeCol, endTimeCol,
 				notesCol, visitorIdCol, prisonerIdCol);
 
+	}
+	
+	@Override
+	public VBox getPane() {
+		return container;
 	}
 
 }

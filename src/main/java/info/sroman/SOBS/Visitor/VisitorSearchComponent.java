@@ -4,7 +4,6 @@ import info.sroman.SOBS.Model.Visitor;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -17,8 +16,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
+import info.sroman.SOBS.IComponent;
 
-public class VisitorSearchComponent {
+public class VisitorSearchComponent implements IComponent {
 
 	VBox container;
 
@@ -209,10 +209,6 @@ public class VisitorSearchComponent {
 		container.getChildren().addAll(visitorSearchContainer, visitorSearchResults);
 	}
 
-	public Node getNode() {
-		return container;
-	}
-
 	private String stringifyHeightFields() {
 		String feet = visitorHeightFeetField.getText();
 		String inches;
@@ -306,6 +302,10 @@ public class VisitorSearchComponent {
 
 		visitorSearchResults.getColumns().setAll(personIDCol, firstNameCol,
 				lastNameCol, heightCol, weightCol, DOBCol, raceCol, visitorCol, ssnCol);
-
+	}
+	
+	@Override
+	public VBox getPane() {
+		return container;
 	}
 }

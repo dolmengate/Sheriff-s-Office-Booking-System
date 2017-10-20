@@ -19,7 +19,7 @@ public class Database {
 	private static int visitorID = 600;
 	private static int visitID = 900;
 	private static int bunkID = 800;
-
+	
 	public static void genDB() {
 		try {
 

@@ -19,74 +19,72 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
-	
+
 	BorderPane container;
-		
+
 	TabPane tabs;
 	Tab prisonersTab;
 	Tab visitorsTab;
 	Tab visitsTab;
 	Tab courtDatesTab;
-	
+
 	PrisonerSearchComponent prisonerSearchComponent;
 	PrisonerSearchModel prisonerSearchModel;
 	PrisonerSearchController prisonerSearchController;
-	
+
 	VisitorSearchComponent visitorSearchComponent;
 	VisitorSearchModel visitorSearchModel;
 	VisitorSearchController visitorSearchController;
-	
+
 	VisitSearchComponent visitSearchComponent;
 	VisitSearchModel visitSearchModel;
 	VisitSearchController visitSearchController;
 
-    @Override
-    public void start(Stage stage) throws Exception {
+	@Override
+	public void start(Stage stage) throws Exception {
 
 		prisonerSearchModel = new PrisonerSearchModel();
 		prisonerSearchController = new PrisonerSearchController();
 		prisonerSearchComponent = new PrisonerSearchComponent(prisonerSearchController);
-		
+
 		visitorSearchModel = new VisitorSearchModel();
 		visitorSearchController = new VisitorSearchController();
 		visitorSearchComponent = new VisitorSearchComponent(visitorSearchController);
-		
+
 		visitSearchModel = new VisitSearchModel();
 		visitSearchController = new VisitSearchController();
 		visitSearchComponent = new VisitSearchComponent(visitSearchController);
-		
-		
+
 		AnchorPane root = new AnchorPane();
 		tabs = new TabPane();
 		tabs.setMinSize(1280, 720);
-		
+
 		prisonersTab = new Tab("Prisoners");
-		prisonersTab.setContent(prisonerSearchComponent.getNode());
-		
+		prisonersTab.setContent(prisonerSearchComponent.getPane());
+
 		visitorsTab = new Tab("Visitors");
-		visitorsTab.setContent(visitorSearchComponent.getNode());
-		
+		visitorsTab.setContent(visitorSearchComponent.getPane());
+
 		visitsTab = new Tab("Visits");
-		visitsTab.setContent(visitSearchComponent.getNode());
-		
+		visitsTab.setContent(visitSearchComponent.getPane());
+
 		courtDatesTab = new Tab("Court Dates");
-		
+
 		tabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 		tabs.getTabs().addAll(prisonersTab, visitorsTab, visitsTab, courtDatesTab);
-		
-		
+
 		container = new BorderPane();
 		container.setCenter(tabs);
-		
-		root.getChildren().add(container);
-		
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");
-        
-        stage.setTitle("Sheriff's Office Booking System");
-        stage.setScene(scene);
-        stage.show();	
-		
+
+		root.getChildren().addAll(container);
+
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add("/styles/Styles.css");
+
+		stage.setTitle("Sheriff's Office Booking System");
+		stage.setScene(scene);
+		stage.show();
+
 		Database.genDB();
 		
 		for (int i = 0; i < 50; i++) {
@@ -100,17 +98,17 @@ public class MainApp extends Application {
 		for (int i = 0; i < 50; i++) {
 			Database.createVisit();
 		}
-    }
+	}
 
-    /**
-     * The main() method is ignored in correctly deployed JavaFX application.
-     * main() serves only as fallback in case the application can not be
-     * launched through deployment artifacts, e.g., in IDEs with limited FX
-     * support. NetBeans ignores main().
-     *
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
+	/**
+	 * The main() method is ignored in correctly deployed JavaFX application.
+	 * main() serves only as fallback in case the application can not be
+	 * launched through deployment artifacts, e.g., in IDEs with limited FX
+	 * support. NetBeans ignores main().
+	 *
+	 * @param args the command line arguments
+	 */
+	public static void main(String[] args) {
+		launch(args);
+	}
 }
