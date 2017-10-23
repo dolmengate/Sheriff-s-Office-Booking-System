@@ -12,9 +12,9 @@ public abstract class SearchView implements IComponent {
 	protected final TableView searchResults;
 	
 	protected SearchModel model;
-	protected SearchController controller;
+	protected Controller controller;
 	
-	public SearchView(SearchController controller) {
+	public SearchView(Controller controller) {
 		this.controller = controller;
 		this.searchResults = new TableView();
 		

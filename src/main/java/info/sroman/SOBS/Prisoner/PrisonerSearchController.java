@@ -1,6 +1,6 @@
 package info.sroman.SOBS.Prisoner;
 
-import info.sroman.SOBS.SearchController;
+import info.sroman.SOBS.Controller;
 import info.sroman.SOBS.Model.Prisoner;
 import info.sroman.SOBS.SearchModel;
 import java.sql.Connection;
@@ -10,14 +10,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 
-public class PrisonerSearchController extends SearchController {
-		
+public class PrisonerSearchController extends Controller {
+	
 	PrisonerSearchModel model;
 	
 	@Override
-    public SearchModel makeQuery(SearchModel model, ActionEvent event) {
+    public SearchModel makeSelect(SearchModel model) {
 		
         this.model = (PrisonerSearchModel) model;
 		
@@ -91,9 +90,9 @@ public class PrisonerSearchController extends SearchController {
 		// if the statement has multiple WHERE clauses include an "AND" between them
 		for (int i = 0; i < fieldValues.length; i++) {
 			if (stmt.length() == 0)
-				stmt.append(checkFieldForAndStatement(fieldValues[i], columns[i]));
+				stmt.append(checkForAnd(fieldValues[i], columns[i]));
 			else if (!fieldValues[i].equals(""))
-				stmt.append(" AND ").append(checkFieldForAndStatement(fieldValues[i], columns[i]));
+				stmt.append(" AND ").append(checkForAnd(fieldValues[i], columns[i]));
 		}
 		
 		baseStatement.append(stmt);	

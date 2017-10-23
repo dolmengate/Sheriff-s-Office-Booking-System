@@ -1,5 +1,6 @@
 package info.sroman.SOBS.Prisoner;
 
+import info.sroman.SOBS.Controller;
 import info.sroman.SOBS.Model.Prisoner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -7,15 +8,22 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
 import info.sroman.SOBS.PersonSearchView;
+import info.sroman.SOBS.RowContextMenu;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 
 public class PrisonerSearchView extends PersonSearchView implements IComponent {
+	
+	// TODO input validation / formatting restrictions
 
 	PrisonerFieldsComponent prisonerFields;
+	RowContextMenu rowContextMenu;
+	Controller editModalController;
+	Prisoner selectedPrisoner;
 
-	public PrisonerSearchView(PrisonerSearchController controller) {
+	public PrisonerSearchView(PrisonerSearchController controller, Controller editModalController) {
 		super(controller);
-
-		this.controller = controller;
+		this.editModalController = editModalController;
 
 		prisonerFields = new PrisonerFieldsComponent();
 		this.searchInputsContainer = (TilePane) prisonerFields.getPane();
@@ -37,7 +45,7 @@ public class PrisonerSearchView extends PersonSearchView implements IComponent {
 		prisonerFields.getSubmitBtn().setOnAction(e -> {
 			this.searchResults.getItems().clear();
 
-			model = new PrisonerSearchModel(
+			this.model = new PrisonerSearchModel(
 					prisonerFields.getPersonIdField().getText(),
 					prisonerFields.getFirstNameField().getText(),
 					prisonerFields.getLastNameField().getText(),
@@ -53,8 +61,43 @@ public class PrisonerSearchView extends PersonSearchView implements IComponent {
 					getReleaseDatePickerValue(),
 					prisonerFields.getBunkIdField().getText()
 			);
-			PrisonerSearchModel receivedModel = (PrisonerSearchModel) controller.makeQuery(model, e);
+			PrisonerSearchModel receivedModel = (PrisonerSearchModel) controller.makeSelect(model);
 			this.searchResults.getItems().addAll(receivedModel.getResultsList());
+		});
+		
+		// TODO implement delete record
+
+		this.searchResults.setOnContextMenuRequested(e -> {
+			
+			if (rowContextMenu != null) rowContextMenu.hide();
+			
+			selectedPrisoner = (Prisoner) searchResults.getSelectionModel().getSelectedItems().get(0);
+
+			PrisonerEditModal editModal = new PrisonerEditModal(editModalController);
+			VBox editModalContainer = editModal.getPane();
+
+			AnchorPane deleteModalContainer = new AnchorPane();
+			deleteModalContainer.getChildren().addAll(new Label("DELETE R U SURE?"));
+
+			PrisonerFieldsComponent fields = editModal.getPrisonerFields();
+
+			fields.setPersonIdField(Integer.toString(selectedPrisoner.getPERSON_ID()));
+			fields.setFirstNameField(selectedPrisoner.getFirstName());
+			fields.setLastNameField(selectedPrisoner.getLastName());
+			fields.setHeightFeetField(getFeet(Integer.toString(selectedPrisoner.getHEIGHT())));
+			fields.setHeightInchesCombo(getInches(Integer.toString(selectedPrisoner.getHEIGHT())));
+			fields.setWeightField(Integer.toString(selectedPrisoner.getWeight()));
+			fields.setDobPicker(selectedPrisoner.getDOB());
+			fields.setRaceCombo(selectedPrisoner.getRACE());
+			fields.setPrisonerIdField(Integer.toString(selectedPrisoner.getPRISONER_ID()));
+			fields.setArrestDatePicker(selectedPrisoner.getARREST_DATE());
+			fields.setReleaseDatePicker(selectedPrisoner.getReleaseDate());
+			fields.setBunkIdField(Integer.toString(selectedPrisoner.getBunkID()));
+			
+			editModal.createModel();
+			
+			rowContextMenu = new RowContextMenu(editModalContainer, deleteModalContainer);
+			rowContextMenu.show(this.searchResults, e.getX(), e.getY());
 		});
 	}
 
@@ -126,6 +169,14 @@ public class PrisonerSearchView extends PersonSearchView implements IComponent {
 			return "";
 		}
 		return prisonerFields.getReleaseDatePicker().getValue().toString();
+	}
+
+	private String getInches(String height) {
+		return height.substring(1);
+	}
+
+	private String getFeet(String height) {
+		return height.substring(0, 1);
 	}
 
 	@Override

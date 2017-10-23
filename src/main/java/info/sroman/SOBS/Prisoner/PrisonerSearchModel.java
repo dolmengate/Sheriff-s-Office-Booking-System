@@ -1,7 +1,6 @@
 package info.sroman.SOBS.Prisoner;
 
 import info.sroman.SOBS.SearchModel;
-import javafx.collections.ObservableList;
 
 public class PrisonerSearchModel extends SearchModel {
 	

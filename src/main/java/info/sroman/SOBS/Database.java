@@ -22,6 +22,8 @@ public class Database {
 	
 	public static void genDB() {
 		try {
+			
+			// TODO integer length constraints
 
 			Connection conn = DriverManager.getConnection("jdbc:sqlite:./src/main/resources/db/SOBS.db");
 			Statement statement = conn.createStatement();
@@ -73,6 +75,7 @@ public class Database {
 					+ "FOREIGN KEY(person_id) REFERENCES Person(PERSON_ID), "
 					+ "FOREIGN KEY(bunk_id) REFERENCES Bunk(BUNK_ID)"
 					+ ")"
+					// is_released field?
 			);
 
 			// create Visit table

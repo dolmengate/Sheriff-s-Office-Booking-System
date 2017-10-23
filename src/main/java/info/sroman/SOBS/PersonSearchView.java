@@ -9,7 +9,7 @@ import javafx.util.StringConverter;
 
 public abstract class PersonSearchView extends SearchView {
 	
-	public PersonSearchView(SearchController controller) {
+	public PersonSearchView(Controller controller) {
 		super(controller);
 	}
 	

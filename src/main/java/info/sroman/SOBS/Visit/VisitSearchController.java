@@ -1,6 +1,6 @@
 package info.sroman.SOBS.Visit;
 
-import info.sroman.SOBS.SearchController;
+import info.sroman.SOBS.Controller;
 import info.sroman.SOBS.Model.Visit;
 import info.sroman.SOBS.SearchModel;
 import java.sql.Connection;
@@ -12,12 +12,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
-public class VisitSearchController extends SearchController {
+public class VisitSearchController extends Controller {
 	
 	VisitSearchModel model;
 	
 	@Override
-	public SearchModel makeQuery(SearchModel model, ActionEvent event) {
+	public SearchModel makeSelect(SearchModel model) {
 		
         this.model = (VisitSearchModel) model;
 		
@@ -80,9 +80,9 @@ public class VisitSearchController extends SearchController {
 		// if the statement has multiple WHERE clauses include an "AND" between them
 		for (int i = 0; i < fieldValues.length; i++) {
 			if (stmt.length() == 0)
-				stmt.append(checkFieldForAndStatement(fieldValues[i], columns[i]));
+				stmt.append(checkForAnd(fieldValues[i], columns[i]));
 			else if (!fieldValues[i].equals(""))
-				stmt.append(" AND ").append(checkFieldForAndStatement(fieldValues[i], columns[i]));
+				stmt.append(" AND ").append(checkForAnd(fieldValues[i], columns[i]));
 		}
 		
 		baseStatement.append(stmt);	

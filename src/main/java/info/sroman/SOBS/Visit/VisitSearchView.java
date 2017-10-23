@@ -106,7 +106,7 @@ public class VisitSearchView extends SearchView implements IComponent {		// sepa
 					visitVisitorIdField.getText(),
 					visitPrisonerIdField.getText()
 			);
-			VisitSearchModel receivedModel = (VisitSearchModel) controller.makeQuery(model, e);
+			VisitSearchModel receivedModel = (VisitSearchModel) controller.makeSelect(model);
 			this.searchResults.getItems().addAll(receivedModel.getResultsList());
 		});
 

@@ -1,5 +1,6 @@
 package info.sroman.SOBS;
 
+import info.sroman.SOBS.Prisoner.PrisonerEditController;
 import info.sroman.SOBS.Prisoner.PrisonerSearchModel;
 import info.sroman.SOBS.Prisoner.PrisonerSearchView;
 import info.sroman.SOBS.Prisoner.PrisonerSearchController;
@@ -31,6 +32,7 @@ public class MainApp extends Application {
 	PrisonerSearchView prisonerSearchView;
 	PrisonerSearchModel prisonerSearchModel;
 	PrisonerSearchController prisonerSearchController;
+	PrisonerEditController prisonerEditController;
 
 	VisitorSearchView visitorSearchView;
 	VisitorSearchModel visitorSearchModel;
@@ -45,7 +47,8 @@ public class MainApp extends Application {
 
 		prisonerSearchModel = new PrisonerSearchModel();
 		prisonerSearchController = new PrisonerSearchController();
-		prisonerSearchView = new PrisonerSearchView(prisonerSearchController);
+		prisonerEditController = new PrisonerEditController();
+		prisonerSearchView = new PrisonerSearchView(prisonerSearchController, prisonerEditController);
 
 		visitorSearchModel = new VisitorSearchModel();
 		visitorSearchController = new VisitorSearchController();
