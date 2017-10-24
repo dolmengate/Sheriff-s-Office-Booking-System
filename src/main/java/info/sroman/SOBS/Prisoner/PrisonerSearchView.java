@@ -1,6 +1,5 @@
 package info.sroman.SOBS.Prisoner;
 
-import info.sroman.SOBS.Controller;
 import info.sroman.SOBS.Model.Prisoner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -9,6 +8,7 @@ import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
 import info.sroman.SOBS.PersonSearchView;
 import info.sroman.SOBS.RowContextMenu;
+import java.sql.SQLException;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -19,12 +19,12 @@ public class PrisonerSearchView extends PersonSearchView implements IComponent {
 
 	PrisonerFieldsComponent prisonerFields;
 	RowContextMenu rowContextMenu;
-	Controller editModalController;
+	PrisonerEditController editModalController;
 	Prisoner selectedPrisoner;
 
-	public PrisonerSearchView(PrisonerSearchController controller, Controller editModalController) {
+	public PrisonerSearchView(PrisonerSearchController controller, PrisonerEditController editModalController) {
 		super(controller);
-		this.editModalController = editModalController;
+		this.editModalController = (PrisonerEditController) editModalController;
 
 		prisonerFields = new PrisonerFieldsComponent();
 		this.searchInputsContainer = (TilePane) prisonerFields.getPane();
@@ -62,7 +62,7 @@ public class PrisonerSearchView extends PersonSearchView implements IComponent {
 					getReleaseDatePickerValue(),
 					prisonerFields.getBunkIdField().getText()
 			);
-			PrisonerSearchModel receivedModel = (PrisonerSearchModel) controller.makeSelect(model);
+			PrisonerSearchModel receivedModel = (PrisonerSearchModel) controller.makeSelect(this.model);
 			this.searchResults.getItems().addAll(receivedModel.getResultsList());
 		});
 		
@@ -78,21 +78,21 @@ public class PrisonerSearchView extends PersonSearchView implements IComponent {
 			VBox editModalContainer = editModal.getPane();
 
 			VBox deleteModalContainer = new VBox(10);
-			HBox btnBox = new HBox(10);
 			Button deleteBtn = new Button("Delete");
-			Button cancelBtn = new Button("Cancel");
 			Label deleteRecordLabel = new Label("Delete Record?");
+			Label messageLabel = new Label();
 			deleteRecordLabel.setStyle("-fx-font-weight: bold;");
-			btnBox.getChildren().addAll(deleteBtn, cancelBtn);
 			
-			deleteModalContainer.getChildren().addAll(deleteRecordLabel, btnBox);
+			deleteModalContainer.getChildren().addAll(deleteRecordLabel, deleteBtn, messageLabel);
 
 			deleteBtn.setOnAction(deleteEvent -> {
-				
-			});
-			
-			cancelBtn.setOnAction(cancelEvent -> {
-				
+				try {
+					editModalController.makeDelete(selectedPrisoner.getPRISONER_ID());
+					messageLabel.setText("Record Deleted!");
+				} catch (SQLException ex) {
+					System.out.println(ex.getMessage());
+					editModal.getMessageLabel().setText("Deletion Failed!");
+				}
 			});
 			
 			PrisonerFieldsComponent fields = editModal.getPrisonerFields();

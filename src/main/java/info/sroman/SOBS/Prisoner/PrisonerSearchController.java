@@ -23,7 +23,7 @@ public class PrisonerSearchController extends Controller {
 		Connection conn = null;
 		Statement statement = null;
 		ObservableList<Prisoner> prisoners = FXCollections.observableArrayList();
-    
+		
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:sqlite:./src/main/resources/db/SOBS.db"
@@ -35,13 +35,15 @@ public class PrisonerSearchController extends Controller {
 			while (rs.next()) {
 				prisoners.add(new Prisoner(
 						rs.getInt("PERSON_ID"), rs.getString("first_name"), 
-						rs.getString("last_name"), rs.getInt("height"), rs.getInt("weight"), 
-						rs.getString("date_of_birth"), rs.getString("race"), rs.getInt("PRISONER_ID"),
-						rs.getString("arrest_date"), rs.getString("release_date"), rs.getInt("bunk_ID")
+						rs.getString("last_name"), rs.getInt("height"), 
+						rs.getInt("weight"), rs.getString("date_of_birth"), 
+						rs.getString("race"), rs.getInt("PRISONER_ID"),
+						rs.getString("arrest_date"), rs.getString("release_date"), 
+						rs.getInt("bunk_ID"), (rs.getInt("is_released") == 1)
 					)
 				);
 			}
-						
+		
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		} finally {
@@ -101,9 +103,11 @@ public class PrisonerSearchController extends Controller {
 		if (!model.getPersonId().equals(""))
 			baseStatement.insert(baseStatement.indexOf(" PERSON_ID ") + 1, "Person.", 0, 7);
 		
-		String completedStatement = new String(baseStatement);
-		System.out.println(completedStatement);
+		// only return Prisoners not released
+		baseStatement.append(" AND is_released = '0'");
+		
+		System.out.println(baseStatement);
 
-		return completedStatement;
+		return baseStatement.toString();
 	}
 }

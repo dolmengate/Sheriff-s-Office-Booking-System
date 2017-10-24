@@ -2,6 +2,7 @@ package info.sroman.SOBS.Prisoner;
 
 import info.sroman.SOBS.Controller;
 import info.sroman.SOBS.IComponent;
+import java.sql.SQLException;
 import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -15,6 +16,7 @@ public class PrisonerEditModal implements IComponent {
 	PrisonerFieldsComponent prisonerFields = new PrisonerFieldsComponent();
 	PrisonerSearchModel model;
 	PrisonerEditController controller;
+	Label messageLabel;
 
 	public PrisonerEditModal(Controller controller) {
 		this.controller = (PrisonerEditController) controller;
@@ -22,7 +24,7 @@ public class PrisonerEditModal implements IComponent {
 		Label editLabel = new Label("Edit Record");
 		editLabel.setStyle("-fx-font-weight: bold;");
 		
-		Label messageLabel = new Label("");
+		messageLabel = new Label("");
 		messageLabel.setStyle("-fx-font-weight: bold;"
 				+ "-fx-color: darkred;");
 
@@ -42,8 +44,13 @@ public class PrisonerEditModal implements IComponent {
 
 		prisonerFields.getSubmitBtn().setOnAction(e -> {
 			createModel();
-			// TODO have makeUpdate throw exception if update failed, then display error message. otherwise close the modal
-			this.controller.makeUpdate(this.model);
+			
+			try {
+				this.controller.makeUpdate(this.model);
+			} catch (SQLException ex) {
+				messageLabel.setText(ex.getMessage());
+				return;
+			}
 			messageLabel.setText("Update Successful");
 		});
 	}
@@ -66,6 +73,10 @@ public class PrisonerEditModal implements IComponent {
 					getReleaseDatePickerValue(),
 					prisonerFields.getBunkIdField().getText()
 			);
+	}
+	
+	public Label getMessageLabel() {
+		return messageLabel;
 	}
 
 	public PrisonerFieldsComponent getPrisonerFields() {

@@ -11,18 +11,21 @@ public class Prisoner extends Person {
 	private final String ARREST_DATE;
 	private String releaseDate;
 	private int bunkID;
+	private boolean released;
 	
 	/*
 		Constructor
 	*/
 	
 	public Prisoner(int PERSON_ID, String firstName, String lastName, int height,
-			int weight, String dob, String race, int PRISONER_ID, String arrestDate, String releaseDate, int bunkId) {
+			int weight, String dob, String race, int PRISONER_ID, String arrestDate, 
+			String releaseDate, int bunkId, boolean released) {
 		super (PERSON_ID, firstName, lastName, height, weight, dob, race);
 		this.PRISONER_ID = PRISONER_ID;
 		this.ARREST_DATE = arrestDate;
 		this.releaseDate = releaseDate;
 		this.bunkID = bunkId;
+		this.released = released;
 	}
 	
 	/*
@@ -36,6 +39,10 @@ public class Prisoner extends Person {
 	public void setBunkID(int bunkID) {
 		this.bunkID = bunkID;
 	}
+	
+	public void setReleased(boolean released) {
+		this.released = released;
+	} 
 	
 	
 	/*
@@ -56,6 +63,10 @@ public class Prisoner extends Person {
 
 	public int getBunkID() {
 		return bunkID;
+	}
+	
+	public boolean isReleased() {
+		return released;
 	}
 	
 	@Override
@@ -83,13 +94,14 @@ public class Prisoner extends Person {
 			conn.commit();
 			
 			stmt = conn.prepareStatement(
-					"INSERT INTO Prisoner VALUES (?, ?, ?, ?, ?)"
+					"INSERT INTO Prisoner VALUES (?, ?, ?, ?, ?, ?)"
 			);
 			stmt.setInt(1, getPRISONER_ID());
 			stmt.setString(2, getARREST_DATE());
 			stmt.setString(3, getReleaseDate());
 			stmt.setInt(4, getPERSON_ID());
 			stmt.setInt(5, getBunkID());
+			stmt.setInt(6, (isReleased()) ? 1 : 0 );
 			stmt.executeUpdate();
 			conn.commit();
 			
@@ -117,6 +129,7 @@ public class Prisoner extends Person {
 				+ ", PRISONER_ID: " + getPRISONER_ID()
 				+ ", ARREST_DATE: " + getARREST_DATE()
 				+ ", releaseDate: " + getReleaseDate()
-				+ ", Bunk ID: " + getBunkID();
+				+ ", Bunk ID: " + getBunkID()
+				+ ", Released?: " + isReleased();
 	}
 }

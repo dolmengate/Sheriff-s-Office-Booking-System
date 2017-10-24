@@ -1,7 +1,5 @@
 package info.sroman.SOBS;
 
-import javafx.event.ActionEvent;
-
 public abstract class Controller {
 	
 	public abstract SearchModel makeSelect(SearchModel model);
@@ -16,6 +14,4 @@ public abstract class Controller {
 			return new String(fieldWhere.append(colName).append(" = '").append(fieldText).append("'"));
 		return "";
 	}
-	
-//	public String 
 }

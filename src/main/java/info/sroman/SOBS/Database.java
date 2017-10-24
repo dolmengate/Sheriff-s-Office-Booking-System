@@ -72,10 +72,10 @@ public class Database {
 					+ "release_date STRING CONSTRAINT Prisoner_release_date_gt_arrest_date_CK CHECK (release_date > arrest_date), "
 					+ "person_id INTEGER CONSTRAINT Prisoner_person_id_NN NOT NULL, "
 					+ "bunk_id INTEGER CONSTRAINT Prisoner_bunk_id_NN NOT NULL, "
+					+ "is_released INTEGER CONSTRAINT Prisoner_is_released_NN NOT NULL CONSTRAINT Prisoner_is_released_0_1_CK CHECK (is_released = '0' OR is_released = '1'), "
 					+ "FOREIGN KEY(person_id) REFERENCES Person(PERSON_ID), "
 					+ "FOREIGN KEY(bunk_id) REFERENCES Bunk(BUNK_ID)"
 					+ ")"
-					// is_released field?
 			);
 
 			// create Visit table
@@ -121,7 +121,7 @@ public class Database {
 	public static void createPrisoner() {
 		Prisoner p = new Prisoner(assignPersonID(), randomFirstName(), randomLastName(),
 				randomHeight(), randomWeight(), randomDOB(), randomRace(), assignPrisonerID(),
-				randomDateString(), randomDateString(), assignBunkID());
+				randomDateString(), randomDateString(), assignBunkID(), false);
 		p.createDBEntry();
 		System.out.println("Prisoner created:\n" + p.toString());
 	}

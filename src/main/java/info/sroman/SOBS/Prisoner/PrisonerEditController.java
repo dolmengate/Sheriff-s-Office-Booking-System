@@ -45,8 +45,33 @@ public class PrisonerEditController extends Controller {
 		}
 	}
 	
-	public void makeDelete() {
-		
+	public void makeDelete(int prisonerId) throws SQLException {
+		Connection conn = null;
+		Statement statement = null;
+
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:sqlite:./src/main/resources/db/SOBS.db"
+			);
+
+			statement = conn.createStatement();
+			statement.setQueryTimeout(10);
+			statement.executeUpdate(
+					"UPDATE Prisoner SET is_released = 1 WHERE PRISONER_ID = '" + prisonerId + "'"
+			);
+
+		} catch (SQLException ex) {
+			System.err.println(ex.getMessage());
+			throw ex;
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException ex) {
+				System.err.println(ex);
+			}
+		}
 	}
 	
 	@Override 
