@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javafx.event.ActionEvent;
 
 public class PrisonerEditController extends Controller {
 
@@ -14,7 +13,7 @@ public class PrisonerEditController extends Controller {
 	
 	// TODO if either update statement fails, cancel both 
 
-	public void makeUpdate(SearchModel model) {
+	public void makeUpdate(SearchModel model) throws SQLException {
 
 		this.model = (PrisonerSearchModel) model;
 
@@ -33,6 +32,8 @@ public class PrisonerEditController extends Controller {
 
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
+			statement.cancel();
+			throw ex;
 		} finally {
 			try {
 				if (conn != null) {
@@ -42,6 +43,10 @@ public class PrisonerEditController extends Controller {
 				System.err.println(ex);
 			}
 		}
+	}
+	
+	public void makeDelete() {
+		
 	}
 	
 	@Override 
