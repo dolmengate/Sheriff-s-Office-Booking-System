@@ -9,8 +9,9 @@ import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
 import info.sroman.SOBS.PersonSearchView;
 import info.sroman.SOBS.RowContextMenu;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 
 public class PrisonerSearchView extends PersonSearchView implements IComponent {
 	
@@ -76,9 +77,24 @@ public class PrisonerSearchView extends PersonSearchView implements IComponent {
 			PrisonerEditModal editModal = new PrisonerEditModal(editModalController);
 			VBox editModalContainer = editModal.getPane();
 
-			AnchorPane deleteModalContainer = new AnchorPane();
-			deleteModalContainer.getChildren().addAll(new Label("DELETE R U SURE?"));
+			VBox deleteModalContainer = new VBox(10);
+			HBox btnBox = new HBox(10);
+			Button deleteBtn = new Button("Delete");
+			Button cancelBtn = new Button("Cancel");
+			Label deleteRecordLabel = new Label("Delete Record?");
+			deleteRecordLabel.setStyle("-fx-font-weight: bold;");
+			btnBox.getChildren().addAll(deleteBtn, cancelBtn);
+			
+			deleteModalContainer.getChildren().addAll(deleteRecordLabel, btnBox);
 
+			deleteBtn.setOnAction(deleteEvent -> {
+				
+			});
+			
+			cancelBtn.setOnAction(cancelEvent -> {
+				
+			});
+			
 			PrisonerFieldsComponent fields = editModal.getPrisonerFields();
 
 			fields.setPersonIdField(Integer.toString(selectedPrisoner.getPERSON_ID()));
