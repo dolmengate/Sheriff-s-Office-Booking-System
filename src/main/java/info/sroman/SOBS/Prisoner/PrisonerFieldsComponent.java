@@ -14,9 +14,9 @@ import javafx.util.StringConverter;
 import info.sroman.SOBS.IComponent;
 
 public class PrisonerFieldsComponent implements IComponent {
-	
+
 	TilePane container = new TilePane();
-	
+
 	HBox personIdBox;
 	Label personIdLabel;
 	TextField personIdField;
@@ -62,14 +62,16 @@ public class PrisonerFieldsComponent implements IComponent {
 	Label bunkIdLabel;
 	TextField bunkIdField;
 
-	public HBox submitResetBox;
+	HBox submitResetBox;
 	Button submitBtn;
 	Button resetBtn;
-	
+
+	Label messageLabel;
+
 	public PrisonerFieldsComponent() {
-		
+
 		container.setPrefColumns(4);
-		
+
 		// create controls
 		personIdBox = new HBox();
 		personIdLabel = new Label("Person ID");
@@ -119,7 +121,9 @@ public class PrisonerFieldsComponent implements IComponent {
 		submitResetBox = new HBox(20);
 		submitBtn = new Button("Submit");
 		resetBtn = new Button("Reset");
-		
+
+		messageLabel = new Label();
+
 		// group controls
 		personIdBox.getChildren().addAll(personIdLabel, personIdField);
 		firstNameBox.getChildren().addAll(firstNameLabel, firstNameField);
@@ -133,13 +137,13 @@ public class PrisonerFieldsComponent implements IComponent {
 		releaseDateBox.getChildren().addAll(releaseDateLabel, releaseDatePicker);
 		bunkIdBox.getChildren().addAll(bunkIdLabel, bunkIdField);
 		submitResetBox.getChildren().addAll(submitBtn, resetBtn);
-		
+
 		// add controls to container
 		container.getChildren().addAll(personIdBox, firstNameBox,
 				lastNameBox, heightBox, weightBox, dobBox,
 				raceBox, prisonerIdBox, arrestDateBox,
-				releaseDateBox, bunkIdBox, submitResetBox);
-				
+				releaseDateBox, bunkIdBox, submitResetBox, messageLabel);
+
 		// Configure controls
 		heightFeetField.setPrefWidth(50);
 		heightInchesCombo.setItems(
@@ -152,12 +156,37 @@ public class PrisonerFieldsComponent implements IComponent {
 
 		raceCombo.setItems(
 				FXCollections.observableArrayList(
-						"Black", "White", "Hispanic"
+						"Black", "Hispanic", "White"
 				)
 		);
 		raceCombo.setMinSize(10, raceBox.getWidth());
-
 		
+		styleControls();
+
+//		bunkIdField.setOnKeyReleased(e -> {
+//			if (bunkIdField.isFocused()) {
+//				System.out.println(e.getCode());
+//				switch (e.getCode()) {
+//					case DIGIT0:
+//					case DIGIT1:
+//					case DIGIT2:
+//					case DIGIT3:
+//					case DIGIT4:
+//					case DIGIT5:
+//					case DIGIT6:
+//					case DIGIT7:
+//					case DIGIT8:
+//					case DIGIT9:
+//					case BACK_SPACE:
+//						break;
+//					default:
+//						messageLabel.setText("Invalid Input");
+//						bunkIdField.setText("");
+//						break;
+//				}
+//			}
+//		});
+
 		dobPicker.setMinHeight(12);
 		dobPicker.setMaxWidth(170);
 		dobPicker.setShowWeekNumbers(true);
@@ -167,12 +196,12 @@ public class PrisonerFieldsComponent implements IComponent {
 		arrestDatePicker.setMaxWidth(170);
 		arrestDatePicker.setShowWeekNumbers(true);
 		configPrisonerArrestDatePickerDateFormat();
-		
+
 		releaseDatePicker.setMinHeight(12);
 		releaseDatePicker.setMaxWidth(170);
 		releaseDatePicker.setShowWeekNumbers(true);
 		configPrisonerReleaseDatePickerDateFormat();
-		
+
 		resetBtn.setOnAction(e -> {
 			personIdField.setText("");
 			firstNameField.setText("");
@@ -188,9 +217,9 @@ public class PrisonerFieldsComponent implements IComponent {
 			bunkIdField.setText("");
 		});
 	}
-	
+
 	public void styleControls() {
-		
+
 		// style controls
 		personIdBox.getStyleClass().add("search-control-group");
 		firstNameBox.getStyleClass().add("search-control-group");
@@ -203,27 +232,27 @@ public class PrisonerFieldsComponent implements IComponent {
 		arrestDateBox.getStyleClass().add("search-control-group");
 		releaseDateBox.getStyleClass().add("search-control-group");
 		bunkIdBox.getStyleClass().add("search-control-group");
-		
+
 		submitResetBox.getStyleClass().add("search-control-group");
 	}
-	
+
 	private void configDOBPickerDateFormat() {
 		dobPicker.setConverter(createStringConverter());
 	}
-	
+
 	private void configPrisonerArrestDatePickerDateFormat() {
 		arrestDatePicker.setConverter(createStringConverter());
 	}
-	
+
 	private void configPrisonerReleaseDatePickerDateFormat() {
 		releaseDatePicker.setConverter(createStringConverter());
 	}
-	
+
 	private StringConverter createStringConverter() {
 		return new StringConverter<LocalDate>() {
 			String pattern = "yyyy-MM-dd";
 			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-			
+
 			@Override
 			public String toString(LocalDate date) {
 				if (date != null) {
@@ -291,7 +320,7 @@ public class PrisonerFieldsComponent implements IComponent {
 	public TextField getBunkIdField() {
 		return bunkIdField;
 	}
-	
+
 	public Button getSubmitBtn() {
 		return submitBtn;
 	}
@@ -343,7 +372,7 @@ public class PrisonerFieldsComponent implements IComponent {
 	public void setBunkIdField(String bunkId) {
 		this.bunkIdField.setText(bunkId);
 	}
-	
+
 	private LocalDate convertStringToLocalDate(String string) {
 		int year = Integer.valueOf(string.substring(0, 4));
 		int month = Integer.valueOf(string.substring(5, 7));
@@ -351,7 +380,7 @@ public class PrisonerFieldsComponent implements IComponent {
 		LocalDate ld = LocalDate.of(year, month, day);
 		return ld;
 	}
-	
+
 	@Override
 	public TilePane getPane() {
 		return container;
