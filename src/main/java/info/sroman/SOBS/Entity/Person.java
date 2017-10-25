@@ -1,4 +1,4 @@
-package info.sroman.SOBS.Model;
+package info.sroman.SOBS.Entity;
 
 public abstract class Person {
 	

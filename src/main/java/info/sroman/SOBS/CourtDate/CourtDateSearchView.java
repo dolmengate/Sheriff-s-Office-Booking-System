@@ -3,7 +3,7 @@ package info.sroman.SOBS.CourtDate;
 import info.sroman.SOBS.Controller;
 import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
-import info.sroman.SOBS.Model.CourtDate;
+import info.sroman.SOBS.Entity.CourtDate;
 import info.sroman.SOBS.SearchView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;

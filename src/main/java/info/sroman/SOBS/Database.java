@@ -1,9 +1,9 @@
 package info.sroman.SOBS;
 
-import info.sroman.SOBS.Model.CourtDate;
-import info.sroman.SOBS.Model.Prisoner;
-import info.sroman.SOBS.Model.Visit;
-import info.sroman.SOBS.Model.Visitor;
+import info.sroman.SOBS.Entity.CourtDate;
+import info.sroman.SOBS.Entity.Prisoner;
+import info.sroman.SOBS.Entity.Visit;
+import info.sroman.SOBS.Entity.Visitor;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

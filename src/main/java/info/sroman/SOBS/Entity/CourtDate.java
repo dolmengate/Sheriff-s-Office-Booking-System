@@ -1,4 +1,4 @@
-package info.sroman.SOBS.Model;
+package info.sroman.SOBS.Entity;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
