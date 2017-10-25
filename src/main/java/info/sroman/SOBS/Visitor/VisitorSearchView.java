@@ -12,9 +12,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
-import info.sroman.SOBS.PersonSearchView;
+import info.sroman.SOBS.SearchView;
 
-public class VisitorSearchView extends PersonSearchView implements IComponent {
+public class VisitorSearchView extends SearchView implements IComponent {
 
 	HBox visitorPersonIdBox;
 	Label visitorPersonIdLabel;
@@ -147,7 +147,7 @@ public class VisitorSearchView extends PersonSearchView implements IComponent {
 		visitorDOBPicker.setMinHeight(12);
 		visitorDOBPicker.setMaxWidth(170);
 		visitorDOBPicker.setShowWeekNumbers(true);
-		configDOBPickerDateFormat(visitorDOBPicker);
+		configPickerDateFormat(visitorDOBPicker);
 		
 		visitorSubmitBtn.setOnAction(e -> {
 			this.searchResults.getItems().clear();
@@ -158,8 +158,8 @@ public class VisitorSearchView extends PersonSearchView implements IComponent {
 					visitorLastNameField.getText(),
 					stringifyHeightFields(visitorHeightFeetField, visitorHeightInchesCombo),
 					visitorWeightField.getText(),
-					getDOBPickerValue(visitorDOBPicker),
-					getRaceComboValue(visitorRaceCombo), 
+					getPickerValueString(visitorDOBPicker),
+					getComboValueString(visitorRaceCombo), 
 					visitorVisitorIdField.getText(),
 					visitorSSNField.getText()
 			);
@@ -195,8 +195,6 @@ public class VisitorSearchView extends PersonSearchView implements IComponent {
 		this.searchInputsContainer.getChildren().addAll(visitorPersonIdBox, visitorFirstNameBox,
 				visitorLastNameBox, visitorrHeightBox, visitorWeightBox, visitorDOBBox,
 				visitorRaceBox, visitorSSNBox, visitorVisitorIdBox, visitorSubmitResetBox);
-
-		this.container.getChildren().addAll(this.searchInputsContainer, this.searchResults);
 	}
 	
 	@Override

@@ -4,7 +4,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
-public abstract class SearchView implements IComponent {
+public abstract class SearchView extends InputView implements IComponent {
 	
 	protected VBox container;
 	
@@ -22,6 +22,8 @@ public abstract class SearchView implements IComponent {
 		
 		searchInputsContainer = new TilePane();
 		searchInputsContainer.setPrefColumns(4);
+		
+		container.getChildren().addAll(searchInputsContainer, searchResults);
 	}
 	
 	public abstract void styleControls();

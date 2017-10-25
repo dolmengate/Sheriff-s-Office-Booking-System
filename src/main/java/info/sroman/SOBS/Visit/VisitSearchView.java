@@ -133,9 +133,6 @@ public class VisitSearchView extends SearchView implements IComponent {		// sepa
 		this.searchInputsContainer.getChildren().addAll(visitVisitIdBox, visitStartTimeBox,
 				visitEndTimeBox, visitNotesBox, visitVisitorIdBox, visitPrisonerIdBox,
 				visitSubmitResetBox);
-
-		container.getChildren().addAll(this.searchInputsContainer, this.searchResults);
-
 	}
 
 	@Override

@@ -2,16 +2,14 @@ package info.sroman.SOBS;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
-public abstract class PersonSearchView extends SearchView {
-	
-	public PersonSearchView(Controller controller) {
-		super(controller);
-	}
+public abstract class InputView {
 	
 	protected String stringifyHeightFields(
 			TextField personHeightFeetField, ComboBox personHeightInchesCombo) {
@@ -24,30 +22,31 @@ public abstract class PersonSearchView extends SearchView {
 		}
 		return feet.concat(inches);
 	}
-
-	protected String getRaceComboValue(ComboBox personRaceCombo) {
-		if (personRaceCombo.getValue() == null) {
+	
+	protected String getComboValueString (ComboBox combo) {
+		if (combo.getValue() == null) {
 			return "";
 		}
-		return personRaceCombo.getValue().toString();
-	}
-
-	protected String getDOBPickerValue(DatePicker personDOBPicker) {
-		if (personDOBPicker.getValue() == null) {
-			return "";
-		}
-		return personDOBPicker.getValue().toString();
+		return combo.getValue().toString();
 	}
 	
-	protected void configDOBPickerDateFormat(DatePicker personDOBPicker) {
-		personDOBPicker.setConverter(createStringConverter());
+	protected void addComboBoxOptions(ComboBox combo, String... option) {
+		combo.setItems(
+				FXCollections.observableArrayList(
+						Arrays.asList(option)
+				)
+		);
+	}
+	
+	protected void configPickerDateFormat(DatePicker picker) {
+		picker.setConverter(createStringConverter());
 	}
 	
 	private StringConverter createStringConverter() {
 		return new StringConverter<LocalDate>() {
 			String pattern = "yyyy-MM-dd";
 			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-			
+
 			@Override
 			public String toString(LocalDate date) {
 				if (date != null) {
@@ -66,5 +65,13 @@ public abstract class PersonSearchView extends SearchView {
 				}
 			}
 		};
+	}
+	
+	protected String getPickerValueString(DatePicker picker) {
+		if (picker.getValue() == null) {
+			return "";
+		}
+		return picker.getValue().toString();
+
 	}
 }

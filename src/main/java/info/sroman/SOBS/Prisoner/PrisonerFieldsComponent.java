@@ -1,8 +1,6 @@
 package info.sroman.SOBS.Prisoner;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -10,10 +8,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
-import javafx.util.StringConverter;
 import info.sroman.SOBS.IComponent;
+import info.sroman.SOBS.InputView;
 
-public class PrisonerFieldsComponent implements IComponent {
+public class PrisonerFieldsComponent extends InputView implements IComponent {
 
 	TilePane container = new TilePane();
 
@@ -146,61 +144,49 @@ public class PrisonerFieldsComponent implements IComponent {
 
 		// Configure controls
 		heightFeetField.setPrefWidth(50);
-		heightInchesCombo.setItems(
-				FXCollections.observableArrayList(
-						"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"
-				)
-		);
+		addComboBoxOptions(heightInchesCombo, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11");
 		heightInchesCombo.setMinSize(10, heightBox.getWidth() * 0.25);
 		heightFeetField.setMinWidth(heightBox.getWidth() * 0.75);
-
-		raceCombo.setItems(
-				FXCollections.observableArrayList(
-						"Black", "Hispanic", "White"
-				)
-		);
+		addComboBoxOptions(raceCombo, "Black", "Hispanic", "White");
 		raceCombo.setMinSize(10, raceBox.getWidth());
 		
 		styleControls();
 
-//		bunkIdField.setOnKeyReleased(e -> {
-//			if (bunkIdField.isFocused()) {
-//				System.out.println(e.getCode());
-//				switch (e.getCode()) {
-//					case DIGIT0:
-//					case DIGIT1:
-//					case DIGIT2:
-//					case DIGIT3:
-//					case DIGIT4:
-//					case DIGIT5:
-//					case DIGIT6:
-//					case DIGIT7:
-//					case DIGIT8:
-//					case DIGIT9:
-//					case BACK_SPACE:
-//						break;
-//					default:
-//						messageLabel.setText("Invalid Input");
-//						bunkIdField.setText("");
-//						break;
-//				}
-//			}
-//		});
+		bunkIdField.setOnKeyReleased(e -> {
+			if (bunkIdField.isFocused()) {
+				System.out.println(e.getCode());
+				switch (e.getCode()) {
+					case DIGIT0:
+					case DIGIT1:
+					case DIGIT2:
+					case DIGIT3:
+					case DIGIT4:
+					case DIGIT5:
+					case DIGIT6:
+					case DIGIT7:
+					case DIGIT8:
+					case DIGIT9:
+					case BACK_SPACE:
+						break;
+					default:
+						messageLabel.setText("Invalid Input");
+						bunkIdField.setText("");
+						break;
+				}
+			}
+		});
 
 		dobPicker.setMinHeight(12);
 		dobPicker.setMaxWidth(170);
-		dobPicker.setShowWeekNumbers(true);
-		configDOBPickerDateFormat();
+		configPickerDateFormat(dobPicker);
 
 		arrestDatePicker.setMinHeight(12);
 		arrestDatePicker.setMaxWidth(170);
-		arrestDatePicker.setShowWeekNumbers(true);
-		configPrisonerArrestDatePickerDateFormat();
+		configPickerDateFormat(arrestDatePicker);
 
 		releaseDatePicker.setMinHeight(12);
 		releaseDatePicker.setMaxWidth(170);
-		releaseDatePicker.setShowWeekNumbers(true);
-		configPrisonerReleaseDatePickerDateFormat();
+		configPickerDateFormat(releaseDatePicker);
 
 		resetBtn.setOnAction(e -> {
 			personIdField.setText("");
@@ -234,43 +220,6 @@ public class PrisonerFieldsComponent implements IComponent {
 		bunkIdBox.getStyleClass().add("search-control-group");
 
 		submitResetBox.getStyleClass().add("search-control-group");
-	}
-
-	private void configDOBPickerDateFormat() {
-		dobPicker.setConverter(createStringConverter());
-	}
-
-	private void configPrisonerArrestDatePickerDateFormat() {
-		arrestDatePicker.setConverter(createStringConverter());
-	}
-
-	private void configPrisonerReleaseDatePickerDateFormat() {
-		releaseDatePicker.setConverter(createStringConverter());
-	}
-
-	private StringConverter createStringConverter() {
-		return new StringConverter<LocalDate>() {
-			String pattern = "yyyy-MM-dd";
-			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-
-			@Override
-			public String toString(LocalDate date) {
-				if (date != null) {
-					return dateFormatter.format(date);
-				} else {
-					return "";
-				}
-			}
-
-			@Override
-			public LocalDate fromString(String string) {
-				if (string != null && !string.isEmpty()) {
-					return LocalDate.parse(string, dateFormatter);
-				} else {
-					return null;
-				}
-			}
-		};
 	}
 
 	public TextField getPersonIdField() {

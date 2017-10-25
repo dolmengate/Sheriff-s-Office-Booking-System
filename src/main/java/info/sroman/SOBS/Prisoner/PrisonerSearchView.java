@@ -6,14 +6,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
-import info.sroman.SOBS.PersonSearchView;
 import info.sroman.SOBS.RowContextMenu;
+import info.sroman.SOBS.SearchView;
 import java.sql.SQLException;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 
-public class PrisonerSearchView extends PersonSearchView implements IComponent {
+public class PrisonerSearchView extends SearchView implements IComponent {
 	
 	// TODO input validation / formatting restrictions
 
@@ -27,11 +26,10 @@ public class PrisonerSearchView extends PersonSearchView implements IComponent {
 		this.editModalController = (PrisonerEditController) editModalController;
 
 		prisonerFields = new PrisonerFieldsComponent();
-		this.searchInputsContainer = (TilePane) prisonerFields.getPane();
 
+		addControlsToContainers();
 		styleControls();
 		configureControls();
-		addControlsToContainers();
 		setSearchResultsCols();
 	}
 
@@ -55,11 +53,11 @@ public class PrisonerSearchView extends PersonSearchView implements IComponent {
 							prisonerFields.getHeightInchesCombo()
 					),
 					prisonerFields.getWeightField().getText(),
-					getDOBPickerValue(prisonerFields.getDOBPicker()),
-					getRaceComboValue(prisonerFields.getRaceCombo()),
+					getPickerValueString(prisonerFields.getDOBPicker()),
+					getComboValueString(prisonerFields.getRaceCombo()),
 					prisonerFields.getPrisonerIdField().getText(),
-					getArrestDatePickerValue(),
-					getReleaseDatePickerValue(),
+					getPickerValueString(prisonerFields.getArrestDatePicker()),
+					getPickerValueString(prisonerFields.getReleaseDatePicker()),
 					prisonerFields.getBunkIdField().getText()
 			);
 			PrisonerSearchModel receivedModel = (PrisonerSearchModel) controller.makeSelect(this.model);
@@ -119,7 +117,8 @@ public class PrisonerSearchView extends PersonSearchView implements IComponent {
 
 	@Override
 	public void addControlsToContainers() {
-		this.container.getChildren().addAll(this.searchInputsContainer, this.searchResults);
+		this.searchInputsContainer = (TilePane) prisonerFields.getPane();
+		this.container.getChildren().setAll(this.searchInputsContainer, this.searchResults);
 	}
 
 	@Override
@@ -171,20 +170,6 @@ public class PrisonerSearchView extends PersonSearchView implements IComponent {
 		this.searchResults.getColumns().setAll(personIDCol, firstNameCol,
 				lastNameCol, heightCol, weightCol, DOBCol, raceCol, prisonerIDCol,
 				bunkIDCol, arrestDateCol, releaseDateCol);
-	}
-
-	private String getArrestDatePickerValue() {
-		if (prisonerFields.getArrestDatePicker().getValue() == null) {
-			return "";
-		}
-		return prisonerFields.getArrestDatePicker().getValue().toString();
-	}
-
-	private String getReleaseDatePickerValue() {
-		if (prisonerFields.getReleaseDatePicker().getValue() == null) {
-			return "";
-		}
-		return prisonerFields.getReleaseDatePicker().getValue().toString();
 	}
 
 	private String getInches(String height) {
