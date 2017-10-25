@@ -100,6 +100,8 @@ public class CourtDateSearchView extends SearchView implements IComponent {
 		
 		addComboBoxOptions(verdictCombo, "Pending", "Guilty", "Not Guilty");
 		
+		verdictCombo.setMinSize(10, verdictBox.getWidth());
+		
 	}
 	
 	
@@ -119,16 +121,19 @@ public class CourtDateSearchView extends SearchView implements IComponent {
 		
 		TableColumn<CourtDate, String> courtDateIdCol = new TableColumn<>("Court Date ID");
 		courtDateIdCol.setCellValueFactory(new PropertyValueFactory("COURT_DATE_ID"));
+		courtDateIdCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.2));
 
 		TableColumn<CourtDate, String> dateCol = new TableColumn<>("Date");
 		dateCol.setCellValueFactory(new PropertyValueFactory("date"));
+		dateCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.2));
 
 		TableColumn<CourtDate, String> verdictCol = new TableColumn<>("Verdict");
 		verdictCol.setCellValueFactory(new PropertyValueFactory("verdict"));
-
+		verdictCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.2));
+		
 		TableColumn<CourtDate, Integer> prisonerIdCol = new TableColumn<>("Prisoner ID");
 		prisonerIdCol.setCellValueFactory(new PropertyValueFactory("prisonerID"));
-//		heightCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.09));
+		prisonerIdCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.2));
 
 		this.searchResults.getColumns().setAll(courtDateIdCol, dateCol,
 				verdictCol, prisonerIdCol);

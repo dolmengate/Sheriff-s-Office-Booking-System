@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
 import info.sroman.SOBS.SearchView;
+import javafx.scene.control.DatePicker;
 
 public class VisitSearchView extends SearchView implements IComponent {		// separate controls for Date and Time?
 	// separate search date range controls?
@@ -20,11 +21,11 @@ public class VisitSearchView extends SearchView implements IComponent {		// sepa
 
 	HBox visitStartTimeBox;				// delete?
 	Label visitStartTimeLabel;
-	TextField visitStartTimeField;
+	DatePicker visitStartTimePicker;
 
 	HBox visitEndTimeBox;				// delete?
 	Label visitEndTimeLabel;
-	TextField visitEndTimeField;
+	DatePicker visitEndTimePicker;
 
 	HBox visitNotesBox;
 	Label visitNotesLabel;
@@ -51,11 +52,11 @@ public class VisitSearchView extends SearchView implements IComponent {		// sepa
 
 		visitStartTimeBox = new HBox();
 		visitStartTimeLabel = new Label("Start Time");
-		visitStartTimeField = new TextField();		// datepicker?
+		visitStartTimePicker = new DatePicker();
 
 		visitEndTimeBox = new HBox();
 		visitEndTimeLabel = new Label("End Time");
-		visitEndTimeField = new TextField();		// datepicker?
+		visitEndTimePicker = new DatePicker();
 
 		visitNotesBox = new HBox();
 		visitNotesLabel = new Label("Notes");
@@ -98,33 +99,41 @@ public class VisitSearchView extends SearchView implements IComponent {		// sepa
 		visitSubmitBtn.setOnAction(e -> {
 			this.searchResults.getItems().clear();
 
-			model = new VisitSearchModel(
+			this.model = new VisitSearchModel(
 					visitVisitIdField.getText(),
-					visitStartTimeField.getText(),
-					visitEndTimeField.getText(),
+					getPickerValueString(visitStartTimePicker),
+					getPickerValueString(visitEndTimePicker),
 					visitNotesField.getText(),
 					visitVisitorIdField.getText(),
 					visitPrisonerIdField.getText()
 			);
-			VisitSearchModel receivedModel = (VisitSearchModel) controller.makeSelect(model);
+			VisitSearchModel receivedModel = (VisitSearchModel) this.controller.makeSelect(this.model);
 			this.searchResults.getItems().addAll(receivedModel.getResultsList());
 		});
 
 		visitResetBtn.setOnAction(e -> {
 			visitVisitIdField.setText("");
-			visitStartTimeField.setText("");
-			visitEndTimeField.setText("");
+			visitStartTimePicker.setValue(null);
+			visitEndTimePicker.setValue(null);
 			visitNotesField.setText("");
 			visitVisitorIdField.setText("");
 			visitPrisonerIdField.setText("");
 		});
+
+		configPickerDateFormat(visitStartTimePicker);
+		configPickerDateFormat(visitEndTimePicker);
+		visitStartTimePicker.setMinHeight(12);
+		visitStartTimePicker.setMaxWidth(170);
+		visitEndTimePicker.setMinHeight(12);
+		visitEndTimePicker.setMaxWidth(170);
+
 	}
 
 	@Override
 	public void addControlsToContainers() {
 		visitVisitIdBox.getChildren().addAll(visitVisitIdLabel, visitVisitIdField);
-		visitStartTimeBox.getChildren().addAll(visitStartTimeLabel, visitStartTimeField);
-		visitEndTimeBox.getChildren().addAll(visitEndTimeLabel, visitEndTimeField);
+		visitStartTimeBox.getChildren().addAll(visitStartTimeLabel, visitStartTimePicker);
+		visitEndTimeBox.getChildren().addAll(visitEndTimeLabel, visitEndTimePicker);
 		visitNotesBox.getChildren().addAll(visitNotesLabel, visitNotesField);
 		visitVisitorIdBox.getChildren().addAll(visitVisitorIdLabel, visitVisitorIdField);
 		visitPrisonerIdBox.getChildren().addAll(visitPrisonerIdLabel, visitPrisonerIdField);
