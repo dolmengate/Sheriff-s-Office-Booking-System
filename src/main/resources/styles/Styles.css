@@ -5,7 +5,6 @@ Button {
 
 Label {
     -fx-padding: 5;
-    -fx-alignment: center-right;
 }
 
 StackPane {

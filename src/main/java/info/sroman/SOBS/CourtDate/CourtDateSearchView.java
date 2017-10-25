@@ -84,7 +84,14 @@ public class CourtDateSearchView extends SearchView implements IComponent {
 		submitBtn.setOnAction( e -> {
 			this.searchResults.getItems().clear();					
 			
-			
+			this.model = new CourtDateSearchModel(
+					courtDateIdField.getText(),
+					getPickerValueString(datePicker),
+					getComboValueString(verdictCombo),
+					prisonerIdField.getText()
+			);
+			CourtDateSearchModel receivedModel = (CourtDateSearchModel) this.controller.makeSelect(this.model);
+			this.searchResults.getItems().addAll(receivedModel.getResultsList());
 		});
 		
 		resetBtn.setOnAction( e-> {
@@ -132,7 +139,7 @@ public class CourtDateSearchView extends SearchView implements IComponent {
 		verdictCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.2));
 		
 		TableColumn<CourtDate, Integer> prisonerIdCol = new TableColumn<>("Prisoner ID");
-		prisonerIdCol.setCellValueFactory(new PropertyValueFactory("prisonerID"));
+		prisonerIdCol.setCellValueFactory(new PropertyValueFactory("PRISONER_ID"));
 		prisonerIdCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.2));
 
 		this.searchResults.getColumns().setAll(courtDateIdCol, dateCol,

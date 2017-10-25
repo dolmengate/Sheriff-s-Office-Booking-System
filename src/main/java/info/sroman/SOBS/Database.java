@@ -111,7 +111,7 @@ public class Database {
 					"CREATE TABLE Court_Date ("
 					+ "COURT_DATE_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
 					+ "date STRING CONSTRAINT Court_Date_date_NN NOT NULL,  "	
-					+ "verdict STRING CONSTRAINT Court_Date_verdict_g_ng_CK CHECK (verdict = 'guilty' OR verdict = 'not guilty' OR verdict = 'pending'), "
+					+ "verdict STRING CONSTRAINT Court_Date_verdict_g_ng_CK CHECK (verdict = 'Guilty' OR verdict = 'Not Guilty' OR verdict = 'Pending'), "
 					+ "prisoner_id INTEGER, "
 					+ "FOREIGN KEY(prisoner_id) REFERENCES Prisoner(PRISONER_ID)"
 					+ ")"
@@ -147,7 +147,7 @@ public class Database {
 	
 	public static void createCourtDate() {
 		CourtDate cd = new CourtDate(
-				assignCourtDateID(), randomDateString(), "pending", randomInRange(400, prisonerID)
+				assignCourtDateID(), randomDateString(), "Pending", randomInRange(400, prisonerID)
 		);
 		cd.createDBEntry();
 		System.out.println("Court Date created:\n" + cd);

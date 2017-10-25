@@ -86,9 +86,8 @@ public class VisitSearchController extends Controller {
 		
 		baseStatement.append(stmt);	
 		
-		String completedStatement = new String(baseStatement);
-		System.out.println(completedStatement);
+		System.out.println(baseStatement);
 
-		return completedStatement;
+		return baseStatement.toString();
 	}
 }
