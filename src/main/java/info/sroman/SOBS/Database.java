@@ -1,5 +1,6 @@
 package info.sroman.SOBS;
 
+import info.sroman.SOBS.Model.CourtDate;
 import info.sroman.SOBS.Model.Prisoner;
 import info.sroman.SOBS.Model.Visit;
 import info.sroman.SOBS.Model.Visitor;
@@ -19,6 +20,7 @@ public class Database {
 	private static int visitorID = 600;
 	private static int visitID = 900;
 	private static int bunkID = 800;
+	private static int courtDateID = 700;
 	
 	public static void genDB() {
 		try {
@@ -108,7 +110,8 @@ public class Database {
 			statement.executeUpdate(
 					"CREATE TABLE Court_Date ("
 					+ "COURT_DATE_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-					+ "verdict STRING CONSTRAINT Court_Date_verdict_g_ng_CK CHECK (verdict = 'guilty' OR verdict = 'not guilty'), "
+					+ "date STRING CONSTRAINT Court_Date_date_NN NOT NULL,  "	
+					+ "verdict STRING CONSTRAINT Court_Date_verdict_g_ng_CK CHECK (verdict = 'guilty' OR verdict = 'not guilty' OR verdict = 'pending'), "
 					+ "prisoner_id INTEGER, "
 					+ "FOREIGN KEY(prisoner_id) REFERENCES Prisoner(PRISONER_ID)"
 					+ ")"
@@ -140,6 +143,14 @@ public class Database {
 
 		v.createDBEntry();
 		System.out.println("Visit created:\n" + v.toString());
+	}
+	
+	public static void createCourtDate() {
+		CourtDate cd = new CourtDate(
+				assignCourtDateID(), randomDateString(), "pending", randomInRange(400, prisonerID)
+		);
+		cd.createDBEntry();
+		System.out.println("Court Date created:\n" + cd);
 	}
 
 	private static String randomFirstName() {
@@ -310,6 +321,11 @@ public class Database {
 	public static int assignVisitID() {
 		++Database.visitID;
 		return visitID;
+	}
+	
+	public static int assignCourtDateID() {
+		++Database.courtDateID;
+		return courtDateID;
 	}
 
 	private static int randomInRange(int min, int max) {

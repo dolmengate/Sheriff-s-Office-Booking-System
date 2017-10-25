@@ -1,5 +1,8 @@
 package info.sroman.SOBS;
 
+import info.sroman.SOBS.CourtDate.CourtDateSearchController;
+import info.sroman.SOBS.CourtDate.CourtDateSearchModel;
+import info.sroman.SOBS.CourtDate.CourtDateSearchView;
 import info.sroman.SOBS.Prisoner.PrisonerEditController;
 import info.sroman.SOBS.Prisoner.PrisonerSearchModel;
 import info.sroman.SOBS.Prisoner.PrisonerSearchView;
@@ -41,6 +44,10 @@ public class MainApp extends Application {
 	VisitSearchView visitSearchView;
 	VisitSearchModel visitSearchModel;
 	VisitSearchController visitSearchController;
+	
+	CourtDateSearchView courtDateSearchView;
+	CourtDateSearchModel courtDateSearchModel;
+	CourtDateSearchController courtDateSearchController;
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -57,6 +64,10 @@ public class MainApp extends Application {
 		visitSearchModel = new VisitSearchModel();
 		visitSearchController = new VisitSearchController();
 		visitSearchView = new VisitSearchView(visitSearchController);
+	
+		courtDateSearchModel = new CourtDateSearchModel();
+		courtDateSearchController = new CourtDateSearchController();
+		courtDateSearchView = new CourtDateSearchView(courtDateSearchController);
 
 		AnchorPane root = new AnchorPane();
 		tabs = new TabPane();
@@ -72,6 +83,7 @@ public class MainApp extends Application {
 		visitsTab.setContent(visitSearchView.getPane());
 
 		courtDatesTab = new Tab("Court Dates");
+		courtDatesTab.setContent(courtDateSearchView.getPane());
 
 		tabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 		tabs.getTabs().addAll(prisonersTab, visitorsTab, visitsTab, courtDatesTab);
@@ -94,12 +106,16 @@ public class MainApp extends Application {
 			Database.createPrisoner();
 		}
 		
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 25; i++) {
 			Database.createVisitor();
 		}
 		
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 20; i++) {
 			Database.createVisit();
+		}
+		
+		for (int i = 0; i < 20; i++) {
+			Database.createCourtDate();
 		}
 	}
 
