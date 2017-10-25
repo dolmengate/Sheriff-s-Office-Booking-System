@@ -24,7 +24,3 @@ HBox.resultsPane {
     -fx-padding: 5;
     -fx-alignment: center-right;
 }
-
-.search-container {
-    -fx-padding: 10;
-}

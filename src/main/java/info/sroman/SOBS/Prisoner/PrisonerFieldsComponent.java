@@ -150,6 +150,11 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 		addComboBoxOptions(raceCombo, "Black", "Hispanic", "White");
 		raceCombo.setMinSize(10, raceBox.getWidth());
 		
+		// add prompt text
+		personIdField.setPromptText("1XX");
+		prisonerIdField.setPromptText("4XX");
+		bunkIdField.setPromptText("8XX");
+		
 		styleControls();
 
 		bunkIdField.setOnKeyReleased(e -> {

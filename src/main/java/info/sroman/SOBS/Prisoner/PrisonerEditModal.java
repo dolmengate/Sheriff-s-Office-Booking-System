@@ -2,15 +2,13 @@ package info.sroman.SOBS.Prisoner;
 
 import info.sroman.SOBS.Controller;
 import info.sroman.SOBS.IComponent;
+import info.sroman.SOBS.InputView;
 import java.sql.SQLException;
 import javafx.geometry.Insets;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class PrisonerEditModal implements IComponent {
+public class PrisonerEditModal extends InputView implements IComponent {
 
 	VBox container;
 	PrisonerFieldsComponent prisonerFields = new PrisonerFieldsComponent();
@@ -66,11 +64,11 @@ public class PrisonerEditModal implements IComponent {
 							prisonerFields.getHeightInchesCombo()
 					),
 					prisonerFields.getWeightField().getText(),
-					getDOBPickerValue(prisonerFields.getDOBPicker()),
-					getRaceComboValue(prisonerFields.getRaceCombo()),
+					getPickerValueString(prisonerFields.getDOBPicker()),
+					getComboValueString(prisonerFields.getRaceCombo()),
 					prisonerFields.getPrisonerIdField().getText(),
-					getArrestDatePickerValue(),
-					getReleaseDatePickerValue(),
+					getPickerValueString(prisonerFields.getArrestDatePicker()),
+					getPickerValueString(prisonerFields.getReleaseDatePicker()),
 					prisonerFields.getBunkIdField().getText()
 			);
 	}
@@ -81,46 +79,6 @@ public class PrisonerEditModal implements IComponent {
 
 	public PrisonerFieldsComponent getPrisonerFields() {
 		return prisonerFields;
-	}
-
-	private String getArrestDatePickerValue() {
-		if (prisonerFields.getArrestDatePicker().getValue() == null) {
-			return "";
-		}
-		return prisonerFields.getArrestDatePicker().getValue().toString();
-	}
-
-	private String getReleaseDatePickerValue() {
-		if (prisonerFields.getReleaseDatePicker().getValue() == null) {
-			return "";
-		}
-		return prisonerFields.getReleaseDatePicker().getValue().toString();
-	}
-	
-	protected String stringifyHeightFields(
-			TextField personHeightFeetField, ComboBox personHeightInchesCombo) {
-		String feet = personHeightFeetField.getText();
-		String inches;
-		if (personHeightInchesCombo.getValue() == null) {
-			inches = "";
-		} else {
-			inches = personHeightInchesCombo.getValue().toString();
-		}
-		return feet.concat(inches);
-	}
-
-	protected String getRaceComboValue(ComboBox personRaceCombo) {
-		if (personRaceCombo.getValue() == null) {
-			return "";
-		}
-		return personRaceCombo.getValue().toString();
-	}
-
-	protected String getDOBPickerValue(DatePicker personDOBPicker) {
-		if (personDOBPicker.getValue() == null) {
-			return "";
-		}
-		return personDOBPicker.getValue().toString();
 	}
 
 	@Override

@@ -74,6 +74,7 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 
 			PrisonerEditModal editModal = new PrisonerEditModal(editModalController);
 			VBox editModalContainer = editModal.getPane();
+			editModalContainer.getStylesheets().add("search-container");
 
 			VBox deleteModalContainer = new VBox(10);
 			Button deleteBtn = new Button("Delete");
