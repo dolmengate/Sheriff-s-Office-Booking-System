@@ -11,6 +11,7 @@ import info.sroman.SOBS.SearchView;
 import java.sql.SQLException;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.text.Text;
 
 public class PrisonerSearchView extends SearchView implements IComponent {
 	
@@ -22,6 +23,7 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 	PrisonerEditController editModalController;
 	PrisonerAddController addController;
 	Prisoner selectedPrisoner;
+	Text messageText;
 
 	public PrisonerSearchView(PrisonerSearchController controller, PrisonerEditController editModalController) {
 		super(controller);
@@ -35,6 +37,8 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 		styleControls();
 		configureControls();
 		setSearchResultsCols();
+		
+		messageText = new Text();
 	}
 
 	@Override
@@ -92,9 +96,9 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 				try {
 					editModalController.makeDelete(selectedPrisoner.getPRISONER_ID());
 					messageLabel.setText("Record Deleted!");
-				} catch (SQLException ex) {
+				} catch (SQLException | NumberFormatException ex) {
 					System.out.println(ex.getMessage());
-					editModal.getMessageLabel().setText("Deletion Failed!");
+					editModal.getMessageText().setText("Deletion Failed!");
 				}
 			});
 			

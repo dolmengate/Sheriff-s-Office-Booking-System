@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class PrisonerEditModal extends InputView implements IComponent {
 
@@ -14,7 +15,7 @@ public class PrisonerEditModal extends InputView implements IComponent {
 	PrisonerFieldsComponent prisonerFields = new PrisonerFieldsComponent();
 	PrisonerSearchModel model;
 	PrisonerEditController controller;
-	Label messageLabel;
+	Text messageText;
 
 	public PrisonerEditModal(Controller controller) {
 		this.controller = (PrisonerEditController) controller;
@@ -22,15 +23,15 @@ public class PrisonerEditModal extends InputView implements IComponent {
 		Label editLabel = new Label("Edit Record");
 		editLabel.setStyle("-fx-font-weight: bold;");
 		
-		messageLabel = new Label("");
-		messageLabel.setStyle("-fx-font-weight: bold;"
+		messageText = new Text("");
+		messageText.setStyle("-fx-font-weight: bold;"
 				+ "-fx-color: darkred;");
 
 		prisonerFields.getPane().setPadding(new Insets(20));
 		
 		this.container = new VBox();
 		this.container.setPadding(new Insets(20));
-		this.container.getChildren().addAll(editLabel, prisonerFields.getPane(), messageLabel);
+		this.container.getChildren().addAll(editLabel, prisonerFields.getPane(), messageText);
 
 		prisonerFields.getPersonIdField().setDisable(true);
 		prisonerFields.getPrisonerIdField().setDisable(true);
@@ -46,10 +47,10 @@ public class PrisonerEditModal extends InputView implements IComponent {
 			try {
 				this.controller.makeUpdate(this.model);
 			} catch (SQLException ex) {
-				messageLabel.setText(ex.getMessage());
+				messageText.setText(ex.getMessage());
 				return;
 			}
-			messageLabel.setText("Update Successful");
+			messageText.setText("Update Successful");
 		});
 	}
 	
@@ -74,8 +75,8 @@ public class PrisonerEditModal extends InputView implements IComponent {
 			);
 	}
 	
-	public Label getMessageLabel() {
-		return messageLabel;
+	public Text getMessageText() {
+		return messageText;
 	}
 
 	public PrisonerFieldsComponent getPrisonerFields() {

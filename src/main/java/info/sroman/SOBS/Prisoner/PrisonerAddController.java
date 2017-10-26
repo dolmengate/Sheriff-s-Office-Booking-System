@@ -1,16 +1,12 @@
 package info.sroman.SOBS.Prisoner;
 
 import info.sroman.SOBS.Controller;
-import info.sroman.SOBS.Entity.Prisoner;
 import info.sroman.SOBS.SearchModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import org.sqlite.SQLiteException;
 
 public class PrisonerAddController extends Controller {
 	
@@ -21,7 +17,7 @@ public class PrisonerAddController extends Controller {
 		return new PrisonerSearchModel();
 	}
 	
-	public SearchModel makeInsert(SearchModel model) {
+	public SearchModel makeInsert(SearchModel model) throws SQLException, NumberFormatException {
 		
 		this.model = (PrisonerSearchModel) model;
 		
@@ -59,14 +55,18 @@ public class PrisonerAddController extends Controller {
 			stmt.executeUpdate();
 			conn.commit();
 			
-		} catch (SQLException ex) {
-			System.err.println(ex.getMessage());
+		} catch (SQLException | NumberFormatException ex) {
+			System.err.println(ex);
+			for (StackTraceElement ste : ex.getStackTrace())
+				System.err.println(ste.toString());
+			throw ex;
 		} finally {
 			try {
 				if(conn != null)
 					conn.close();
 			} catch(SQLException ex) {
 				System.err.println(ex);
+				throw ex;
 			}
 		}
 		return new PrisonerSearchModel();

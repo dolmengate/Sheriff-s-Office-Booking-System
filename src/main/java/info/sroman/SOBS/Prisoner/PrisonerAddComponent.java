@@ -3,20 +3,25 @@ package info.sroman.SOBS.Prisoner;
 import info.sroman.SOBS.Database;
 import info.sroman.SOBS.IComponent;
 import info.sroman.SOBS.InputView;
+import java.sql.SQLException;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 public class PrisonerAddComponent extends InputView implements IComponent {
 
 	PrisonerSearchModel model;
 	PrisonerAddController controller;
 
-	FlowPane container;
+	VBox container;
 
 	TextField firstNameField;
 	TextField lastNameField;
@@ -30,10 +35,14 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 	TextField bunkIdField;
 	Button submitBtn;
 	Button resetBtn;
+	
+	Label messageText;
 
 	public PrisonerAddComponent(PrisonerAddController controller) {
 		this.controller = controller;
 	
+		container = new VBox();
+		
 		firstNameField = new TextField();
 		lastNameField = new TextField();
 		heightFeetField = new TextField();
@@ -46,12 +55,27 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 		bunkIdField = new TextField();
 		submitBtn = new Button("Submit");
 		resetBtn = new Button("Reset");
-
-		container = new FlowPane();
-		container.getChildren().addAll(firstNameField, lastNameField, heightFeetField,
+		
+		messageText = new Label();
+		messageText.setStyle("-fx-padding: 0 0 0 40;"
+				+ "-fx-font-weight: bold;"
+				+ "-fx-color: darkred;"
+		);
+//		messageText.setFill(Color.DARKRED);
+		
+		Label addLabel = new Label("Add new Prisoner");
+		addLabel.setStyle("-fx-padding: 0 0 0 40;"
+				+ "-fx-font-weight: bold;");
+		
+		FlowPane inputFields;
+		inputFields = new FlowPane();
+		inputFields.setHgap(5);
+		inputFields.getChildren().addAll(firstNameField, lastNameField, heightFeetField,
 				heightInchesCombo, weightField, dobPicker, raceCombo, arrestDatePicker,
 				releaseDatePicker, bunkIdField, submitBtn, resetBtn
 		);
+		
+		container.getChildren().addAll(addLabel, inputFields, messageText);
 
 		firstNameField.setPromptText("First Name");
 		firstNameField.setPrefWidth(100);
@@ -93,8 +117,8 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 		bunkIdField.setPromptText("Bunk ID");
 		bunkIdField.setPrefWidth(100);
 		
-		container.setPadding(new Insets(20));
-		container.setAlignment(Pos.CENTER);
+		inputFields.setPadding(new Insets(20));
+		inputFields.setAlignment(Pos.CENTER);
 		
 		submitBtn.setOnAction(e -> {
 			this.model = new PrisonerSearchModel(
@@ -112,18 +136,30 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 				false
 			);
 			
+			try {
+				this.controller.makeInsert(this.model);
+			} catch (SQLException | NumberFormatException ex) {
+				
+				if (ex instanceof NumberFormatException)
+					messageText.setText("Please fill out all fields.");
+				if (ex instanceof SQLException)
+					messageText.setText(ex.toString());
+				
+				return;
+			}
+			
+			messageText.setText("Prisoner Added");
+			
 			firstNameField.setText("");
 			lastNameField.setText("");
 			heightFeetField.setText("");
 			heightInchesCombo.setValue("");
 			weightField.setText("");
 			dobPicker.setValue(null);
-			raceCombo.setValue("");
+			raceCombo.setValue("Race");
 			arrestDatePicker.setValue(null);
 			releaseDatePicker.setValue(null);
 			bunkIdField.setText("");
-			
-			this.controller.makeInsert(this.model);
 		});
 
 		resetBtn.setOnAction(e -> {
@@ -133,7 +169,7 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 			heightInchesCombo.setValue("0");
 			weightField.setText("");
 			dobPicker.setValue(null);
-			raceCombo.setValue("");
+			raceCombo.setValue("Race");
 			arrestDatePicker.setValue(null);
 			releaseDatePicker.setValue(null);
 			bunkIdField.setText("");
@@ -145,7 +181,7 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 	}
 
 	@Override
-	public FlowPane getPane() {
+	public VBox getPane() {
 		return container;
 	}
 }
