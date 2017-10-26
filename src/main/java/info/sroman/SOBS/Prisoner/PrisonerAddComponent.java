@@ -13,8 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
 public class PrisonerAddComponent extends InputView implements IComponent {
 
@@ -36,7 +34,7 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 	Button submitBtn;
 	Button resetBtn;
 	
-	Label messageText;
+	Label messageLabel;
 
 	public PrisonerAddComponent(PrisonerAddController controller) {
 		this.controller = controller;
@@ -56,12 +54,11 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 		submitBtn = new Button("Submit");
 		resetBtn = new Button("Reset");
 		
-		messageText = new Label();
-		messageText.setStyle("-fx-padding: 0 0 0 40;"
+		messageLabel=  new Label();
+		messageLabel.setStyle("-fx-padding: 0 0 0 40;"
 				+ "-fx-font-weight: bold;"
 				+ "-fx-color: darkred;"
 		);
-//		messageText.setFill(Color.DARKRED);
 		
 		Label addLabel = new Label("Add new Prisoner");
 		addLabel.setStyle("-fx-padding: 0 0 0 40;"
@@ -75,7 +72,7 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 				releaseDatePicker, bunkIdField, submitBtn, resetBtn
 		);
 		
-		container.getChildren().addAll(addLabel, inputFields, messageText);
+		container.getChildren().addAll(addLabel, inputFields, messageLabel);
 
 		firstNameField.setPromptText("First Name");
 		firstNameField.setPrefWidth(100);
@@ -117,6 +114,9 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 		bunkIdField.setPromptText("Bunk ID");
 		bunkIdField.setPrefWidth(100);
 		
+		restrictToLetterInput(firstNameField, lastNameField);
+		restrictToDigitInput(heightFeetField, weightField, bunkIdField);
+		
 		inputFields.setPadding(new Insets(20));
 		inputFields.setAlignment(Pos.CENTER);
 		
@@ -141,14 +141,14 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 			} catch (SQLException | NumberFormatException ex) {
 				
 				if (ex instanceof NumberFormatException)
-					messageText.setText("Please fill out all fields.");
+					messageLabel.setText("Please fill out all fields.");
 				if (ex instanceof SQLException)
-					messageText.setText(ex.toString());
+					messageLabel.setText(ex.toString());
 				
 				return;
 			}
 			
-			messageText.setText("Prisoner Added");
+			messageLabel.setText("Prisoner Added");
 			
 			firstNameField.setText("");
 			lastNameField.setText("");

@@ -154,28 +154,8 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 		
 		styleControls();
 
-		bunkIdField.setOnKeyReleased(e -> {
-			if (bunkIdField.isFocused()) {
-				System.out.println(e.getCode());
-				switch (e.getCode()) {
-					case DIGIT0:
-					case DIGIT1:
-					case DIGIT2:
-					case DIGIT3:
-					case DIGIT4:
-					case DIGIT5:
-					case DIGIT6:
-					case DIGIT7:
-					case DIGIT8:
-					case DIGIT9:
-					case BACK_SPACE:
-						break;
-					default:
-						bunkIdField.setText("");
-						break;
-				}
-			}
-		});
+		restrictToDigitInput(personIdField, heightFeetField, weightField, prisonerIdField, bunkIdField);
+		restrictToLetterInput(firstNameField, lastNameField);
 
 		dobPicker.setMinHeight(12);
 		dobPicker.setMaxWidth(170);

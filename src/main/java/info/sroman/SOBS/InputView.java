@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
 public abstract class InputView {
-	
+
 	protected String stringifyHeightFields(
 			TextField personHeightFeetField, ComboBox personHeightInchesCombo) {
 		String feet = personHeightFeetField.getText();
@@ -22,14 +22,14 @@ public abstract class InputView {
 		}
 		return feet.concat(inches);
 	}
-	
-	protected String getComboValueString (ComboBox combo) {
+
+	protected String getComboValueString(ComboBox combo) {
 		if (combo.getValue() == null) {
 			return "";
 		}
 		return combo.getValue().toString();
 	}
-	
+
 	protected void addComboBoxOptions(ComboBox combo, String... option) {
 		combo.setItems(
 				FXCollections.observableArrayList(
@@ -37,11 +37,11 @@ public abstract class InputView {
 				)
 		);
 	}
-	
+
 	protected void configPickerDateFormat(DatePicker picker) {
 		picker.setConverter(createStringConverter());
 	}
-	
+
 	private StringConverter createStringConverter() {
 		return new StringConverter<LocalDate>() {
 			String pattern = "yyyy-MM-dd";
@@ -66,12 +66,32 @@ public abstract class InputView {
 			}
 		};
 	}
-	
+
 	protected String getPickerValueString(DatePicker picker) {
 		if (picker.getValue() == null) {
 			return "";
 		}
 		return picker.getValue().toString();
 
+	}
+
+	protected void restrictToDigitInput(TextField... fields) {
+		for (TextField field : fields) {
+			field.setOnKeyReleased(e -> {
+				if (field.isFocused() && !e.getCode().isDigitKey()) {
+					field.deletePreviousChar();
+				}
+			});
+		}
+	}
+
+	protected void restrictToLetterInput(TextField... fields) {
+		for (TextField field : fields) {
+			field.setOnKeyReleased(e -> {
+				if (field.isFocused() && !e.getCode().isLetterKey()) {
+					field.deletePreviousChar();
+				}
+			});
+		}
 	}
 }

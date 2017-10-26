@@ -57,8 +57,6 @@ public class PrisonerAddController extends Controller {
 			
 		} catch (SQLException | NumberFormatException ex) {
 			System.err.println(ex);
-			for (StackTraceElement ste : ex.getStackTrace())
-				System.err.println(ste.toString());
 			throw ex;
 		} finally {
 			try {
