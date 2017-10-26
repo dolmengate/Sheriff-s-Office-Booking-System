@@ -64,11 +64,10 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 	Button submitBtn;
 	Button resetBtn;
 
-	Label messageLabel;
-
 	public PrisonerFieldsComponent() {
 
 		container.setPrefColumns(4);
+		container.setPrefHeight(150);
 
 		// create controls
 		personIdBox = new HBox();
@@ -120,8 +119,6 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 		submitBtn = new Button("Submit");
 		resetBtn = new Button("Reset");
 
-		messageLabel = new Label();
-
 		// group controls
 		personIdBox.getChildren().addAll(personIdLabel, personIdField);
 		firstNameBox.getChildren().addAll(firstNameLabel, firstNameField);
@@ -140,7 +137,7 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 		container.getChildren().addAll(personIdBox, firstNameBox,
 				lastNameBox, heightBox, weightBox, dobBox,
 				raceBox, prisonerIdBox, arrestDateBox,
-				releaseDateBox, bunkIdBox, submitResetBox, messageLabel);
+				releaseDateBox, bunkIdBox, submitResetBox);
 
 		// Configure controls
 		heightFeetField.setPrefWidth(50);
@@ -174,7 +171,6 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 					case BACK_SPACE:
 						break;
 					default:
-						messageLabel.setText("Invalid Input");
 						bunkIdField.setText("");
 						break;
 				}

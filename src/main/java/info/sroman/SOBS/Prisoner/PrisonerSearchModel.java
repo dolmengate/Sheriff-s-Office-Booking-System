@@ -15,11 +15,12 @@ public class PrisonerSearchModel extends SearchModel {
 	private String arrestDate;
 	private String releaseDate;
 	private String bunkId;
+	private boolean released;
 		
 	public PrisonerSearchModel() {}
 	
 	public PrisonerSearchModel(String personId, String firstName, String lastName, String height, 
-			String weight, String dob, String race, String prisonerId, String arrestDate, String releaseDate, String bunkId) {
+			String weight, String dob, String race, String prisonerId, String arrestDate, String releaseDate, String bunkId, boolean released) {
 		this.personId = personId;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -60,6 +61,10 @@ public class PrisonerSearchModel extends SearchModel {
 
 	public String getHeight() {
 		return height;
+	}
+	
+	public boolean isReleased() {
+		return released;
 	}
 
 	public void setHeight(String height) {
@@ -112,6 +117,10 @@ public class PrisonerSearchModel extends SearchModel {
 
 	public void setReleaseDate(String releaseDate) {
 		this.releaseDate = releaseDate;
+	}
+
+	public void setReleased(boolean released) {
+		this.released = released;
 	}
 
 	public String getBunkId() {

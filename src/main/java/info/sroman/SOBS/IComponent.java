@@ -4,5 +4,5 @@ import javafx.scene.Node;
 
 public interface IComponent {
 		
-	public Node getPane();
+	public <E extends Node> E getPane();
 }

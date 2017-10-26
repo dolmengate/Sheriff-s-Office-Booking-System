@@ -22,6 +22,7 @@ public abstract class SearchView extends InputView implements IComponent {
 		
 		searchInputsContainer = new TilePane();
 		searchInputsContainer.setPrefColumns(4);
+		searchInputsContainer.setPrefHeight(160);
 		
 		container.getChildren().addAll(searchInputsContainer, searchResults);
 	}

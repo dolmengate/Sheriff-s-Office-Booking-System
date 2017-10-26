@@ -74,7 +74,7 @@ public class PrisonerEditController extends Controller {
 		}
 	}
 	
-	@Override 
+	@Override
 	public SearchModel makeSelect(SearchModel model) {
 		return new PrisonerSearchModel();
 	}

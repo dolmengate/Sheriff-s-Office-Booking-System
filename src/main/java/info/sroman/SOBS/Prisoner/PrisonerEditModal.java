@@ -69,7 +69,8 @@ public class PrisonerEditModal extends InputView implements IComponent {
 					prisonerFields.getPrisonerIdField().getText(),
 					getPickerValueString(prisonerFields.getArrestDatePicker()),
 					getPickerValueString(prisonerFields.getReleaseDatePicker()),
-					prisonerFields.getBunkIdField().getText()
+					prisonerFields.getBunkIdField().getText(),
+					false
 			);
 	}
 	

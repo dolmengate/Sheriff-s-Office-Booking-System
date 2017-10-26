@@ -16,16 +16,20 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 	
 	// TODO input validation / formatting restrictions
 
-	PrisonerFieldsComponent prisonerFields;
+	PrisonerFieldsComponent prisonerSearchComponent;
+	PrisonerAddComponent prisonerAddComponent;
 	RowContextMenu rowContextMenu;
 	PrisonerEditController editModalController;
+	PrisonerAddController addController;
 	Prisoner selectedPrisoner;
 
 	public PrisonerSearchView(PrisonerSearchController controller, PrisonerEditController editModalController) {
 		super(controller);
 		this.editModalController = (PrisonerEditController) editModalController;
 
-		prisonerFields = new PrisonerFieldsComponent();
+		prisonerSearchComponent = new PrisonerFieldsComponent();
+		addController = new PrisonerAddController();
+		prisonerAddComponent = new PrisonerAddComponent(addController);
 
 		addControlsToContainers();
 		styleControls();
@@ -41,24 +45,24 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 	@Override
 	public void configureControls() {
 
-		prisonerFields.getSubmitBtn().setOnAction(e -> {
+		prisonerSearchComponent.getSubmitBtn().setOnAction(e -> {
 			this.searchResults.getItems().clear();
 
 			this.model = new PrisonerSearchModel(
-					prisonerFields.getPersonIdField().getText(),
-					prisonerFields.getFirstNameField().getText(),
-					prisonerFields.getLastNameField().getText(),
-					stringifyHeightFields(
-							prisonerFields.getHeightFeetField(),
-							prisonerFields.getHeightInchesCombo()
+					prisonerSearchComponent.getPersonIdField().getText(),
+					prisonerSearchComponent.getFirstNameField().getText(),
+					prisonerSearchComponent.getLastNameField().getText(),
+					stringifyHeightFields(prisonerSearchComponent.getHeightFeetField(),
+							prisonerSearchComponent.getHeightInchesCombo()
 					),
-					prisonerFields.getWeightField().getText(),
-					getPickerValueString(prisonerFields.getDOBPicker()),
-					getComboValueString(prisonerFields.getRaceCombo()),
-					prisonerFields.getPrisonerIdField().getText(),
-					getPickerValueString(prisonerFields.getArrestDatePicker()),
-					getPickerValueString(prisonerFields.getReleaseDatePicker()),
-					prisonerFields.getBunkIdField().getText()
+					prisonerSearchComponent.getWeightField().getText(),
+					getPickerValueString(prisonerSearchComponent.getDOBPicker()),
+					getComboValueString(prisonerSearchComponent.getRaceCombo()),
+					prisonerSearchComponent.getPrisonerIdField().getText(),
+					getPickerValueString(prisonerSearchComponent.getArrestDatePicker()),
+					getPickerValueString(prisonerSearchComponent.getReleaseDatePicker()),
+					prisonerSearchComponent.getBunkIdField().getText(),
+					false
 			);
 			PrisonerSearchModel receivedModel = (PrisonerSearchModel) controller.makeSelect(this.model);
 			this.searchResults.getItems().addAll(receivedModel.getResultsList());
@@ -118,8 +122,8 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 
 	@Override
 	public void addControlsToContainers() {
-		this.searchInputsContainer = (TilePane) prisonerFields.getPane();
-		this.container.getChildren().setAll(this.searchInputsContainer, this.searchResults);
+		this.searchInputsContainer = (TilePane) prisonerSearchComponent.getPane();
+		this.container.getChildren().setAll(this.searchInputsContainer, this.searchResults, prisonerAddComponent.getPane());
 	}
 
 	@Override
