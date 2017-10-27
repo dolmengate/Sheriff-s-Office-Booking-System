@@ -1,6 +1,7 @@
 package info.sroman.SOBS;
 
 import info.sroman.SOBS.Entities.Bunk;
+import info.sroman.SOBS.Entities.Cell;
 import info.sroman.SOBS.Entities.CourtDate;
 import info.sroman.SOBS.Entities.Prisoner;
 import info.sroman.SOBS.Entities.Visit;
@@ -101,8 +102,8 @@ public class Database {
 					"CREATE TABLE Cell ("
 					+ "CELL_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
 					+ "type STRING CONSTRAINT Cell_type_CK CHECK (type = 'MinSec' OR type = 'MaxSec' OR type = 'Hospital' OR type = 'Isolation'), "
-					+ "lower_bunk INTEGER CONSTRAINT Cell_lower_bunk_NN NOT NULL, "
-					+ "upper_bunk INTEGER, "
+					+ "lower_bunk INTEGER CONSTRAINT Cell_lower_bunk_NN NOT NULL CONSTRAINT Cell_lower_bunk_UK UNIQUE, "
+					+ "upper_bunk INTEGER CONSTRAINT Cell_upper_bunk_UK UNIQUE, "
 					+ "FOREIGN KEY(lower_bunk) REFERENCES Bunk(BUNK_ID), "
 					+ "FOREIGN KEY(upper_bunk) REFERENCES Bunk(BUNK_ID)"
 					+ ")"
@@ -158,6 +159,18 @@ public class Database {
 				randomInRange(400, Database.prisonerID)
 		);
 		insertAndPrintStatus(b);
+	}
+	
+	public static void createCell(String type) {
+		Cell c;
+		if (type.equals("Isolation") || type.equals("Hospital")) {
+			c = new Cell(assignCellId(), type, 
+					randomInRange(0, Database.bunkID), null);
+		} else {
+			c = new Cell( assignCellId(), type, 
+					randomInRange(0, Database.bunkID), 
+					randomInRange(0, Database.bunkID));
+		}
 	}
 
 	private static String randomFirstName() {

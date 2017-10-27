@@ -98,8 +98,7 @@ public class MainApp extends Application {
 
 		stage.setTitle("Sheriff's Office Booking System");
 		stage.setScene(scene);
-		stage.show();
-
+		
 		Database.genDB();
 		
 		for (int i = 0; i < 50; i++) {
@@ -121,6 +120,25 @@ public class MainApp extends Application {
 		for (int i = 0; i < 50; i++) {
 			Database.createBunk();
 		}
+		
+		for (int i = 0; i < 50; i++) {
+			Database.createCell("Hospital");
+		}
+		
+		for (int i = 0; i < 10; i++) {
+			Database.createCell("Isolation");
+		}
+		
+		for (int i = 0; i < 200; i++) {
+			Database.createCell("MinSec");
+		}
+		
+		for (int i = 0; i < 50; i++) {
+			Database.createCell("MaxSec");
+		}
+		
+		stage.show();
+
 	}
 
 	/**

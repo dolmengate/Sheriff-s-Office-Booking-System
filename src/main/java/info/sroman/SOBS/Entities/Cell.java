@@ -6,38 +6,34 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class Bunk extends Entity {
+public class Cell extends Entity {
 
-	private final int BUNK_ID;
-	private final String POSITION;
 	private final int CELL_ID;
-	private int prisoner_Id;
+	private final String TYPE;
+	private final int LOWER_BUNK;
+	private final Integer UPPER_BUNK;
 
-	public Bunk(int BUNK_ID, String position, int cellId, int prisoner_Id) {
-		this.BUNK_ID = BUNK_ID;
-		this.POSITION = position;
-		this.CELL_ID = cellId;
-		this.prisoner_Id = prisoner_Id;
-	}
-
-	public int getBUNK_ID() {
-		return BUNK_ID;
-	}
-
-	public String getPOSITION() {
-		return POSITION;
+	public Cell(int CELL_ID, String TYPE, int LOWER_BUNK, Integer UPPER_BUNK) {
+		this.CELL_ID = CELL_ID;
+		this.TYPE = TYPE;
+		this.LOWER_BUNK = LOWER_BUNK;
+		this.UPPER_BUNK = UPPER_BUNK;
 	}
 
 	public int getCELL_ID() {
 		return CELL_ID;
 	}
 
-	public int getPrisoner_Id() {
-		return prisoner_Id;
+	public String getTYPE() {
+		return TYPE;
 	}
 
-	public void setPrisoner_Id(int prisoner_Id) {
-		this.prisoner_Id = prisoner_Id;
+	public int getLOWER_BUNK() {
+		return LOWER_BUNK;
+	}
+
+	public int getUPPER_BUNK() {
+		return UPPER_BUNK;
 	}
 
 	@Override
@@ -53,12 +49,12 @@ public class Bunk extends Entity {
 			conn.setAutoCommit(false);
 
 			stmt = conn.prepareStatement(
-					"INSERT INTO Bunk VALUES (?, ?, ?, ?)"
+					"INSERT INTO Cell VALUES (?, ?, ?, ?)"
 			);
-			stmt.setInt(1, getBUNK_ID());
-			stmt.setString(2, getPOSITION());
-			stmt.setInt(3, getCELL_ID());
-			stmt.setInt(4, getPrisoner_Id());
+			stmt.setInt(1, getCELL_ID());
+			stmt.setString(2, getTYPE());
+			stmt.setInt(3, getLOWER_BUNK());
+			stmt.setInt(4, getUPPER_BUNK());
 			stmt.executeUpdate();
 			conn.commit();
 
@@ -76,12 +72,12 @@ public class Bunk extends Entity {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Bunk ID: " + getBUNK_ID()
-				+ ", position: " + getPOSITION()
-				+ ", Cell ID: " + getCELL_ID()
-				+ ", Prisoner ID: " + getPrisoner_Id();
+		return "Cell ID: " + getCELL_ID()
+				+ ", Type: " + getTYPE()
+				+ ", Lower Bunk: " + getLOWER_BUNK()
+				+ ", Upper Bunk: " + getUPPER_BUNK();
 	}
 }
