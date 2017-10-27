@@ -12,6 +12,7 @@ public class Prisoner extends Person {
 	private String releaseDate;
 	private int bunkID;
 	private boolean released;
+	private String cellBlock;
 	
 	/*
 		Constructor
@@ -43,7 +44,10 @@ public class Prisoner extends Person {
 	public void setReleased(boolean released) {
 		this.released = released;
 	} 
-	
+
+	public void setCellBlock(String cellBlock) {
+		this.cellBlock = cellBlock;
+	}	
 	
 	/*
 		G E T T E R    M E T H O D S 
@@ -67,6 +71,10 @@ public class Prisoner extends Person {
 	
 	public boolean isReleased() {
 		return released;
+	}
+
+	public String getCellBlock() {
+		return cellBlock;
 	}
 	
 	@Override

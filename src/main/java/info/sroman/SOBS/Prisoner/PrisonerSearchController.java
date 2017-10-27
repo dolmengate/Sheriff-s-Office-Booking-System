@@ -33,15 +33,18 @@ public class PrisonerSearchController extends Controller {
 			ResultSet rs = statement.executeQuery(constructStatement());
 						
 			while (rs.next()) {
-				prisoners.add(new Prisoner(
+				Prisoner p  = new Prisoner(
 						rs.getInt("PERSON_ID"), rs.getString("first_name"), 
 						rs.getString("last_name"), rs.getInt("height"), 
 						rs.getInt("weight"), rs.getString("date_of_birth"), 
 						rs.getString("race"), rs.getInt("PRISONER_ID"),
 						rs.getString("arrest_date"), rs.getString("release_date"), 
 						rs.getInt("bunk_ID"), (rs.getInt("is_released") == 1)
-					)
 				);
+				
+				p.setCellBlock(rs.getString("type"));
+				
+				prisoners.add(p);
 			}
 		
 		} catch (SQLException ex) {
@@ -68,8 +71,12 @@ public class PrisonerSearchController extends Controller {
 		
 		StringBuilder baseStatement = new StringBuilder(
 				"SELECT * FROM Person "
-						+ "INNER JOIN "
+						+ "LEFT JOIN "
 							+ "Prisoner ON Person.PERSON_ID = Prisoner.PERSON_ID "
+						+ "LEFT JOIN "
+							+ "Bunk ON Prisoner.bunk_id = Bunk.BUNK_ID "
+						+ "LEFT JOIN "
+							+ "Cell ON Bunk.cell_id = Cell.CELL_ID "
 						+ "WHERE "
 		);
 		
@@ -79,12 +86,12 @@ public class PrisonerSearchController extends Controller {
 			model.getPersonId(), model.getFirstName(), model.getLastName(), 
 			model.getHeight(), model.getWeight(), model.getDob(), model.getRace(), 
 			model.getPrisonerId(), model.getArrestDate(), model.getReleaseDate(), 
-			model.getBunkId()
+			model.getBunkId(), model.getCellType()
 		};
 		
 		String[] columns = {
 			"PERSON_ID", "first_name", "last_name", "height", "weight", "date_of_birth", 
-			"race", "PRISONER_ID", "arrest_date", "release_date", "bunk_id"
+			"race", "PRISONER_ID", "arrest_date", "release_date", "bunk_id", "Cell.type"
 		};
 		
 		StringBuilder stmt = new StringBuilder();
@@ -104,8 +111,8 @@ public class PrisonerSearchController extends Controller {
 			baseStatement.insert(baseStatement.indexOf(" PERSON_ID ") + 1, "Person.", 0, 7);
 		
 		// only return Prisoners not released
-		baseStatement.append(" AND is_released = '0'");
-		
+		baseStatement.append(" AND is_released = '0' ");
+				
 		System.out.println(baseStatement);
 
 		return baseStatement.toString();

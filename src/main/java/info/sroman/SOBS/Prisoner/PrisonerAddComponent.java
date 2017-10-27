@@ -133,6 +133,7 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 				getPickerValueString(arrestDatePicker),
 				getPickerValueString(releaseDatePicker),
 				bunkIdField.getText(),
+					"",
 				false
 			);
 			

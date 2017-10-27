@@ -59,6 +59,10 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 	HBox bunkIdBox;
 	Label bunkIdLabel;
 	TextField bunkIdField;
+	
+	HBox cellBlockBox;
+	Label cellBlockLabel;
+	ComboBox cellBlockCombo;
 
 	HBox submitResetBox;
 	Button submitBtn;
@@ -66,7 +70,7 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 
 	public PrisonerFieldsComponent() {
 
-		container.setPrefColumns(4);
+		container.setPrefColumns(5);
 		container.setPrefHeight(150);
 
 		// create controls
@@ -114,6 +118,10 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 		bunkIdBox = new HBox();
 		bunkIdLabel = new Label("Bunk ID");
 		bunkIdField = new TextField();
+		
+		cellBlockBox = new HBox();
+		cellBlockLabel = new Label("Cell Block");
+		cellBlockCombo = new ComboBox();
 
 		submitResetBox = new HBox(20);
 		submitBtn = new Button("Submit");
@@ -132,12 +140,13 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 		releaseDateBox.getChildren().addAll(releaseDateLabel, releaseDatePicker);
 		bunkIdBox.getChildren().addAll(bunkIdLabel, bunkIdField);
 		submitResetBox.getChildren().addAll(submitBtn, resetBtn);
+		cellBlockBox.getChildren().addAll(cellBlockLabel, cellBlockCombo);
 
 		// add controls to container
 		container.getChildren().addAll(personIdBox, firstNameBox,
 				lastNameBox, heightBox, weightBox, dobBox,
 				raceBox, prisonerIdBox, arrestDateBox,
-				releaseDateBox, bunkIdBox, submitResetBox);
+				releaseDateBox, bunkIdBox, cellBlockBox, submitResetBox);
 
 		// Configure controls
 		heightFeetField.setPrefWidth(50);
@@ -146,6 +155,9 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 		heightFeetField.setMinWidth(heightBox.getWidth() * 0.75);
 		addComboBoxOptions(raceCombo, "Black", "Hispanic", "White");
 		raceCombo.setMinSize(10, raceBox.getWidth());
+		
+		cellBlockCombo.setMinSize(10, cellBlockBox.getWidth());
+		addComboBoxOptions(cellBlockCombo, "MinSec", "MaxSec", "Hospital", "Isolation");
 		
 		// add prompt text
 		personIdField.setPromptText("1XX");
@@ -199,6 +211,7 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 		arrestDateBox.getStyleClass().add("search-control-group");
 		releaseDateBox.getStyleClass().add("search-control-group");
 		bunkIdBox.getStyleClass().add("search-control-group");
+		cellBlockBox.getStyleClass().add("search-control-group");
 
 		submitResetBox.getStyleClass().add("search-control-group");
 	}
@@ -251,6 +264,10 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 		return bunkIdField;
 	}
 
+	public ComboBox getCellBlockCombo() {
+		return cellBlockCombo;
+	}
+
 	public Button getSubmitBtn() {
 		return submitBtn;
 	}
@@ -301,6 +318,10 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 
 	public void setBunkIdField(String bunkId) {
 		this.bunkIdField.setText(bunkId);
+	}
+
+	public void setCellBlockCombo(String cellBlock) {
+		this.cellBlockCombo.setValue(cellBlock);
 	}
 
 	private LocalDate convertStringToLocalDate(String string) {

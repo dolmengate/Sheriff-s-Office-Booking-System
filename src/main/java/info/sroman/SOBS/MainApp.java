@@ -3,6 +3,9 @@ package info.sroman.SOBS;
 import info.sroman.SOBS.CourtDate.CourtDateSearchController;
 import info.sroman.SOBS.CourtDate.CourtDateSearchModel;
 import info.sroman.SOBS.CourtDate.CourtDateSearchView;
+import info.sroman.SOBS.Entities.Bunk;
+import info.sroman.SOBS.Entities.Cell;
+import info.sroman.SOBS.Entities.Prisoner;
 import info.sroman.SOBS.Prisoner.PrisonerEditController;
 import info.sroman.SOBS.Prisoner.PrisonerSearchModel;
 import info.sroman.SOBS.Prisoner.PrisonerSearchView;
@@ -101,41 +104,36 @@ public class MainApp extends Application {
 		
 		Database.genDB();
 		
-		for (int i = 0; i < 50; i++) {
-			Database.createPrisoner();
-		}
-		
-		for (int i = 0; i < 25; i++) {
-			Database.createVisitor();
-		}
-		
-		for (int i = 0; i < 20; i++) {
-			Database.createVisit();
-		}
-		
-		for (int i = 0; i < 20; i++) {
-			Database.createCourtDate();
-		}
+//		for (int i = 0; i < 50; i++) {
+//			Database.createCell("Hospital");
+//		}
+//		
+//		for (int i = 0; i < 10; i++) {
+//			Database.createCell("Isolation");
+//		}
+//		
+//		for (int i = 0; i < 200; i++) {
+//			Database.createCell("MinSec");
+//		}
+//		
 		
 		for (int i = 0; i < 50; i++) {
-			Database.createBunk();
+			Cell c = Database.createCell("Isolation");
+			Database.createPrisoner(i);
+			Database.createBunk(i, c.getCELL_ID());
 		}
+//
+//		for (int i = 0; i < 25; i++) {
+//			Database.createVisitor();
+//		}
 		
-		for (int i = 0; i < 50; i++) {
-			Database.createCell("Hospital");
-		}
-		
-		for (int i = 0; i < 10; i++) {
-			Database.createCell("Isolation");
-		}
-		
-		for (int i = 0; i < 200; i++) {
-			Database.createCell("MinSec");
-		}
-		
-		for (int i = 0; i < 50; i++) {
-			Database.createCell("MaxSec");
-		}
+//		for (int i = 0; i < 20; i++) {
+//			Database.createVisit();
+//		}
+//		
+//		for (int i = 0; i < 20; i++) {
+//			Database.createCourtDate();
+//		}
 		
 		stage.show();
 

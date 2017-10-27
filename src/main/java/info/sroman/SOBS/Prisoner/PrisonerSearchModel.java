@@ -15,12 +15,15 @@ public class PrisonerSearchModel extends SearchModel {
 	private String arrestDate;
 	private String releaseDate;
 	private String bunkId;
+	private String cellType;
 	private boolean released;
 		
 	public PrisonerSearchModel() {}
 	
 	public PrisonerSearchModel(String personId, String firstName, String lastName, String height, 
-			String weight, String dob, String race, String prisonerId, String arrestDate, String releaseDate, String bunkId, boolean released) {
+			String weight, String dob, String race, String prisonerId, String arrestDate, 
+			String releaseDate, String bunkId, String cellType, boolean released) {
+		
 		this.personId = personId;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -31,6 +34,7 @@ public class PrisonerSearchModel extends SearchModel {
 		this.prisonerId = prisonerId;
 		this.arrestDate = arrestDate;
 		this.releaseDate = releaseDate;
+		this.cellType = cellType;
 		this.bunkId = bunkId;
 	}
 	
@@ -129,5 +133,13 @@ public class PrisonerSearchModel extends SearchModel {
 
 	public void setBunkId(String bunkId) {
 		this.bunkId = bunkId;
+	}
+
+	public String getCellType() {
+		return cellType;
+	}
+
+	public void setCellType(String cellType) {
+		this.cellType = cellType;
 	}
 }

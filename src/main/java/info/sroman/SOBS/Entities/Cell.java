@@ -10,14 +10,10 @@ public class Cell extends Entity {
 
 	private final int CELL_ID;
 	private final String TYPE;
-	private final int LOWER_BUNK;
-	private final Integer UPPER_BUNK;
 
-	public Cell(int CELL_ID, String TYPE, int LOWER_BUNK, Integer UPPER_BUNK) {
+	public Cell(int CELL_ID, String TYPE) {
 		this.CELL_ID = CELL_ID;
 		this.TYPE = TYPE;
-		this.LOWER_BUNK = LOWER_BUNK;
-		this.UPPER_BUNK = UPPER_BUNK;
 	}
 
 	public int getCELL_ID() {
@@ -27,15 +23,7 @@ public class Cell extends Entity {
 	public String getTYPE() {
 		return TYPE;
 	}
-
-	public int getLOWER_BUNK() {
-		return LOWER_BUNK;
-	}
-
-	public int getUPPER_BUNK() {
-		return UPPER_BUNK;
-	}
-
+	
 	@Override
 	public boolean createDBEntry() {
 
@@ -49,12 +37,10 @@ public class Cell extends Entity {
 			conn.setAutoCommit(false);
 
 			stmt = conn.prepareStatement(
-					"INSERT INTO Cell VALUES (?, ?, ?, ?)"
+					"INSERT INTO Cell VALUES (?, ?)"
 			);
 			stmt.setInt(1, getCELL_ID());
 			stmt.setString(2, getTYPE());
-			stmt.setInt(3, getLOWER_BUNK());
-			stmt.setInt(4, getUPPER_BUNK());
 			stmt.executeUpdate();
 			conn.commit();
 
@@ -76,8 +62,6 @@ public class Cell extends Entity {
 	@Override
 	public String toString() {
 		return "Cell ID: " + getCELL_ID()
-				+ ", Type: " + getTYPE()
-				+ ", Lower Bunk: " + getLOWER_BUNK()
-				+ ", Upper Bunk: " + getUPPER_BUNK();
+				+ ", Type: " + getTYPE();
 	}
 }

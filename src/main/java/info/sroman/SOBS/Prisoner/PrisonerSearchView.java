@@ -1,6 +1,7 @@
 package info.sroman.SOBS.Prisoner;
 
 import info.sroman.SOBS.Entities.Prisoner;
+import info.sroman.SOBS.Entities.Cell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.TilePane;
@@ -66,6 +67,7 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 					getPickerValueString(prisonerSearchComponent.getArrestDatePicker()),
 					getPickerValueString(prisonerSearchComponent.getReleaseDatePicker()),
 					prisonerSearchComponent.getBunkIdField().getText(),
+					getComboValueString(prisonerSearchComponent.getCellBlockCombo()), 
 					false
 			);
 			PrisonerSearchModel receivedModel = (PrisonerSearchModel) controller.makeSelect(this.model);
@@ -134,51 +136,55 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 	public void setSearchResultsCols() {
 		TableColumn<Prisoner, String> personIDCol = new TableColumn<>("Person ID");
 		personIDCol.setCellValueFactory(new PropertyValueFactory("PERSON_ID"));
-		personIDCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.09));
+		personIDCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.08));
 
 		TableColumn<Prisoner, String> firstNameCol = new TableColumn<>("First Name");
 		firstNameCol.setCellValueFactory(new PropertyValueFactory("firstName"));
-		firstNameCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.09));
+		firstNameCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.08));
 
 		TableColumn<Prisoner, String> lastNameCol = new TableColumn<>("Last Name");
 		lastNameCol.setCellValueFactory(new PropertyValueFactory("lastName"));
-		lastNameCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.09));
+		lastNameCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.08));
 
 		TableColumn<Prisoner, Integer> heightCol = new TableColumn<>("Height");
 		heightCol.setCellValueFactory(new PropertyValueFactory("HEIGHT"));
-		heightCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.09));
+		heightCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.08));
 
 		TableColumn<Prisoner, Integer> weightCol = new TableColumn<>("Weight");
 		weightCol.setCellValueFactory(new PropertyValueFactory("weight"));
-		weightCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.09));
+		weightCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.08));
 
 		TableColumn<Prisoner, String> DOBCol = new TableColumn<>("DOB");
 		DOBCol.setCellValueFactory(new PropertyValueFactory("DOB"));
-		DOBCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.09));
+		DOBCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.08));
 
 		TableColumn<Prisoner, String> raceCol = new TableColumn<>("Race");
 		raceCol.setCellValueFactory(new PropertyValueFactory("RACE"));
-		raceCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.09));
+		raceCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.08));
 
 		TableColumn<Prisoner, String> prisonerIDCol = new TableColumn<>("Prisoner ID");
 		prisonerIDCol.setCellValueFactory(new PropertyValueFactory("PRISONER_ID"));
-		prisonerIDCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.09));
-
-		TableColumn<Prisoner, String> bunkIDCol = new TableColumn<>("Bunk ID");
-		bunkIDCol.setCellValueFactory(new PropertyValueFactory("bunkID"));
-		bunkIDCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.09));
+		prisonerIDCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.08));
 
 		TableColumn<Prisoner, String> arrestDateCol = new TableColumn<>("Arrest Date");
 		arrestDateCol.setCellValueFactory(new PropertyValueFactory("ARREST_DATE"));
-		arrestDateCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.09));
+		arrestDateCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.08));
 
 		TableColumn<Prisoner, String> releaseDateCol = new TableColumn<>("Release Date");
 		releaseDateCol.setCellValueFactory(new PropertyValueFactory("releaseDate"));
-		releaseDateCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.09));
+		releaseDateCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.08));
+		
+		TableColumn<Prisoner, String> bunkIDCol = new TableColumn<>("Bunk ID");
+		bunkIDCol.setCellValueFactory(new PropertyValueFactory("bunkID"));
+		bunkIDCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.08));
+		
+		TableColumn<Prisoner, String> cellBlockCol = new TableColumn<>("Cell Block");
+		cellBlockCol.setCellValueFactory(new PropertyValueFactory("cellBlock"));
+		cellBlockCol.prefWidthProperty().bind(this.searchResults.widthProperty().multiply(.08));
 
 		this.searchResults.getColumns().setAll(personIDCol, firstNameCol,
 				lastNameCol, heightCol, weightCol, DOBCol, raceCol, prisonerIDCol,
-				bunkIDCol, arrestDateCol, releaseDateCol);
+				bunkIDCol, arrestDateCol, releaseDateCol, cellBlockCol);
 	}
 
 	private String getInches(String height) {

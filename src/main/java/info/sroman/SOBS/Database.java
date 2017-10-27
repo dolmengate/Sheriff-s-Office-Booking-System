@@ -101,11 +101,7 @@ public class Database {
 			statement.executeUpdate(
 					"CREATE TABLE Cell ("
 					+ "CELL_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-					+ "type STRING CONSTRAINT Cell_type_CK CHECK (type = 'MinSec' OR type = 'MaxSec' OR type = 'Hospital' OR type = 'Isolation'), "
-					+ "lower_bunk INTEGER CONSTRAINT Cell_lower_bunk_NN NOT NULL CONSTRAINT Cell_lower_bunk_UK UNIQUE, "
-					+ "upper_bunk INTEGER CONSTRAINT Cell_upper_bunk_UK UNIQUE, "
-					+ "FOREIGN KEY(lower_bunk) REFERENCES Bunk(BUNK_ID), "
-					+ "FOREIGN KEY(upper_bunk) REFERENCES Bunk(BUNK_ID)"
+					+ "type STRING CONSTRAINT Cell_type_CK CHECK (type = 'MinSec' OR type = 'MaxSec' OR type = 'Hospital' OR type = 'Isolation')"
 					+ ")"
 			);
 
@@ -124,10 +120,10 @@ public class Database {
 		}
 	}
 
-	public static void createPrisoner() {
+	public static void createPrisoner(int bunkId) {
 		Prisoner p = new Prisoner(assignPersonID(), randomFirstName(), randomLastName(),
 				randomHeight(), randomWeight(), randomDOB(), randomRace(), assignPrisonerID(),
-				randomDateString(), randomDateString(), assignBunkID(), false);
+				randomDateString(), randomDateString(), bunkId, false);
 		insertAndPrintStatus(p);
 	}
 
@@ -152,25 +148,19 @@ public class Database {
 		insertAndPrintStatus(cd);
 	}
 	
-	public static void createBunk() {
+	public static void createBunk(int bunkId, int cellId) {
 		Bunk b = new Bunk(
-				assignBunkID(), (Database.bunkID % 2 == 0 ? "Top" : "Bottom"),
-				(Database.bunkID % 3 == 0 ? ++Database.cellId : Database.cellId),
+				bunkId, (Database.bunkID % 2 == 0 ? "Top" : "Bottom"),
+				cellId,
 				randomInRange(400, Database.prisonerID)
 		);
 		insertAndPrintStatus(b);
 	}
 	
-	public static void createCell(String type) {
-		Cell c;
-		if (type.equals("Isolation") || type.equals("Hospital")) {
-			c = new Cell(assignCellId(), type, 
-					randomInRange(0, Database.bunkID), null);
-		} else {
-			c = new Cell( assignCellId(), type, 
-					randomInRange(0, Database.bunkID), 
-					randomInRange(0, Database.bunkID));
-		}
+	public static Cell createCell(String type) {
+		Cell c = new Cell(assignCellId(), type);
+		insertAndPrintStatus(c);
+		return c;
 	}
 
 	private static String randomFirstName() {
@@ -357,8 +347,8 @@ public class Database {
 	
 	private static <E extends Entity> void insertAndPrintStatus(E entity) {
 		if(entity.createDBEntry())
-			System.out.println(entity.getClass() + "created:\n" + entity.toString());
+			System.out.println(entity.getClass().getName() + " created:\n" + entity.toString());
 		else
-			System.err.println(entity.getClass() + "creation FAILED");
+			System.err.println(entity.getClass().getName() + " creation FAILED");
 		}
 }

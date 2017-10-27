@@ -40,6 +40,7 @@ public class PrisonerEditModal extends InputView implements IComponent {
 		prisonerFields.getHeightInchesCombo().setDisable(true);
 		prisonerFields.getRaceCombo().setDisable(true);
 		prisonerFields.getArrestDatePicker().setDisable(true);
+		prisonerFields.getCellBlockCombo().setDisable(true);
 
 		prisonerFields.getSubmitBtn().setOnAction(e -> {
 			createModel();
@@ -71,6 +72,7 @@ public class PrisonerEditModal extends InputView implements IComponent {
 					getPickerValueString(prisonerFields.getArrestDatePicker()),
 					getPickerValueString(prisonerFields.getReleaseDatePicker()),
 					prisonerFields.getBunkIdField().getText(),
+					"", 
 					false
 			);
 	}
