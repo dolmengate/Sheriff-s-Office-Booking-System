@@ -77,7 +77,6 @@ public class PrisonerSearchController extends Controller {
 							+ "Bunk ON Prisoner.bunk_id = Bunk.BUNK_ID "
 						+ "LEFT JOIN "
 							+ "Cell ON Bunk.cell_id = Cell.CELL_ID "
-						+ "WHERE "
 		);
 		
 		
@@ -94,17 +93,28 @@ public class PrisonerSearchController extends Controller {
 			"race", "PRISONER_ID", "arrest_date", "release_date", "bunk_id", "Cell.type"
 		};
 		
-		StringBuilder stmt = new StringBuilder();
+		
+		// return just the base statement if no parameters were specified
+		// (i.e. SELECT all Prisoners with no other qualifications
+		StringBuilder emptyTest = new StringBuilder();
+		
+		for (int i = 0; i < fieldValues.length; i++) {
+			emptyTest.append(fieldValues[i]);
+			if (emptyTest.length() == 0)
+				return baseStatement.append(" WHERE Prisoner.PRISONER_ID NOT NULL").toString();
+		}
+		
+		StringBuilder whereClauses = new StringBuilder("WHERE ");
 		
 		// if the statement has multiple WHERE clauses include an "AND" between them
 		for (int i = 0; i < fieldValues.length; i++) {
-			if (stmt.length() == 0)
-				stmt.append(checkForAnd(fieldValues[i], columns[i]));
+			if (whereClauses.length() == 0)
+				whereClauses.append(checkForAnd(fieldValues[i], columns[i]));
 			else if (!fieldValues[i].equals(""))
-				stmt.append(" AND ").append(checkForAnd(fieldValues[i], columns[i]));
+				whereClauses.append(" AND ").append(checkForAnd(fieldValues[i], columns[i]));
 		}
 		
-		baseStatement.append(stmt);	
+		baseStatement.append(whereClauses);	
 		
 		// Prevent "Ambugious column" error by adding Table name
 		if (!model.getPersonId().equals(""))
