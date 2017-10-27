@@ -1,6 +1,6 @@
 package info.sroman.SOBS.Visitor;
 
-import info.sroman.SOBS.Entity.Visitor;
+import info.sroman.SOBS.Entities.Visitor;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;

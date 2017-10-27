@@ -1,11 +1,12 @@
-package info.sroman.SOBS.Entity;
+package info.sroman.SOBS.Entities;
 
+import info.sroman.SOBS.Entity;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class CourtDate {
+public class CourtDate extends Entity {
 	
 	private final int COURT_DATE_ID;
 	private String date;
@@ -43,7 +44,8 @@ public class CourtDate {
 		this.verdict = verdict;
 	}
 
-	public void createDBEntry() {
+	@Override
+	public boolean createDBEntry() {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		
@@ -65,6 +67,7 @@ public class CourtDate {
 			
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
+			return false;
 		} finally {
 			try {
 				if(conn != null)
@@ -73,6 +76,7 @@ public class CourtDate {
 				System.err.println(ex);
 			}
 		}
+		return true;
 	}
 	
 	@Override

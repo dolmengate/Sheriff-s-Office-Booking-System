@@ -117,6 +117,10 @@ public class MainApp extends Application {
 		for (int i = 0; i < 20; i++) {
 			Database.createCourtDate();
 		}
+		
+		for (int i = 0; i < 50; i++) {
+			Database.createBunk();
+		}
 	}
 
 	/**

@@ -1,9 +1,10 @@
 package info.sroman.SOBS;
 
-import info.sroman.SOBS.Entity.CourtDate;
-import info.sroman.SOBS.Entity.Prisoner;
-import info.sroman.SOBS.Entity.Visit;
-import info.sroman.SOBS.Entity.Visitor;
+import info.sroman.SOBS.Entities.Bunk;
+import info.sroman.SOBS.Entities.CourtDate;
+import info.sroman.SOBS.Entities.Prisoner;
+import info.sroman.SOBS.Entities.Visit;
+import info.sroman.SOBS.Entities.Visitor;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,8 +20,9 @@ public class Database {
 	private static int prisonerID = 400;
 	private static int visitorID = 600;
 	private static int visitID = 900;
-	private static int bunkID = 800;
+	private static int bunkID = 0;
 	private static int courtDateID = 700;
+	private static int cellId = 200;
 	
 	public static void genDB() {
 		try {
@@ -58,9 +60,9 @@ public class Database {
 			statement.executeUpdate(
 					"CREATE TABLE Bunk ("
 					+ "BUNK_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-					+ "position STRING CONSTRAINT Bunk_position_CK CHECK (position = 'top' OR position = 'bottom') CONSTRAINT Bunk_position_NN NOT NULL, "
+					+ "position STRING CONSTRAINT Bunk_position_CK CHECK (position = 'Top' OR position = 'Bottom') CONSTRAINT Bunk_position_NN NOT NULL, "
 					+ "cell_id INTEGER CONSTRAINT Bunk_cell_id_NN NOT NULL, "
-					+ "prisoner_id INTEGER, "
+					+ "prisoner_id INTEGER CONSTRAINT Bunk_prisoner_id_UK UNIQUE, "
 					+ "FOREIGN KEY(cell_id) REFERENCES Cell(CELL_ID), "
 					+ "FOREIGN KEY(prisoner_id) REFERENCES Prisoner(PRISONER_ID)"
 					+ ")"
@@ -125,15 +127,13 @@ public class Database {
 		Prisoner p = new Prisoner(assignPersonID(), randomFirstName(), randomLastName(),
 				randomHeight(), randomWeight(), randomDOB(), randomRace(), assignPrisonerID(),
 				randomDateString(), randomDateString(), assignBunkID(), false);
-		p.createDBEntry();
-		System.out.println("Prisoner created:\n" + p.toString());
+		insertAndPrintStatus(p);
 	}
 
 	public static void createVisitor() {
 		Visitor v = new Visitor(assignPersonID(), randomFirstName(), randomLastName(),
 				randomHeight(), randomWeight(), randomDOB(), randomRace(), assignVisitorID(), randomSSN());
-		v.createDBEntry();
-		System.out.println("Visitor created:\n" + v.toString());
+		insertAndPrintStatus(v);
 	}
 
 	public static void createVisit() {
@@ -141,16 +141,23 @@ public class Database {
 		Visit v = new Visit(assignVisitID(), startTime.toString(), randomEndTime(startTime).toString(), "",
 				randomInRange(900, visitID), randomInRange(400, prisonerID));
 
-		v.createDBEntry();
-		System.out.println("Visit created:\n" + v.toString());
+		insertAndPrintStatus(v);
 	}
 	
 	public static void createCourtDate() {
 		CourtDate cd = new CourtDate(
 				assignCourtDateID(), randomDateString(), "Pending", randomInRange(400, prisonerID)
 		);
-		cd.createDBEntry();
-		System.out.println("Court Date created:\n" + cd);
+		insertAndPrintStatus(cd);
+	}
+	
+	public static void createBunk() {
+		Bunk b = new Bunk(
+				assignBunkID(), (Database.bunkID % 2 == 0 ? "Top" : "Bottom"),
+				(Database.bunkID % 3 == 0 ? ++Database.cellId : Database.cellId),
+				randomInRange(400, Database.prisonerID)
+		);
+		insertAndPrintStatus(b);
 	}
 
 	private static String randomFirstName() {
@@ -299,33 +306,31 @@ public class Database {
 	}
 
 	public static int assignPersonID() {
-		++Database.personID;
-		return personID;
+		return ++Database.personID;
 	}
 
 	public static int assignPrisonerID() {
-		++Database.prisonerID;
-		return prisonerID;
+		return ++Database.prisonerID;
 	}
 
 	public static int assignBunkID() {
-		++Database.bunkID;
-		return bunkID;
+		return ++Database.bunkID;
 	}
 
 	public static int assignVisitorID() {
-		++Database.visitorID;
-		return visitorID;
+		return ++Database.visitorID;
 	}
 
 	public static int assignVisitID() {
-		++Database.visitID;
-		return visitID;
+		return ++Database.visitID;
 	}
 	
 	public static int assignCourtDateID() {
-		++Database.courtDateID;
-		return courtDateID;
+		return ++Database.courtDateID;
+	}
+	
+	public static int assignCellId() {
+		return ++Database.cellId;
 	}
 
 	private static int randomInRange(int min, int max) {
@@ -336,4 +341,11 @@ public class Database {
 	private static int randomSSN() {
 		return randomInRange(100000000, 999999999);
 	}
+	
+	private static <E extends Entity> void insertAndPrintStatus(E entity) {
+		if(entity.createDBEntry())
+			System.out.println(entity.getClass() + "created:\n" + entity.toString());
+		else
+			System.err.println(entity.getClass() + "creation FAILED");
+		}
 }

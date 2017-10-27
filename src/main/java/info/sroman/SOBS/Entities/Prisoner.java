@@ -1,4 +1,4 @@
-package info.sroman.SOBS.Entity;
+package info.sroman.SOBS.Entities;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -70,7 +70,7 @@ public class Prisoner extends Person {
 	}
 	
 	@Override
-	public void createDBEntry() {
+	public boolean createDBEntry() {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		
@@ -107,6 +107,7 @@ public class Prisoner extends Person {
 			
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
+			return false;
 		} finally {
 			try {
 				if(conn != null)
@@ -115,6 +116,7 @@ public class Prisoner extends Person {
 				System.err.println(ex);
 			}
 		}
+		return true;
 	}
 	
 	@Override

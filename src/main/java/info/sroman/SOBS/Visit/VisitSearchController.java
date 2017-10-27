@@ -1,7 +1,7 @@
 package info.sroman.SOBS.Visit;
 
 import info.sroman.SOBS.Controller;
-import info.sroman.SOBS.Entity.Visit;
+import info.sroman.SOBS.Entities.Visit;
 import info.sroman.SOBS.SearchModel;
 import java.sql.Connection;
 import java.sql.DriverManager;

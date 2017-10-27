@@ -1,6 +1,6 @@
 package info.sroman.SOBS.Visit;
 
-import info.sroman.SOBS.Entity.Visit;
+import info.sroman.SOBS.Entities.Visit;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;

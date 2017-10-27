@@ -1,11 +1,12 @@
-package info.sroman.SOBS.Entity;
+package info.sroman.SOBS.Entities;
 
+import info.sroman.SOBS.Entity;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class Visit {
+public class Visit extends Entity {
 	
 	private final int VISIT_ID;
 	private final String START_TIME;
@@ -53,7 +54,8 @@ public class Visit {
 		return PRISONER_ID;
 	}
 	
-	public void createDBEntry() {
+	@Override
+	public boolean createDBEntry() {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		
@@ -77,6 +79,7 @@ public class Visit {
 			
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
+			return false;
 		} finally {
 			try {
 				if(conn != null)
@@ -85,6 +88,7 @@ public class Visit {
 				System.err.println(ex);
 			}
 		}
+		return true;
 	}
 	
 	@Override

@@ -1,6 +1,8 @@
-package info.sroman.SOBS.Entity;
+package info.sroman.SOBS.Entities;
 
-public abstract class Person {
+import info.sroman.SOBS.Entity;
+
+public abstract class Person extends Entity {
 	
 	protected final int PERSON_ID;
 	protected String firstName;
@@ -73,7 +75,8 @@ public abstract class Person {
 		return RACE;
 	}
 	
-	public abstract void createDBEntry();
+	@Override
+	public abstract boolean createDBEntry();
 	
 	@Override
 	public String toString() {

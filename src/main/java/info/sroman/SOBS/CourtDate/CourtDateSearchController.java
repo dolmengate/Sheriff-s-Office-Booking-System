@@ -1,7 +1,7 @@
 package info.sroman.SOBS.CourtDate;
 
 import info.sroman.SOBS.Controller;
-import info.sroman.SOBS.Entity.CourtDate;
+import info.sroman.SOBS.Entities.CourtDate;
 import info.sroman.SOBS.SearchModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
