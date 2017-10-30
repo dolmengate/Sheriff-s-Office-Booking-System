@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.util.StringConverter;
 
 public abstract class InputView {
@@ -88,7 +89,7 @@ public abstract class InputView {
 	protected void restrictToLetterInput(TextField... fields) {
 		for (TextField field : fields) {
 			field.setOnKeyReleased(e -> {
-				if (field.isFocused() && !e.getCode().isLetterKey()) {
+				if (field.isFocused() && !e.getCode().isLetterKey() && e.getCode() != KeyCode.SHIFT) {
 					field.deletePreviousChar();
 				}
 			});

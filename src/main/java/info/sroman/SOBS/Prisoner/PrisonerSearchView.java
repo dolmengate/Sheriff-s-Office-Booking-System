@@ -1,7 +1,6 @@
 package info.sroman.SOBS.Prisoner;
 
 import info.sroman.SOBS.Entities.Prisoner;
-import info.sroman.SOBS.Entities.Cell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.TilePane;

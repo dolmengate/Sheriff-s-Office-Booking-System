@@ -194,6 +194,7 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 			arrestDatePicker.setValue(null);
 			releaseDatePicker.setValue(null);
 			bunkIdField.setText("");
+			cellBlockCombo.setValue("");
 		});
 	}
 
