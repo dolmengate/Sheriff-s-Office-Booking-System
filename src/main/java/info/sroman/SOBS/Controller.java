@@ -1,17 +1,18 @@
 package info.sroman.SOBS;
 
-public abstract class Controller {
+import java.sql.SQLException;
+
+public abstract class Controller <M extends SearchModel> {
+
+	protected final Dao dao;
 	
-	public abstract SearchModel makeSelect(SearchModel model);
-	public abstract String constructStatement();
-	
-	/*
-	*	Return AND statement if TextField has input, otherwise returns an empty string
-	*/
-	public String checkForAnd(String fieldText, String colName) {
-		StringBuilder fieldWhere = new StringBuilder();
-		if (!fieldText.equals(""))
-			return new String(fieldWhere.append(colName).append(" = '").append(fieldText).append("'"));
-		return "";
+	protected Controller(Dao dao) {
+		this.dao = dao;
 	}
+	
+	public abstract M search(M model) throws SQLException;
+	public abstract boolean edit(M model) throws SQLException;
+	public abstract boolean add(M model) throws SQLException;
+	public abstract boolean remove(M model) throws SQLException;
+
 }

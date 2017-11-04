@@ -1,19 +1,16 @@
 package info.sroman.SOBS;
 
-import info.sroman.SOBS.CourtDate.CourtDateSearchController;
+import info.sroman.SOBS.CourtDate.CourtDateController;
 import info.sroman.SOBS.CourtDate.CourtDateSearchModel;
 import info.sroman.SOBS.CourtDate.CourtDateSearchView;
-import info.sroman.SOBS.Entities.Bunk;
 import info.sroman.SOBS.Entities.Cell;
-import info.sroman.SOBS.Entities.Prisoner;
-import info.sroman.SOBS.Prisoner.PrisonerEditController;
+import info.sroman.SOBS.Prisoner.PrisonerController;
 import info.sroman.SOBS.Prisoner.PrisonerSearchModel;
 import info.sroman.SOBS.Prisoner.PrisonerSearchView;
-import info.sroman.SOBS.Prisoner.PrisonerSearchController;
 import info.sroman.SOBS.Visitor.VisitorSearchModel;
-import info.sroman.SOBS.Visitor.VisitorSearchController;
+import info.sroman.SOBS.Visitor.VisitorController;
 import info.sroman.SOBS.Visitor.VisitorSearchView;
-import info.sroman.SOBS.Visit.VisitSearchController;
+import info.sroman.SOBS.Visit.VisitController;
 import info.sroman.SOBS.Visit.VisitSearchModel;
 import info.sroman.SOBS.Visit.VisitSearchView;
 import javafx.application.Application;
@@ -37,39 +34,47 @@ public class MainApp extends Application {
 
 	PrisonerSearchView prisonerSearchView;
 	PrisonerSearchModel prisonerSearchModel;
-	PrisonerSearchController prisonerSearchController;
-	PrisonerEditController prisonerEditController;
+	PrisonerController prisonerController;
+	
+	PrisonerDAO prisonerDao;
+	VisitDAO visitDao;
+	VisitorDAO visitorDao;
+	CourtDateDAO courtDateDao;
 
 	VisitorSearchView visitorSearchView;
 	VisitorSearchModel visitorSearchModel;
-	VisitorSearchController visitorSearchController;
+	VisitorController visitorSearchController;
 
 	VisitSearchView visitSearchView;
 	VisitSearchModel visitSearchModel;
-	VisitSearchController visitSearchController;
+	VisitController visitSearchController;
 	
 	CourtDateSearchView courtDateSearchView;
 	CourtDateSearchModel courtDateSearchModel;
-	CourtDateSearchController courtDateSearchController;
+	CourtDateController courtDateSearchController;
 
 	@Override
 	public void start(Stage stage) throws Exception {
-
+		
+		prisonerDao = new PrisonerDAO();
+		visitDao = new VisitDAO();
+		visitorDao = new VisitorDAO();
+		courtDateDao = new CourtDateDAO();
+		
 		prisonerSearchModel = new PrisonerSearchModel();
-		prisonerSearchController = new PrisonerSearchController();
-		prisonerEditController = new PrisonerEditController();
-		prisonerSearchView = new PrisonerSearchView(prisonerSearchController, prisonerEditController);
+		prisonerController = new PrisonerController(prisonerDao);
+		prisonerSearchView = new PrisonerSearchView(prisonerController);
 
 		visitorSearchModel = new VisitorSearchModel();
-		visitorSearchController = new VisitorSearchController();
+		visitorSearchController = new VisitorController(visitorDao);
 		visitorSearchView = new VisitorSearchView(visitorSearchController);
 
 		visitSearchModel = new VisitSearchModel();
-		visitSearchController = new VisitSearchController();
+		visitSearchController = new VisitController(visitDao);
 		visitSearchView = new VisitSearchView(visitSearchController);
 	
 		courtDateSearchModel = new CourtDateSearchModel();
-		courtDateSearchController = new CourtDateSearchController();
+		courtDateSearchController = new CourtDateController(courtDateDao);
 		courtDateSearchView = new CourtDateSearchView(courtDateSearchController);
 
 		AnchorPane root = new AnchorPane();
@@ -104,36 +109,36 @@ public class MainApp extends Application {
 		
 		Database.genDB();
 		
-//		for (int i = 0; i < 50; i++) {
-//			Database.createCell("Hospital");
-//		}
-//		
-//		for (int i = 0; i < 10; i++) {
-//			Database.createCell("Isolation");
-//		}
-//		
-//		for (int i = 0; i < 200; i++) {
-//			Database.createCell("MinSec");
-//		}
-//		
+		for (int i = 0; i < 50; i++) {
+			Database.createCell("Hospital");
+		}
+		
+		for (int i = 0; i < 10; i++) {
+			Database.createCell("Isolation");
+		}
+		
+		for (int i = 0; i < 200; i++) {
+			Database.createCell("MinSec");
+		}
+		
 		
 		for (int i = 0; i < 50; i++) {
 			Cell c = Database.createCell("Isolation");
 			Database.createPrisoner(i);
 			Database.createBunk(i, c.getCELL_ID());
 		}
-//
-//		for (int i = 0; i < 25; i++) {
-//			Database.createVisitor();
-//		}
+
+		for (int i = 0; i < 25; i++) {
+			Database.createVisitor();
+		}
 		
-//		for (int i = 0; i < 20; i++) {
-//			Database.createVisit();
-//		}
-//		
-//		for (int i = 0; i < 20; i++) {
-//			Database.createCourtDate();
-//		}
+		for (int i = 0; i < 20; i++) {
+			Database.createVisit();
+		}
+		
+		for (int i = 0; i < 20; i++) {
+			Database.createCourtDate();
+		}
 		
 		stage.show();
 

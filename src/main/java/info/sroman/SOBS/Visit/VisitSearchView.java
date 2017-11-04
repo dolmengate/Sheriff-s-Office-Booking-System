@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
 import info.sroman.SOBS.SearchView;
+import java.sql.SQLException;
 import javafx.scene.control.DatePicker;
 
 public class VisitSearchView extends SearchView implements IComponent {		// separate controls for Date and Time?
@@ -19,11 +20,11 @@ public class VisitSearchView extends SearchView implements IComponent {		// sepa
 	Label visitVisitIdLabel;
 	TextField visitVisitIdField;
 
-	HBox visitStartTimeBox;				// delete?
+	HBox visitStartTimeBox;
 	Label visitStartTimeLabel;
 	DatePicker visitStartTimePicker;
 
-	HBox visitEndTimeBox;				// delete?
+	HBox visitEndTimeBox;
 	Label visitEndTimeLabel;
 	DatePicker visitEndTimePicker;
 
@@ -43,7 +44,7 @@ public class VisitSearchView extends SearchView implements IComponent {		// sepa
 	Button visitSubmitBtn;
 	Button visitResetBtn;
 
-	public VisitSearchView(VisitSearchController controller) {
+	public VisitSearchView(VisitController controller) {
 		super(controller);
 
 		visitVisitIdBox = new HBox();
@@ -78,7 +79,7 @@ public class VisitSearchView extends SearchView implements IComponent {		// sepa
 		configureControls();
 		addControlsToContainers();
 		setSearchResultsCols();
-		
+
 	}
 
 	@Override
@@ -107,8 +108,14 @@ public class VisitSearchView extends SearchView implements IComponent {		// sepa
 					visitVisitorIdField.getText(),
 					visitPrisonerIdField.getText()
 			);
-			VisitSearchModel receivedModel = (VisitSearchModel) this.controller.makeSelect(this.model);
-			this.searchResults.getItems().addAll(receivedModel.getResultsList());
+
+			try {
+				VisitSearchModel receivedModel = (VisitSearchModel) this.controller.search(this.model);
+				this.searchResults.getItems().addAll(receivedModel.getResultsList());
+			} catch (SQLException ex) {
+				System.err.println(ex);
+			}
+			
 		});
 
 		visitResetBtn.setOnAction(e -> {

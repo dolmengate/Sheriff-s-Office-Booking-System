@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
 public class PrisonerAddComponent extends InputView implements IComponent {
 
 	PrisonerSearchModel model;
-	PrisonerAddController controller;
+	PrisonerController controller;
 
 	VBox container;
 
@@ -36,7 +36,8 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 	
 	Label messageLabel;
 
-	public PrisonerAddComponent(PrisonerAddController controller) {
+	public PrisonerAddComponent(PrisonerController controller) {
+		super(controller);
 		this.controller = controller;
 	
 		container = new VBox();
@@ -138,7 +139,7 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 			);
 			
 			try {
-				this.controller.makeInsert(this.model);
+				this.controller.add(this.model);
 			} catch (SQLException | NumberFormatException ex) {
 				
 				if (ex instanceof NumberFormatException)

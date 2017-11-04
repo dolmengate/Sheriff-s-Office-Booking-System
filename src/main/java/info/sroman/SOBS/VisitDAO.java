@@ -1,46 +1,44 @@
-package info.sroman.SOBS.Visit;
+package info.sroman.SOBS;
 
-import info.sroman.SOBS.Controller;
 import info.sroman.SOBS.Entities.Visit;
-import info.sroman.SOBS.SearchModel;
-import java.sql.Connection;
+import info.sroman.SOBS.Visit.VisitSearchModel;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.ArrayList;
 
-public class VisitSearchController extends Controller {
+public class VisitDAO extends Dao<Visit, VisitSearchModel> {
 	
-	VisitSearchModel model;
+	private VisitSearchModel model;
 	
 	@Override
-	public SearchModel makeSelect(SearchModel model) {
+	public ArrayList<Visit> findAll(VisitSearchModel model) {
 		
-        this.model = (VisitSearchModel) model;
+		this.model = model;
 		
-		Connection conn = null;
-		Statement statement = null;
-		ObservableList<Visit> visits = FXCollections.observableArrayList();
+		ArrayList<Visit> visits = new ArrayList<>();
 		
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:sqlite:./src/main/resources/db/SOBS.db"
 			);
-			statement = conn.createStatement();
-			statement.setQueryTimeout(10);
-			ResultSet rs = statement.executeQuery(constructStatement());
-						
+			stmt = conn.createStatement();
+			stmt.setQueryTimeout(10);
+			ResultSet rs = stmt.executeQuery(constructStatement());
+			
 			while (rs.next()) {
-				visits.add(new Visit(
-						rs.getInt("VISIT_ID"), rs.getString("start_time"), 
-						rs.getString("end_time"), rs.getString("notes"),
-						rs.getInt("visitor_id"), rs.getInt("prisoner_id")
+				visits.add(
+					new Visit(
+						rs.getInt("VISIT_ID"),
+						rs.getString("start_time"), 
+						rs.getString("end_time"), 
+						rs.getString("notes"),
+						rs.getInt("visitor_id"), 
+						rs.getInt("prisoner_id")
 					)
 				);
 			}
-						
+			
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		} finally {
@@ -51,12 +49,25 @@ public class VisitSearchController extends Controller {
 				System.err.println(ex);
 			}
 		}
-		model.setResultsList(visits);
-		return this.model;
-    }
+		return visits;
+	}
 	
 	@Override
-	public String constructStatement() {
+	public boolean create(VisitSearchModel model) {
+		return false;
+	}
+	
+	@Override
+	public boolean update(VisitSearchModel model) {
+		return false;
+	}
+	
+	@Override
+	public boolean delete(VisitSearchModel model) {
+		return false;
+	}
+	
+	private String constructStatement() {
 		
 		StringBuilder baseStatement = new StringBuilder(
 				"SELECT * FROM Visit "
@@ -66,8 +77,12 @@ public class VisitSearchController extends Controller {
 		
 		// parallel arrays that associate a TextField with its relevant table column
 		String[] fieldValues = {
-			model.getVisitId(), model.getStartTime(), model.getEndTime(), 
-			model.getNotes(), model.getVisitorId(), model.getPrisonerId()
+			model.getVisitId(), 
+			model.getStartTime(), 
+			model.getEndTime(), 
+			model.getNotes(), 
+			model.getPrisonerId(), 
+			model.getPrisonerId()
 		};
 		
 		String[] columns = {
@@ -90,4 +105,5 @@ public class VisitSearchController extends Controller {
 
 		return baseStatement.toString();
 	}
+	
 }

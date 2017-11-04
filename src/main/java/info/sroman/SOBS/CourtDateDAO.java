@@ -1,35 +1,31 @@
-package info.sroman.SOBS.CourtDate;
+package info.sroman.SOBS;
 
-import info.sroman.SOBS.Controller;
+import info.sroman.SOBS.CourtDate.CourtDateSearchModel;
 import info.sroman.SOBS.Entities.CourtDate;
-import info.sroman.SOBS.SearchModel;
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.ArrayList;
 
-public class CourtDateSearchController extends Controller {
+public class CourtDateDAO extends Dao<CourtDate, CourtDateSearchModel> {
 	
-	CourtDateSearchModel model;
+	private CourtDateSearchModel model;
 	
 	@Override
-	public SearchModel makeSelect(SearchModel model) {
-		this.model = (CourtDateSearchModel) model;
+	public ArrayList<CourtDate> findAll(CourtDateSearchModel model) {
 		
-		Connection conn = null;
-		Statement statement = null;
-		ObservableList<CourtDate> courtDates = FXCollections.observableArrayList();
+		this.model = model;
+		
+		ArrayList<CourtDate> courtDates = new ArrayList<>();
 		
 		try {
+			
 			conn = DriverManager.getConnection(
 					"jdbc:sqlite:./src/main/resources/db/SOBS.db"
 			);
-			statement = conn.createStatement();
-			statement.setQueryTimeout(10);
-			ResultSet rs = statement.executeQuery(constructStatement());
+			stmt = conn.createStatement();
+			stmt.setQueryTimeout(10);
+			ResultSet rs = stmt.executeQuery(constructStatement());
 						
 			while (rs.next()) {
 				courtDates.add(new CourtDate(
@@ -49,12 +45,25 @@ public class CourtDateSearchController extends Controller {
 				System.err.println(ex);
 			}
 		}
-		model.setResultsList(courtDates);
-		return this.model;
+		return courtDates;
 	}
 	
 	@Override
-	public String constructStatement() {
+	public boolean create(CourtDateSearchModel model) {
+		return false;
+	}
+	
+	@Override
+	public boolean update(CourtDateSearchModel model) {
+		return false;
+	}
+	
+	@Override
+	public boolean delete(CourtDateSearchModel model) {
+		return false;
+	}
+	
+	private String constructStatement() {
 		
 		StringBuilder baseStatement = new StringBuilder(
 				"SELECT * FROM Court_Date "
@@ -63,12 +72,17 @@ public class CourtDateSearchController extends Controller {
 		
 		// parallel arrays that associate a TextField with its relevant table column
 		String[] fieldValues = {
-			model.getCourtDateId(), model.getDate(), model.getVerdict(), 
+			model.getCourtDateId(), 
+			model.getDate(), 
+			model.getVerdict(), 
 			model.getPrisonerId()
 		};
 		
 		String[] columns = {
-			"COURT_DATE_ID", "date", "verdict", "prisoner_id"
+			"COURT_DATE_ID", 
+			"date", 
+			"verdict", 
+			"prisoner_id"
 		};
 		
 		StringBuilder stmt = new StringBuilder();
@@ -87,4 +101,5 @@ public class CourtDateSearchController extends Controller {
 
 		return baseStatement.toString();
 	}
+
 }

@@ -20,7 +20,6 @@ public class RowContextMenu {
 	Pane editContent;
 	Pane deleteContent;
 	
-	Controller controller;
 	PrisonerSearchModel model;
 	
 	public RowContextMenu(Pane editContent, Pane deleteContent) {

@@ -11,6 +11,12 @@ import javafx.scene.input.KeyCode;
 import javafx.util.StringConverter;
 
 public abstract class InputView {
+	
+	protected Controller controller;
+	
+	public <C extends Controller> InputView (C controller) {
+		this.controller = controller;
+	}
 
 	protected String stringifyHeightFields(
 			TextField personHeightFeetField, ComboBox personHeightInchesCombo) {

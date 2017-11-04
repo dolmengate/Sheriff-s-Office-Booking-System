@@ -1,37 +1,31 @@
-package info.sroman.SOBS.Visitor;
+package info.sroman.SOBS;
 
-import info.sroman.SOBS.Controller;
 import info.sroman.SOBS.Entities.Visitor;
-import info.sroman.SOBS.SearchModel;
-import java.sql.Connection;
+import info.sroman.SOBS.Visitor.VisitorSearchModel;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.ArrayList;
 
-public class VisitorSearchController extends Controller {
-		
-	VisitorSearchModel model;
+public class VisitorDAO extends Dao<Visitor, VisitorSearchModel> {
+	
+	private VisitorSearchModel model;
 	
 	@Override
-    public SearchModel makeSelect(SearchModel model) {
+	public ArrayList<Visitor> findAll(VisitorSearchModel model) {
 		
-        this.model = (VisitorSearchModel) model;
+		this.model = model;
 		
-		Connection conn = null;
-		Statement statement = null;
-		ObservableList<Visitor> visitors = FXCollections.observableArrayList();
+		ArrayList<Visitor> visitors = new ArrayList<>();
     
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:sqlite:./src/main/resources/db/SOBS.db"
 			);
-			statement = conn.createStatement();
-			statement.setQueryTimeout(10);
-			ResultSet rs = statement.executeQuery(constructStatement());
-						
+			stmt = conn.createStatement();
+			stmt.setQueryTimeout(10);
+			ResultSet rs = stmt.executeQuery(constructStatement());
+			
 			while (rs.next()) {
 				visitors.add(new Visitor(
 						rs.getInt("PERSON_ID"), rs.getString("first_name"), 
@@ -52,17 +46,25 @@ public class VisitorSearchController extends Controller {
 				System.err.println(ex);
 			}
 		}
-		model.setResultsList(visitors);
-		return this.model;
-    }
-	
-	/*
-	*	Check each TextField to see if it has input. If it does create a 
-	*	statement that includes a WHERE clause including that field's value and
-	*	which references that field's column in the table
-	*/
+		return visitors;
+	}
+
 	@Override
-	public String constructStatement() {
+	public boolean create(VisitorSearchModel model) {
+		return false;
+	}
+	
+	@Override
+	public boolean update(VisitorSearchModel model) {
+		return false;
+	}
+	
+	@Override
+	public boolean delete(VisitorSearchModel model) {
+		return false;
+	}
+	
+	private String constructStatement() {
 		
 		StringBuilder baseStatement = new StringBuilder(
 				"SELECT * FROM Person "
@@ -71,12 +73,17 @@ public class VisitorSearchController extends Controller {
 						+ "WHERE "
 		);
 		
-		
 		// parallel arrays that associate a TextField with its relevant table column
 		String[] fieldValues = {
-			model.getPersonId(), model.getFirstName(), model.getLastName(), 
-			model.getHeight(), model.getWeight(), model.getDob(), model.getRace(), 
-			model.getVisitorId(), model.getSsn()
+			model.getPersonId(), 
+			model.getFirstName(), 
+			model.getLastName(), 
+			model.getHeight(), 
+			model.getWeight(), 
+			model.getDob(), 
+			model.getRace(), 
+			model.getVisitorId(), 
+			model.getSsn()
 		};
 		
 		String[] columns = {

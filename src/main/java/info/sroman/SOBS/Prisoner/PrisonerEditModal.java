@@ -12,13 +12,14 @@ import javafx.scene.text.Text;
 public class PrisonerEditModal extends InputView implements IComponent {
 
 	VBox container;
-	PrisonerFieldsComponent prisonerFields = new PrisonerFieldsComponent();
+	PrisonerFieldsComponent prisonerFields;
 	PrisonerSearchModel model;
-	PrisonerEditController controller;
 	Text messageText;
 
 	public PrisonerEditModal(Controller controller) {
-		this.controller = (PrisonerEditController) controller;
+		super(controller);
+		
+		prisonerFields = new PrisonerFieldsComponent(controller);
 
 		Label editLabel = new Label("Edit Record");
 		editLabel.setStyle("-fx-font-weight: bold;");
@@ -46,7 +47,7 @@ public class PrisonerEditModal extends InputView implements IComponent {
 			createModel();
 			
 			try {
-				this.controller.makeUpdate(this.model);
+				this.controller.edit(this.model);
 			} catch (SQLException ex) {
 				messageText.setText(ex.getMessage());
 				return;

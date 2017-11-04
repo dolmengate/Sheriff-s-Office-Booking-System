@@ -1,5 +1,6 @@
 package info.sroman.SOBS.Prisoner;
 
+import info.sroman.SOBS.Controller;
 import java.time.LocalDate;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -68,7 +69,8 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 	Button submitBtn;
 	Button resetBtn;
 
-	public PrisonerFieldsComponent() {
+	public PrisonerFieldsComponent(Controller controller) {
+		super(controller);
 
 		container.setPrefColumns(5);
 		container.setPrefHeight(150);

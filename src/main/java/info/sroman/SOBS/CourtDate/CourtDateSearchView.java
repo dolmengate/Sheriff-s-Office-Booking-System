@@ -5,6 +5,7 @@ import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
 import info.sroman.SOBS.Entities.CourtDate;
 import info.sroman.SOBS.SearchView;
+import java.sql.SQLException;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -90,8 +91,13 @@ public class CourtDateSearchView extends SearchView implements IComponent {
 					getComboValueString(verdictCombo),
 					prisonerIdField.getText()
 			);
-			CourtDateSearchModel receivedModel = (CourtDateSearchModel) this.controller.makeSelect(this.model);
-			this.searchResults.getItems().addAll(receivedModel.getResultsList());
+			
+			try {
+				CourtDateSearchModel receivedModel = (CourtDateSearchModel) this.controller.search(this.model);
+				this.searchResults.getItems().addAll(receivedModel.getResultsList());
+			} catch (SQLException ex) {
+				System.err.print(ex);
+			}
 		});
 		
 		resetBtn.setOnAction( e-> {

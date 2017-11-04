@@ -12,10 +12,9 @@ public abstract class SearchView extends InputView implements IComponent {
 	protected final TableView searchResults;
 	
 	protected SearchModel model;
-	protected Controller controller;
 	
-	public SearchView(Controller controller) {
-		this.controller = controller;
+	public <C extends Controller> SearchView(C controller) {
+		super(controller);
 		this.searchResults = new TableView();
 		
 		this.container = new VBox(10);

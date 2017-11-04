@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
 import info.sroman.SOBS.SearchView;
+import java.sql.SQLException;
 
 public class VisitorSearchView extends SearchView implements IComponent {
 
@@ -57,7 +58,7 @@ public class VisitorSearchView extends SearchView implements IComponent {
 	Button visitorSubmitBtn;
 	Button visitorResetBtn;
 
-	public VisitorSearchView(VisitorSearchController controller) {
+	public VisitorSearchView(VisitorController controller) {
 		super(controller);
 
 		visitorPersonIdBox = new HBox();
@@ -163,8 +164,13 @@ public class VisitorSearchView extends SearchView implements IComponent {
 					visitorVisitorIdField.getText(),
 					visitorSSNField.getText()
 			);
-			VisitorSearchModel receivedModel = (VisitorSearchModel) this.controller.makeSelect(model);
-			this.searchResults.getItems().addAll(receivedModel.getResultsList());
+			
+			try {
+				VisitorSearchModel receivedModel = (VisitorSearchModel) this.controller.search(this.model);
+				this.searchResults.getItems().addAll(receivedModel.getResultsList());
+			} catch (SQLException ex) {
+				System.err.println(ex);
+			}
 		});
 		
 		visitorResetBtn.setOnAction(e -> {

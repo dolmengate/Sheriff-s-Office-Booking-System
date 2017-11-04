@@ -13,7 +13,4 @@ public abstract class SearchModel {
 	public void setResultsList(ObservableList resultsList) {
 		this.resultsList = resultsList;
 	}
-	
-	
-	
 }

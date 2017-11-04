@@ -20,18 +20,14 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 	PrisonerFieldsComponent prisonerSearchComponent;
 	PrisonerAddComponent prisonerAddComponent;
 	RowContextMenu rowContextMenu;
-	PrisonerEditController editModalController;
-	PrisonerAddController addController;
 	Prisoner selectedPrisoner;
 	Text messageText;
 
-	public PrisonerSearchView(PrisonerSearchController controller, PrisonerEditController editModalController) {
+	public PrisonerSearchView(PrisonerController controller) {
 		super(controller);
-		this.editModalController = (PrisonerEditController) editModalController;
 
-		prisonerSearchComponent = new PrisonerFieldsComponent();
-		addController = new PrisonerAddController();
-		prisonerAddComponent = new PrisonerAddComponent(addController);
+		prisonerSearchComponent = new PrisonerFieldsComponent(controller);
+		prisonerAddComponent = new PrisonerAddComponent(controller);
 
 		addControlsToContainers();
 		styleControls();
@@ -69,11 +65,15 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 					getComboValueString(prisonerSearchComponent.getCellBlockCombo()), 
 					false
 			);
-			PrisonerSearchModel receivedModel = (PrisonerSearchModel) controller.makeSelect(this.model);
-			this.searchResults.getItems().addAll(receivedModel.getResultsList());
+			try {
+				PrisonerSearchModel receivedModel = (PrisonerSearchModel) controller.search(this.model);
+				this.searchResults.getItems().addAll(receivedModel.getResultsList());
+			} catch (SQLException ex) {
+				
+			}
 		});
 		
-		// TODO implement delete record
+		// TODO implement remove record
 
 		this.searchResults.setOnContextMenuRequested(e -> {
 			
@@ -81,7 +81,7 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 			
 			selectedPrisoner = (Prisoner) searchResults.getSelectionModel().getSelectedItems().get(0);
 
-			PrisonerEditModal editModal = new PrisonerEditModal(editModalController);
+			PrisonerEditModal editModal = new PrisonerEditModal(controller);
 			VBox editModalContainer = editModal.getPane();
 			editModalContainer.getStylesheets().add("search-container");
 
@@ -95,7 +95,7 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 
 			deleteBtn.setOnAction(deleteEvent -> {
 				try {
-					editModalController.makeDelete(selectedPrisoner.getPRISONER_ID());
+					this.controller.remove(this.model);
 					messageLabel.setText("Record Deleted!");
 				} catch (SQLException | NumberFormatException ex) {
 					System.out.println(ex.getMessage());
