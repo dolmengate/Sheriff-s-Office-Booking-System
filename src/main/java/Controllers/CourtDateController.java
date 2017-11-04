@@ -1,6 +1,7 @@
-package info.sroman.SOBS.CourtDate;
+package Controllers;
 
 import info.sroman.SOBS.Controller;
+import Models.CourtDateSearchModel;
 import info.sroman.SOBS.Dao;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;

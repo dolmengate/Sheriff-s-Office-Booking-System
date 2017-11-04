@@ -1,7 +1,8 @@
-package info.sroman.SOBS;
+package DataAccess;
 
 import info.sroman.SOBS.Entities.Visitor;
-import info.sroman.SOBS.Visitor.VisitorSearchModel;
+import Models.VisitorSearchModel;
+import info.sroman.SOBS.Dao;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;

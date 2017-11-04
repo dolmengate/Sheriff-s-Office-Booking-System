@@ -1,4 +1,4 @@
-package info.sroman.SOBS.CourtDate;
+package Models;
 
 import info.sroman.SOBS.SearchModel;
 

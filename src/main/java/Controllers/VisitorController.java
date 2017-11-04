@@ -1,7 +1,8 @@
-package info.sroman.SOBS.Visitor;
+package Controllers;
 
 import info.sroman.SOBS.Controller;
 import info.sroman.SOBS.Dao;
+import Models.VisitorSearchModel;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

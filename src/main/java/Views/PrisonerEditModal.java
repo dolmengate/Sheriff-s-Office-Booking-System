@@ -1,8 +1,10 @@
-package info.sroman.SOBS.Prisoner;
+package Views;
 
+import Views.PrisonerFieldsComponent;
 import info.sroman.SOBS.Controller;
 import info.sroman.SOBS.IComponent;
 import info.sroman.SOBS.InputView;
+import Models.PrisonerSearchModel;
 import java.sql.SQLException;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;

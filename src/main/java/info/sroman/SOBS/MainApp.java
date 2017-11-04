@@ -1,18 +1,22 @@
 package info.sroman.SOBS;
 
-import info.sroman.SOBS.CourtDate.CourtDateController;
-import info.sroman.SOBS.CourtDate.CourtDateSearchModel;
-import info.sroman.SOBS.CourtDate.CourtDateSearchView;
+import DataAccess.VisitDAO;
+import DataAccess.VisitorDAO;
+import DataAccess.PrisonerDAO;
+import DataAccess.CourtDateDAO;
+import Controllers.CourtDateController;
+import Models.CourtDateSearchModel;
+import Views.CourtDateSearchView;
 import info.sroman.SOBS.Entities.Cell;
-import info.sroman.SOBS.Prisoner.PrisonerController;
-import info.sroman.SOBS.Prisoner.PrisonerSearchModel;
-import info.sroman.SOBS.Prisoner.PrisonerSearchView;
-import info.sroman.SOBS.Visitor.VisitorSearchModel;
-import info.sroman.SOBS.Visitor.VisitorController;
-import info.sroman.SOBS.Visitor.VisitorSearchView;
-import info.sroman.SOBS.Visit.VisitController;
-import info.sroman.SOBS.Visit.VisitSearchModel;
-import info.sroman.SOBS.Visit.VisitSearchView;
+import Controllers.PrisonerController;
+import Models.PrisonerSearchModel;
+import Views.PrisonerSearchView;
+import Models.VisitorSearchModel;
+import Controllers.VisitorController;
+import Views.VisitorSearchView;
+import Controllers.VisitController;
+import Models.VisitSearchModel;
+import Views.VisitSearchView;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Scene;
@@ -109,20 +113,19 @@ public class MainApp extends Application {
 		
 		Database.genDB();
 		
-		for (int i = 0; i < 50; i++) {
-			Database.createCell("Hospital");
+		for (int i = 0; i < 20; i++) {
+			Cell c = Database.createCell("Hospital");
+			Database.createPrisoner(i);
+			Database.createBunk(i, c.getCELL_ID());
 		}
-		
-		for (int i = 0; i < 10; i++) {
-			Database.createCell("Isolation");
-		}
-		
-		for (int i = 0; i < 200; i++) {
-			Database.createCell("MinSec");
-		}
-		
 		
 		for (int i = 0; i < 50; i++) {
+			Cell c = Database.createCell("MinSec");
+			Database.createPrisoner(i);
+			Database.createBunk(i, c.getCELL_ID());
+		}
+		
+		for (int i = 0; i < 20; i++) {
 			Cell c = Database.createCell("Isolation");
 			Database.createPrisoner(i);
 			Database.createBunk(i, c.getCELL_ID());

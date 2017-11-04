@@ -1,4 +1,4 @@
-package info.sroman.SOBS.Prisoner;
+package Models;
 
 import info.sroman.SOBS.SearchModel;
 

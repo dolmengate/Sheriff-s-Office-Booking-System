@@ -1,5 +1,6 @@
-package info.sroman.SOBS.CourtDate;
+package Views;
 
+import Models.CourtDateSearchModel;
 import info.sroman.SOBS.Controller;
 import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
@@ -82,7 +83,7 @@ public class CourtDateSearchView extends SearchView implements IComponent {
 	@Override
 	public void configureControls() {
 		
-		submitBtn.setOnAction( e -> {
+		submitBtn.setOnAction(e -> {
 			this.searchResults.getItems().clear();					
 			
 			this.model = new CourtDateSearchModel(

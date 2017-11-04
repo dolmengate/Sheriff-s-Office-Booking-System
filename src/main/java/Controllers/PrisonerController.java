@@ -1,7 +1,8 @@
-package info.sroman.SOBS.Prisoner;
+package Controllers;
 
 import info.sroman.SOBS.Controller;
 import info.sroman.SOBS.Dao;
+import Models.PrisonerSearchModel;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

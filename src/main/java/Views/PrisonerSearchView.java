@@ -1,12 +1,16 @@
-package info.sroman.SOBS.Prisoner;
+package Views;
 
+import Views.PrisonerEditModal;
+import Views.PrisonerFieldsComponent;
+import Views.PrisonerAddComponent;
+import Controllers.PrisonerController;
 import info.sroman.SOBS.Entities.Prisoner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import info.sroman.SOBS.IComponent;
-import info.sroman.SOBS.RowContextMenu;
+import Models.PrisonerSearchModel;
 import info.sroman.SOBS.SearchView;
 import java.sql.SQLException;
 import javafx.scene.control.Button;

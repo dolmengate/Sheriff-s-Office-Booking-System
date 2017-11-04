@@ -1,6 +1,7 @@
-package info.sroman.SOBS;
+package DataAccess;
 
-import info.sroman.SOBS.CourtDate.CourtDateSearchModel;
+import Models.CourtDateSearchModel;
+import info.sroman.SOBS.Dao;
 import info.sroman.SOBS.Entities.CourtDate;
 import java.sql.DriverManager;
 import java.sql.ResultSet;

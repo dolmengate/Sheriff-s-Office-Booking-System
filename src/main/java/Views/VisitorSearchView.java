@@ -1,5 +1,7 @@
-package info.sroman.SOBS.Visitor;
+package Views;
 
+import Models.VisitorSearchModel;
+import Controllers.VisitorController;
 import info.sroman.SOBS.Entities.Visitor;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;

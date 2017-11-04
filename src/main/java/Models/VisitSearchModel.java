@@ -1,4 +1,4 @@
-package info.sroman.SOBS.Visit;
+package Models;
 
 import info.sroman.SOBS.SearchModel;
 import javafx.collections.ObservableList;

@@ -1,6 +1,6 @@
-package info.sroman.SOBS;
+package Views;
 
-import info.sroman.SOBS.Prisoner.PrisonerSearchModel;
+import Models.PrisonerSearchModel;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Side;

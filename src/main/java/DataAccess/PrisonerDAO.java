@@ -1,7 +1,8 @@
-package info.sroman.SOBS;
+package DataAccess;
 
 import info.sroman.SOBS.Entities.Prisoner;
-import info.sroman.SOBS.Prisoner.PrisonerSearchModel;
+import Models.PrisonerSearchModel;
+import info.sroman.SOBS.Dao;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;

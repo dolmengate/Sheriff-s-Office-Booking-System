@@ -1,4 +1,4 @@
-package info.sroman.SOBS.Prisoner;
+package Views;
 
 import info.sroman.SOBS.Controller;
 import java.time.LocalDate;
