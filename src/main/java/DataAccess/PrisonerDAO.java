@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
-
+ 
 	private PrisonerSearchModel model;
 
 	@Override
@@ -225,32 +225,36 @@ public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
 			"race", "PRISONER_ID", "arrest_date", "release_date", "bunk_id", "Cell.type"
 		};
 
-		// return just the base statement if no parameters were specified
-		// (i.e. SELECT all Prisoners with no other qualifications
 		StringBuilder emptyTest = new StringBuilder();
 
-		// if all of the fields were empty return the statement after including
-		// specifying not to include prisoners that were previously released
-		for (int i = 0; i < fieldValues.length; i++) {
-			emptyTest.append(fieldValues[i]);
+		// check if the user made a search with NO field inputs
+		for (String fieldValue : fieldValues) {
+			emptyTest.append(fieldValue);
 		}
 
+		/*
+			if they did, complete and return the statement. this will return all
+			prisoners instead of returning none
+		*/
 		if (emptyTest.length() == 0) {
 			baseStatement.append(" WHERE Prisoner.PRISONER_ID NOT NULL");
 			System.out.println(baseStatement.toString());
 			return baseStatement.toString();
 		}
 
+		// otherwise continue building the statement
 		baseStatement.append(" WHERE ");
 
 		StringBuilder whereClauses = new StringBuilder();
 
-		// construct WHERE clauses for each non-empty TextField
-		// if the statement has multiple WHERE clauses include an "AND" between them
+		/* 
+			construct WHERE clauses for each non-empty TextField
+			if the statement has multiple WHERE clauses include an "AND" between them
+		*/
 		for (int i = 0; i < fieldValues.length; i++) {
-			if (whereClauses.length() == 0) {
+			if (whereClauses.length() == 0) {	// if it's the first WHERE to be added don't include the "AND"
 				whereClauses.append(checkForAnd(fieldValues[i], columns[i]));
-			} else if (!fieldValues[i].equals("")) {
+			} else if (!fieldValues[i].equals("")) {	// otherwise add the "AND" before adding the additional statement
 				whereClauses.append(" AND ").append(checkForAnd(fieldValues[i], columns[i]));
 			}
 		}
@@ -262,7 +266,7 @@ public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
 			baseStatement.insert(baseStatement.indexOf(" PERSON_ID ") + 1, "Person.", 0, 7);
 		}
 
-		// only return Prisoners not released
+		// only ever return Prisoners not released
 		baseStatement.append(" AND is_released = '0' ");
 
 		System.out.println(baseStatement);

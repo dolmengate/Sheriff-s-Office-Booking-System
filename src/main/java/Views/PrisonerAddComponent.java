@@ -99,17 +99,17 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 		raceCombo.setMinHeight(10);
 		raceCombo.setPromptText("Race");
 		
-		configPickerDateFormat(dobPicker);
+		configPickerDateFormat(dobPicker, createStringConverter("yyyy-MM-dd"));
 		dobPicker.setMinHeight(12);
 		dobPicker.setMaxWidth(150);
 		dobPicker.setPromptText("DOB");
 
-		configPickerDateFormat(arrestDatePicker);
+		configPickerDateFormat(arrestDatePicker, createStringConverter("yyyy-MM-dd"));
 		arrestDatePicker.setMinHeight(12);
 		arrestDatePicker.setMaxWidth(150);
 		arrestDatePicker.setPromptText("Arrest Date");
 		
-		configPickerDateFormat(releaseDatePicker);
+		configPickerDateFormat(releaseDatePicker, createStringConverter("yyyy-MM-dd"));
 		releaseDatePicker.setMinHeight(12);
 		releaseDatePicker.setMaxWidth(150);
 		releaseDatePicker.setPromptText("Release Date");

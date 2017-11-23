@@ -129,8 +129,8 @@ public class VisitSearchView extends SearchView implements IComponent {		// sepa
 			visitPrisonerIdField.setText("");
 		});
 
-		configPickerDateFormat(visitStartTimePicker);
-		configPickerDateFormat(visitEndTimePicker);
+		configPickerDateFormat(visitStartTimePicker, createStringConverter("yyyy-MM-dd"));
+		configPickerDateFormat(visitEndTimePicker, createStringConverter("yyyy-MM-dd"));
 		visitStartTimePicker.setMinHeight(12);
 		visitStartTimePicker.setMaxWidth(170);
 		visitEndTimePicker.setMinHeight(12);

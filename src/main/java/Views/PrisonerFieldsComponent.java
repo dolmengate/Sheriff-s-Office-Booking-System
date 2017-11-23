@@ -173,15 +173,15 @@ public class PrisonerFieldsComponent extends InputView implements IComponent {
 
 		dobPicker.setMinHeight(12);
 		dobPicker.setMaxWidth(170);
-		configPickerDateFormat(dobPicker);
+		configPickerDateFormat(dobPicker, createStringConverter("yyyy-MM-dd"));
 
 		arrestDatePicker.setMinHeight(12);
 		arrestDatePicker.setMaxWidth(170);
-		configPickerDateFormat(arrestDatePicker);
+		configPickerDateFormat(arrestDatePicker, createStringConverter("yyyy-MM-dd"));
 
 		releaseDatePicker.setMinHeight(12);
 		releaseDatePicker.setMaxWidth(170);
-		configPickerDateFormat(releaseDatePicker);
+		configPickerDateFormat(releaseDatePicker, createStringConverter("yyyy-MM-dd"));
 
 		resetBtn.setOnAction(e -> {
 			personIdField.setText("");

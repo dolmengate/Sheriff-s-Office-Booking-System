@@ -110,8 +110,8 @@ public class CourtDateSearchView extends SearchView implements IComponent {
 		
 		datePicker.setMinHeight(12);
 		datePicker.setMinWidth(170);
-		configPickerDateFormat(datePicker);
-		
+		configPickerDateFormat(datePicker, createStringConverter("yyyy-MM-dd"));
+
 		addComboBoxOptions(verdictCombo, "Pending", "Guilty", "Not Guilty");
 		
 		verdictCombo.setMinSize(10, verdictBox.getWidth());

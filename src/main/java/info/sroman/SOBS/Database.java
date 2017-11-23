@@ -25,6 +25,9 @@ public class Database {
 	private static int courtDateID = 700;
 	private static int cellId = 200;
 	
+	/**
+	 * Create all tables within the database
+	 */
 	public static void genDB() {
 		try {
 			
@@ -120,27 +123,40 @@ public class Database {
 		}
 	}
 
+	/**
+	 * Seed the database with a new prisoner.
+	 * @param bunkId bunkId for the prisoner created.
+	 */
 	public static void createPrisoner(int bunkId) {
 		Prisoner p = new Prisoner(assignPersonID(), randomFirstName(), randomLastName(),
-				randomHeight(), randomWeight(), randomDOB(), randomRace(), assignPrisonerID(),
+				randomHeight(), randomWeight(), randomDateString(), randomRace(), assignPrisonerID(),
 				randomDateString(), randomDateString(), bunkId, false);
 		insertAndPrintStatus(p);
 	}
 
+	/**
+	 * Seed the database with a new Visitor.
+	 */
 	public static void createVisitor() {
 		Visitor v = new Visitor(assignPersonID(), randomFirstName(), randomLastName(),
-				randomHeight(), randomWeight(), randomDOB(), randomRace(), assignVisitorID(), randomSSN());
+				randomHeight(), randomWeight(), randomDateString(), randomRace(), assignVisitorID(), randomSSN());
 		insertAndPrintStatus(v);
 	}
 
+	/**
+	 * Seed the database with a new Visit.
+	 */
 	public static void createVisit() {
-		LocalDateTime startTime = randomStartTime();
+		LocalDateTime startTime = genLocalDateTime();
 		Visit v = new Visit(assignVisitID(), startTime.toString(), randomEndTime(startTime).toString(), "",
 				randomInRange(900, visitID), randomInRange(400, prisonerID));
 
 		insertAndPrintStatus(v);
 	}
 	
+	/**
+	 * Seed the database with a new CourtDate.
+	 */
 	public static void createCourtDate() {
 		CourtDate cd = new CourtDate(
 				assignCourtDateID(), randomDateString(), "Pending", randomInRange(400, prisonerID)
@@ -148,21 +164,36 @@ public class Database {
 		insertAndPrintStatus(cd);
 	}
 	
+	/**
+	 * Seed the database with a new Bunk.
+	 * @param bunkId bunkId for created bunk
+	 * @param cellId cellId for created cell
+	 */
 	public static void createBunk(int bunkId, int cellId) {
 		Bunk b = new Bunk(
-				bunkId, (Database.bunkID % 2 == 0 ? "Top" : "Bottom"),
+				bunkId, 
+				(Database.bunkID % 2 == 0 ? "Top" : "Bottom"), // alternate between creating Top and Bottom Bunks
 				cellId,
 				randomInRange(400, Database.prisonerID)
 		);
 		insertAndPrintStatus(b);
 	}
 	
+	/**
+	 * Seed the database with a new Cell.
+	 * @param type cell type for new cell
+	 * @return the created cell
+	 */
 	public static Cell createCell(String type) {
 		Cell c = new Cell(assignCellId(), type);
 		insertAndPrintStatus(c);
 		return c;
 	}
 
+	/**
+	 * Return a random first name for prisoner creation.
+	 * @return a first name String
+	 */
 	private static String randomFirstName() {
 		String[] FIRST_NAMES = {
 			"Felix",
@@ -199,6 +230,10 @@ public class Database {
 		return FIRST_NAMES[(int) (Math.random() * FIRST_NAMES.length)];
 	}
 
+	/**
+	 * Return a random last name for prisoner creation.
+	 * @return a last name String
+	 */
 	public static String randomLastName() {
 
 		String[] LAST_NAMES = {
@@ -234,29 +269,42 @@ public class Database {
 		return LAST_NAMES[(int) (Math.random() * LAST_NAMES.length)];
 	}
 
+	/**
+	 * Return a random height for prisoner creation.
+	 * @return an integer representing a prisoners height with the format FII
+	 */
 	public static int randomHeight() {
 		String feet = Integer.toString((int) (Math.random() * 6) + 4);
 		String inches = Integer.toString((int) (Math.random() * 12));
 		return Integer.valueOf(feet.concat(inches));
 	}
 
+	/**
+	 * Return a random weight for prisoner creation.
+	 * @return an integer representing a prisoner's weight
+	 */
 	public static int randomWeight() {
 		return (int) (Math.random() * 250) + 150;
 	}
 
-	public static String randomDOB() {
-		return randomDateString();
-	}
 
+	/**
+	 * Returns a random race for prisoner creation.
+	 * @return a race string
+	 */
 	public static String randomRace() {
-		String[] RACES = {
+		final String[] RACES = {
 			"White",
 			"Black",
 			"Hispanic"
 		};
-		return RACES[(int) (Math.random() * 2)];
+		return RACES[randomInRange(0, 2)];
 	}
 
+	/**
+	 * Returns a random date of birth string for prisoner creation.
+	 * @return a date string with the format YYYY-MM-DD
+	 */
 	public static String randomDateString() {
 		try {
 			return LocalDate.of(
@@ -273,10 +321,11 @@ public class Database {
 		return randomDateString();
 	}
 
-	public static LocalDateTime randomStartTime() {
-		return genLocalDateTime();
-	}
-
+	/**
+	 * Returns a LocalDateTime before startTime
+	 * @param startTime	date before which time cannot be after
+	 * @return			a LocalDateTime after startTime
+	 */
 	public static LocalDateTime randomEndTime(LocalDateTime startTime) {
 		LocalDateTime time = genLocalDateTime();
 		while (time.isBefore(startTime)) {
@@ -285,6 +334,10 @@ public class Database {
 		return time;
 	}
 
+	/**
+	 * Returns a random LocalDateTime for Visit creation.
+	 * @return a random LocalDateTime
+	 */
 	private static LocalDateTime genLocalDateTime() {
 		try {
 			LocalDate date = LocalDate.of(
@@ -336,15 +389,30 @@ public class Database {
 		return ++Database.cellId;
 	}
 
+	/**
+	 * Returns a random integer within a range 
+	 * @param min minimum number
+	 * @param max maximum number
+	 * @return an integer between min and max
+	 */
 	private static int randomInRange(int min, int max) {
 		int range = (max - min) + 1;
 		return (int) (Math.random() * range) + min;
 	}
 
+	/**
+	 * Return an random SSN for Visitor creation.
+	 * @return a random integer representing an SSN
+	 */
 	private static int randomSSN() {
 		return randomInRange(100000000, 999999999);
 	}
 	
+	/**
+	 * Inserts an entity into the database and prints the status of the insertion.
+	 * @param <E>	 Entity type
+	 * @param entity added entity
+	 */
 	private static <E extends Entity> void insertAndPrintStatus(E entity) {
 		if(entity.createDBEntry())
 			System.out.println(entity.getClass().getName() + " created:\n" + entity.toString());

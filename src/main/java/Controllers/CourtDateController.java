@@ -12,7 +12,7 @@ public class CourtDateController extends Controller<CourtDateSearchModel> {
 	public <D extends Dao> CourtDateController(D dao) {
 		super(dao);
 	}
-
+	
 	@Override
 	public CourtDateSearchModel search(CourtDateSearchModel model) throws SQLException {
 		ObservableList rl = FXCollections.observableArrayList();

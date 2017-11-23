@@ -150,7 +150,7 @@ public class VisitorSearchView extends SearchView implements IComponent {
 		visitorDOBPicker.setMinHeight(12);
 		visitorDOBPicker.setMaxWidth(170);
 		visitorDOBPicker.setShowWeekNumbers(true);
-		configPickerDateFormat(visitorDOBPicker);
+		configPickerDateFormat(visitorDOBPicker, createStringConverter("yyyy-MM-dd"));
 		
 		visitorSubmitBtn.setOnAction(e -> {
 			this.searchResults.getItems().clear();

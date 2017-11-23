@@ -18,6 +18,13 @@ public abstract class InputView {
 		this.controller = controller;
 	}
 
+	/**
+	 * Returns a formatted String from user inputs of the given input boxes. 
+	 * @param personHeightFeetField		TextField with the person's feet
+	 * @param personHeightInchesCombo	ComboBox with the person's inches
+	 * @return							a formatted String of the combined feet 
+	 *									and inches of the format FII
+	 */
 	protected String stringifyHeightFields(
 			TextField personHeightFeetField, ComboBox personHeightInchesCombo) {
 		String feet = personHeightFeetField.getText();
@@ -30,6 +37,12 @@ public abstract class InputView {
 		return feet.concat(inches);
 	}
 
+	/**
+	 * Returns a string of the value of the given ComboBox or an empty string if
+	 * the box has no input.
+	 * @param combo	the ComboBox to get the value of
+	 * @return		a String representation of combo 's value
+	 */
 	protected String getComboValueString(ComboBox combo) {
 		if (combo.getValue() == null) {
 			return "";
@@ -37,21 +50,36 @@ public abstract class InputView {
 		return combo.getValue().toString();
 	}
 
-	protected void addComboBoxOptions(ComboBox combo, String... option) {
+	/**
+	 * Adds options to a ComboBox.
+	 * @param combo	 the ComboBox to add options to
+	 * @param options a List of Strings, the options to be set
+	 */
+	protected void addComboBoxOptions(ComboBox combo, String... options) {
 		combo.setItems(
 				FXCollections.observableArrayList(
-						Arrays.asList(option)
+						Arrays.asList(options)
 				)
 		);
 	}
 
-	protected void configPickerDateFormat(DatePicker picker) {
-		picker.setConverter(createStringConverter());
+	/**
+	 * Configures a DatePicker to display the proper date format.
+	 * @param picker	the DatePicker to configure
+	 * @param converter the StringConverter to use to configure the picker
+	 */
+	protected void configPickerDateFormat(DatePicker picker, StringConverter converter) {
+		picker.setConverter(converter);
 	}
 
-	private StringConverter createStringConverter() {
+	/**
+	 * Returns a StringConverter of the given pattern
+	 * @param pattern a String of the pattern to which Strings will be converted to
+	 * @return		  a StringConverter of the specified pattern
+	 */
+	protected StringConverter createStringConverter(String pattern) {
 		return new StringConverter<LocalDate>() {
-			String pattern = "yyyy-MM-dd";
+			
 			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
 
 			@Override
@@ -74,6 +102,11 @@ public abstract class InputView {
 		};
 	}
 
+	/**
+	 * Returns a String of the given value of the given DatePicker.
+	 * @param picker DatePicker to get value of
+	 * @return		 a String representation of the DatePicker's value
+	 */
 	protected String getPickerValueString(DatePicker picker) {
 		if (picker.getValue() == null) {
 			return "";
@@ -82,6 +115,10 @@ public abstract class InputView {
 
 	}
 
+	/**
+	 * Configure any number of TextFields to take only numeric inputs.
+	 * @param fields TextFields to be configured
+	 */
 	protected void restrictToDigitInput(TextField... fields) {
 		for (TextField field : fields) {
 			field.setOnKeyReleased(e -> {
@@ -92,6 +129,10 @@ public abstract class InputView {
 		}
 	}
 
+	/**
+	 * Configure any number of TextFields to take only letters as input.
+	 * @param fields TextFields to be configured
+	 */
 	protected void restrictToLetterInput(TextField... fields) {
 		for (TextField field : fields) {
 			field.setOnKeyReleased(e -> {

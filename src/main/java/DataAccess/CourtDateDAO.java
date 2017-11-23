@@ -35,7 +35,7 @@ public class CourtDateDAO extends Dao<CourtDate, CourtDateSearchModel> {
 					)
 				);
 			}
-						
+		
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		} finally {
