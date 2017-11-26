@@ -1,6 +1,5 @@
 package Views;
 
-import Views.PrisonerFieldsComponent;
 import info.sroman.SOBS.Controller;
 import info.sroman.SOBS.IComponent;
 import info.sroman.SOBS.InputView;
@@ -14,13 +13,20 @@ import javafx.scene.text.Text;
 public class PrisonerEditModal extends InputView implements IComponent {
 
 	VBox container;
+	
+	// user input fields component 
 	PrisonerFieldsComponent prisonerFields;
+	
+	// values of input fields, to be passed between the layers
 	PrisonerSearchModel model;
+	
+	// error or success text
 	Text messageText;
 
 	public PrisonerEditModal(Controller controller) {
 		super(controller);
 		
+		// create and style fields within modal for display
 		prisonerFields = new PrisonerFieldsComponent(controller);
 
 		Label editLabel = new Label("Edit Record");
@@ -36,6 +42,7 @@ public class PrisonerEditModal extends InputView implements IComponent {
 		this.container.setPadding(new Insets(20));
 		this.container.getChildren().addAll(editLabel, prisonerFields.getPane(), messageText);
 
+		// disable unchangeable characteristics' fields
 		prisonerFields.getPersonIdField().setDisable(true);
 		prisonerFields.getPrisonerIdField().setDisable(true);
 		prisonerFields.getDOBPicker().setDisable(true);
@@ -46,6 +53,8 @@ public class PrisonerEditModal extends InputView implements IComponent {
 		prisonerFields.getCellBlockCombo().setDisable(true);
 
 		prisonerFields.getSubmitBtn().setOnAction(e -> {
+			// create a model containing the information in the input fields
+			// to be passed to the controller so the DAO knows what to change
 			createModel();
 			
 			try {

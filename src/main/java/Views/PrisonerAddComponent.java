@@ -19,7 +19,6 @@ import javafx.scene.layout.VBox;
 public class PrisonerAddComponent extends InputView implements IComponent {
 
 	PrisonerSearchModel model;
-	PrisonerController controller;
 
 	VBox container;
 
@@ -40,6 +39,7 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 
 	public PrisonerAddComponent(PrisonerController controller) {
 		super(controller);
+		
 		this.controller = controller;
 	
 		container = new VBox();

@@ -1,8 +1,5 @@
 package Views;
 
-import Views.PrisonerEditModal;
-import Views.PrisonerFieldsComponent;
-import Views.PrisonerAddComponent;
 import Controllers.PrisonerController;
 import info.sroman.SOBS.Entities.Prisoner;
 import javafx.scene.control.TableColumn;
@@ -79,16 +76,21 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 		
 		// TODO implement remove record
 
+		// on right click create context menu for editing/deleting prisoner
 		this.searchResults.setOnContextMenuRequested(e -> {
 			
+			// disallow displaying more than one context menu
 			if (rowContextMenu != null) rowContextMenu.hide();
 			
+			// find selected prisoner to be edited or deleted
 			selectedPrisoner = (Prisoner) searchResults.getSelectionModel().getSelectedItems().get(0);
 
+			// create and style the Edit Modal for display
 			PrisonerEditModal editModal = new PrisonerEditModal(controller);
 			VBox editModalContainer = editModal.getPane();
 			editModalContainer.getStylesheets().add("search-container");
 
+			// create and style Delete Modal for display
 			VBox deleteModalContainer = new VBox(10);
 			Button deleteBtn = new Button("Delete");
 			Label deleteRecordLabel = new Label("Delete Record?");
@@ -97,6 +99,7 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 			
 			deleteModalContainer.getChildren().addAll(deleteRecordLabel, deleteBtn, messageLabel);
 
+			// define Delete button behavior for Delete Modal
 			deleteBtn.setOnAction(deleteEvent -> {
 				try {
 					this.controller.remove(this.model);
@@ -107,6 +110,7 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 				}
 			});
 			
+			// fill user input controls with selected prisoner data
 			PrisonerFieldsComponent fields = editModal.getPrisonerFields();
 
 			fields.setPersonIdField(Integer.toString(selectedPrisoner.getPERSON_ID()));
@@ -122,9 +126,12 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 			fields.setReleaseDatePicker(selectedPrisoner.getReleaseDate());
 			fields.setBunkIdField(Integer.toString(selectedPrisoner.getBunkID()));
 			
+			// refresh the model to reflect the values now displayed in the fields
 			editModal.createModel();
 			
 			rowContextMenu = new RowContextMenu(editModalContainer, deleteModalContainer);
+			
+			// display the contextmenu at the coordinates of the user's right-click
 			rowContextMenu.show(this.searchResults, e.getX(), e.getY());
 		});
 	}

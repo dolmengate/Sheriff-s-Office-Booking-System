@@ -26,7 +26,7 @@ public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
 			);
 			stmt = conn.createStatement();
 			stmt.setQueryTimeout(10);
-			ResultSet rs = stmt.executeQuery(constructStatement());
+			ResultSet rs = stmt.executeQuery(constructSelectStatement());
 			
 			// Loop through the result set and create a new Prisoner entity
 			// for each of the matching rows
@@ -65,7 +65,13 @@ public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
 		
 		this.model = model;
 		boolean success = true;
-
+		
+	/*
+		Person and Prisoner must be joined to update the Prisoner record completely
+		SQlite 3.2 does not support WITH clauses, therefore I am forced to update
+		each table in a separate statement.
+	*/
+		
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:sqlite:./src/main/resources/db/SOBS.db"
@@ -120,6 +126,10 @@ public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
 
 	@Override
 	public boolean update(PrisonerSearchModel model) {
+		
+		// give utility methods constructPersonUpdateStatement and 
+		// constructPrisonerUpdateStatement access to the model to create query
+		this.model = model;
 
 		boolean success = true;
 
@@ -130,8 +140,8 @@ public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
 
 			stmt = conn.createStatement();
 			stmt.setQueryTimeout(10);
-			stmt.executeUpdate(constructPersonStatement());
-			stmt.executeUpdate(constructPrisonerStatement());
+			stmt.executeUpdate(constructPersonUpdateStatement());
+			stmt.executeUpdate(constructPrisonerUpdateStatement());
 
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
@@ -191,7 +201,12 @@ public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
 		return success;
 	}
 
-	private String constructStatement() {
+	/**
+	 * Constructs the  SELECT statement for use when a user searches
+	 * for a prisoner.
+	 * @return 
+	 */
+	private String constructSelectStatement() {
 
 		// Perform table joins mandatory for any search
 		StringBuilder baseStatement = new StringBuilder(
@@ -274,12 +289,12 @@ public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
 		return baseStatement.toString();
 	}
 
-	/*
-		Person and Prisoner must be joined to update the Prisoner record completely
-		SQlite 3.2 does not support WITH clauses, therefore I am forced to update
-		each table in a separate statement.
+	/**
+	 * Constructs the UPDATE statement for the Person table upon a user modifying
+	 * a Prisoner's information.
+	 * @return 
 	 */
-	private String constructPersonStatement() {
+	private String constructPersonUpdateStatement() {
 		StringBuilder baseStatement = new StringBuilder(
 				"UPDATE Person SET "
 		);
@@ -313,7 +328,12 @@ public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
 		return baseStatement.toString();
 	}
 
-	private String constructPrisonerStatement() {
+	/**
+	 * Constructs the UPDATE statement for the Prisoner table upon a user
+	 * modifying a Prisoner's information.
+	 * @return 
+	 */
+	private String constructPrisonerUpdateStatement() {
 		StringBuilder baseStatement = new StringBuilder(
 				"UPDATE Prisoner SET "
 		);
