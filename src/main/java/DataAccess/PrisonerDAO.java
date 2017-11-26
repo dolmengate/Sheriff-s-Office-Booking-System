@@ -240,19 +240,9 @@ public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
 			"race", "PRISONER_ID", "arrest_date", "release_date", "bunk_id", "Cell.type"
 		};
 
-		StringBuilder emptyTest = new StringBuilder();
-
-		// check if the user made a search with NO field inputs
-		for (String fieldValue : fieldValues) {
-			emptyTest.append(fieldValue);
-		}
-
-		/*
-			if they did, complete and return the statement. this will return all
-			prisoners instead of returning none
-		*/
-		if (emptyTest.length() == 0) {
-			baseStatement.append(" WHERE Prisoner.PRISONER_ID NOT NULL");
+		// complete the statement if the user entered no search criteria
+		if (fieldsAreEmpty(fieldValues)) {
+			baseStatement.append(" WHERE Prisoner.PRISONER_ID NOT NULL AND is_released = '0'");
 			System.out.println(baseStatement.toString());
 			return baseStatement.toString();
 		}

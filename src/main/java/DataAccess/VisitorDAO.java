@@ -15,6 +15,7 @@ public class VisitorDAO extends Dao<Visitor, VisitorSearchModel> {
 	@Override
 	public ArrayList<Visitor> findAll(VisitorSearchModel model) {
 		
+		// give createSelectStatement method access to model to create query
 		this.model = model;
 		
 		ArrayList<Visitor> visitors = new ArrayList<>();
@@ -25,7 +26,7 @@ public class VisitorDAO extends Dao<Visitor, VisitorSearchModel> {
 			);
 			stmt = conn.createStatement();
 			stmt.setQueryTimeout(10);
-			ResultSet rs = stmt.executeQuery(constructStatement());
+			ResultSet rs = stmt.executeQuery(constructSelectStatement());
 			
 			while (rs.next()) {
 				visitors.add(new Visitor(
@@ -65,13 +66,12 @@ public class VisitorDAO extends Dao<Visitor, VisitorSearchModel> {
 		return false;
 	}
 	
-	private String constructStatement() {
+	private String constructSelectStatement() {
 		
 		StringBuilder baseStatement = new StringBuilder(
 				"SELECT * FROM Person "
 						+ "INNER JOIN "
 							+ "Visitor ON Person.PERSON_ID = Visitor.PERSON_ID "
-						+ "WHERE "
 		);
 		
 		// parallel arrays that associate a TextField with its relevant table column
@@ -92,6 +92,14 @@ public class VisitorDAO extends Dao<Visitor, VisitorSearchModel> {
 			"race", "VISITOR_ID", "ssn"
 		};
 		
+		// complete the statement if the user entered no search criteria
+		if (fieldsAreEmpty(fieldValues)) {
+			baseStatement.append(" WHERE Visitor.VISITOR_ID NOT NULL");
+			System.out.println(baseStatement.toString());
+			return baseStatement.toString();
+		}
+		
+		// otherwise continue building the statement
 		StringBuilder stmt = new StringBuilder();
 		
 		// if the statement has multiple WHERE clauses include an "AND" between them
@@ -108,9 +116,8 @@ public class VisitorDAO extends Dao<Visitor, VisitorSearchModel> {
 		if (!model.getPersonId().equals(""))
 			baseStatement.insert(baseStatement.indexOf(" PERSON_ID ") + 1, "Person.", 0, 7);
 		
-		String completedStatement = new String(baseStatement);
-		System.out.println(completedStatement);
+		System.out.println(baseStatement.toString());
 
-		return completedStatement;
+		return baseStatement.toString();
 	}
 }

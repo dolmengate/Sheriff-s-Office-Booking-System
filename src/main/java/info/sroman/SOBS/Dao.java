@@ -60,4 +60,22 @@ public abstract class Dao <E extends Entity, M extends SearchModel> {
 		}
 		return "";
 	}
+	
+	/**
+	 * Check if the values of the given fields contain any input (i.e. if their
+	 * combined lengths are longer than 0).
+	 * @param fieldValues array of Strings: values of the fields to be checked
+	 * @return 
+	 */
+	protected boolean fieldsAreEmpty(String[] fieldValues) {
+		StringBuilder emptyTest = new StringBuilder();
+
+		for (String fieldValue : fieldValues) {
+			emptyTest.append(fieldValue);
+		}
+			if (emptyTest.length() == 0)
+				return true;
+			return false;
+	}
 }
+
