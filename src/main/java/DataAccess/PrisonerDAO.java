@@ -103,7 +103,7 @@ public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
 			prepStmt.executeUpdate();
 			conn.commit();
 
-		} catch (SQLException | NumberFormatException ex) {
+		} catch (SQLException ex) {
 			System.err.println(ex);
 			try {
 				prepStmt.cancel();

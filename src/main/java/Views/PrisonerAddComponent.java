@@ -123,8 +123,8 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 		inputFields.setPadding(new Insets(20));
 		inputFields.setAlignment(Pos.CENTER);
 		
-		submitBtn.setOnAction(e -> {
-			this.model = new PrisonerSearchModel(
+		submitBtn.setOnAction(e -> {		
+			PrisonerSearchModel candidateModel = new PrisonerSearchModel(
 				Integer.toString(Database.assignPersonID()),
 				firstNameField.getText(),
 				lastNameField.getText(),
@@ -140,15 +140,17 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 				false
 			);
 			
+			if (modelHasBlanks(candidateModel)) {
+				messageLabel.setText("Please fill out all fields.");
+				return;
+			} else {
+				this.model = candidateModel;
+			}
+			
 			try {
 				this.controller.add(this.model);
-			} catch (SQLException | NumberFormatException ex) {
-				
-				if (ex instanceof NumberFormatException)
-					messageLabel.setText("Please fill out all fields.");
-				if (ex instanceof SQLException)
-					messageLabel.setText(ex.toString());
-				
+			} catch (SQLException ex) {
+				messageLabel.setText(ex.toString());
 				return;
 			}
 			
@@ -164,7 +166,7 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 			arrestDatePicker.setValue(null);
 			releaseDatePicker.setValue(null);
 			bunkIdField.setText("");
-		});
+		}); // end submit button behavior
 
 		resetBtn.setOnAction(e -> {
 			firstNameField.setText("");
@@ -183,6 +185,22 @@ public class PrisonerAddComponent extends InputView implements IComponent {
 	public Button getSubmitBtn() {
 		return submitBtn;
 	}
+	
+	/**
+	 * Check the model being given to the DAO for new Prisoner creation to ensure
+	 * all fields are filled. 
+	 * @param candidateModel SearchModel to be checked for validity
+	 * @return 
+	 */
+	private boolean modelHasBlanks(PrisonerSearchModel cm) {
+		return (
+			cm.getFirstName().equals("") || cm.getLastName().equals("") || 
+			cm.getHeight().equals("") || cm.getWeight().equals("") || 
+			cm.getDob().equals("") || cm.getRace().equals("") ||
+			cm.getArrestDate().equals("") || cm.getReleaseDate().equals("") ||
+			cm.getBunkId().equals("")
+		);
+ 	}
 
 	@Override
 	public VBox getPane() {
