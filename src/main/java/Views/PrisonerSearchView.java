@@ -16,8 +16,6 @@ import javafx.scene.text.Text;
 
 public class PrisonerSearchView extends SearchView implements IComponent {
 	
-	// TODO input validation / formatting restrictions
-
 	PrisonerFieldsComponent prisonerSearchComponent;
 	PrisonerAddComponent prisonerAddComponent;
 	RowContextMenu rowContextMenu;
@@ -46,9 +44,13 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 	@Override
 	public void configureControls() {
 
+		// configure submit button for search
 		prisonerSearchComponent.getSubmitBtn().setOnAction(e -> {
+			
+			// clear the results list in preparation of a new search
 			this.searchResults.getItems().clear();
 
+			// create the search model to be passed to the controller
 			this.model = new PrisonerSearchModel(
 					prisonerSearchComponent.getPersonIdField().getText(),
 					prisonerSearchComponent.getFirstNameField().getText(),
@@ -66,16 +68,15 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 					getComboValueString(prisonerSearchComponent.getCellBlockCombo()), 
 					false
 			);
+			
 			try {
 				PrisonerSearchModel receivedModel = (PrisonerSearchModel) controller.search(this.model);
 				this.searchResults.getItems().addAll(receivedModel.getResultsList());
 			} catch (SQLException ex) {
 				
 			}
-		});
+		}); // end submit button behavior
 		
-		// TODO implement remove record
-
 		// on right click create context menu for editing/deleting prisoner
 		this.searchResults.setOnContextMenuRequested(e -> {
 			
@@ -102,7 +103,7 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 			// define Delete button behavior for Delete Modal
 			deleteBtn.setOnAction(deleteEvent -> {
 				try {
-					this.controller.remove(this.model);
+					this.controller.remove(constructDeleteModalPrisonerModel());
 					messageLabel.setText("Record Deleted!");
 				} catch (SQLException | NumberFormatException ex) {
 					System.out.println(ex.getMessage());
@@ -110,7 +111,8 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 				}
 			});
 			
-			// fill user input controls with selected prisoner data
+			// fill user input controls in the Edit Modal with selected prisoner
+			// data to allow user to change it
 			PrisonerFieldsComponent fields = editModal.getPrisonerFields();
 
 			fields.setPersonIdField(Integer.toString(selectedPrisoner.getPERSON_ID()));
@@ -197,12 +199,37 @@ public class PrisonerSearchView extends SearchView implements IComponent {
 				bunkIDCol, arrestDateCol, releaseDateCol, cellBlockCol);
 	}
 
+	/**
+	 * Extract and return the inches part of the height String returned by the
+	 * Prisoner's getHEIGHT() method.
+	 * @param height String representing the combined height measurement 
+	 *				 (feet and inches)
+	 * @return 
+	 */
 	private String getInches(String height) {
 		return height.substring(1);
 	}
 
+	/**
+	 * Extract and return the feet part of the height String returned by the
+	 * Prisoner's getHEIGHT() method.
+	 * @param height String representing the combined height measurement 
+	 *				 (feet and inches)
+	 * @return 
+	 */
 	private String getFeet(String height) {
 		return height.substring(0, 1);
+	}
+	
+	/**
+	 * Construct the model required for the Delete button in the Delete Modal
+	 * to know which Prisoner to delete
+	 * @return 
+	 */
+	private PrisonerSearchModel constructDeleteModalPrisonerModel() {
+		PrisonerSearchModel psm = new PrisonerSearchModel();
+		psm.setPrisonerId(Integer.toString(selectedPrisoner.getPRISONER_ID()));
+		return psm;
 	}
 
 	@Override

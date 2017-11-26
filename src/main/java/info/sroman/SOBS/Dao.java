@@ -73,9 +73,6 @@ public abstract class Dao <E extends Entity, M extends SearchModel> {
 		for (String fieldValue : fieldValues) {
 			emptyTest.append(fieldValue);
 		}
-			if (emptyTest.length() == 0)
-				return true;
-			return false;
+			return emptyTest.length() == 0;
 	}
 }
-

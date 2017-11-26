@@ -179,6 +179,7 @@ public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
 			stmt.executeUpdate(
 					"UPDATE Prisoner SET is_released = 1 WHERE PRISONER_ID = '" + model.getPrisonerId()+ "'"
 			);
+			System.out.println("UPDATE Prisoner SET is_released = 1 WHERE PRISONER_ID = '" + model.getPrisonerId()+ "'");
 
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
@@ -295,7 +296,7 @@ public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
 			model.getLastName(),
 			model.getHeight(),
 			model.getWeight(),
-			model.getWeight(),
+			model.getDob(),
 			model.getRace()
 		};
 
