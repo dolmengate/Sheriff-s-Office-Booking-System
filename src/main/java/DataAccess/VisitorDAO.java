@@ -94,23 +94,20 @@ public class VisitorDAO extends Dao<Visitor, VisitorSearchModel> {
 		
 		// complete the statement if the user entered no search criteria
 		if (fieldsAreEmpty(fieldValues)) {
-			baseStatement.append(" WHERE Visitor.VISITOR_ID NOT NULL");
+//			baseStatement.append("Visitor.VISITOR_ID NOT NULL");
+			System.out.println(baseStatement.toString());
+			return baseStatement.toString();
+		}
+		
+		if (fieldsAreEmpty(fieldValues)){
 			System.out.println(baseStatement.toString());
 			return baseStatement.toString();
 		}
 		
 		// otherwise continue building the statement
-		StringBuilder stmt = new StringBuilder();
-		
-		// if the statement has multiple WHERE clauses include an "AND" between them
-		for (int i = 0; i < fieldValues.length; i++) {
-			if (stmt.length() == 0)
-				stmt.append(checkForAnd(fieldValues[i], columns[i]));
-			else if (!fieldValues[i].equals(""))
-				stmt.append(" AND ").append(checkForAnd(fieldValues[i], columns[i]));
-		}
-		
-		baseStatement.append(stmt);	
+
+		baseStatement.append("WHERE ");
+		baseStatement.append(constructWhereClauses(fieldValues, columns));	
 		
 		// Prevent "Ambugious column" error by adding Table name
 		if (!model.getPersonId().equals(""))

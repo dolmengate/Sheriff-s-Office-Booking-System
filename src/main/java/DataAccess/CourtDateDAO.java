@@ -26,7 +26,7 @@ public class CourtDateDAO extends Dao<CourtDate, CourtDateSearchModel> {
 			);
 			stmt = conn.createStatement();
 			stmt.setQueryTimeout(10);
-			ResultSet rs = stmt.executeQuery(constructStatement());
+			ResultSet rs = stmt.executeQuery(constructSelectStatement());
 						
 			while (rs.next()) {
 				courtDates.add(new CourtDate(
@@ -64,11 +64,10 @@ public class CourtDateDAO extends Dao<CourtDate, CourtDateSearchModel> {
 		return false;
 	}
 	
-	private String constructStatement() {
+	private String constructSelectStatement() {
 		
 		StringBuilder baseStatement = new StringBuilder(
 				"SELECT * FROM Court_Date "
-						+ "WHERE "
 		);
 		
 		// parallel arrays that associate a TextField with its relevant table column
@@ -86,17 +85,14 @@ public class CourtDateDAO extends Dao<CourtDate, CourtDateSearchModel> {
 			"prisoner_id"
 		};
 		
-		StringBuilder stmt = new StringBuilder();
-		
-		// if the statement has multiple WHERE clauses include an "AND" between them
-		for (int i = 0; i < fieldValues.length; i++) {
-			if (stmt.length() == 0)
-				stmt.append(checkForAnd(fieldValues[i], columns[i]));
-			else if (!fieldValues[i].equals(""))
-				stmt.append(" AND ").append(checkForAnd(fieldValues[i], columns[i]));
+		if (fieldsAreEmpty(fieldValues)) {
+//			baseStatement.append("Court_Date.COURT_DATE_ID NOT NULL");
+			System.out.println(baseStatement.toString());
+			return baseStatement.toString();
 		}
 		
-		baseStatement.append(stmt);	
+		baseStatement.append("WHERE ");
+		baseStatement.append(constructWhereClauses(fieldValues, columns));	
 		
 		System.out.println(baseStatement);
 

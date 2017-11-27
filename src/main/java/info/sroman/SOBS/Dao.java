@@ -42,8 +42,9 @@ public abstract class Dao <E extends Entity, M extends SearchModel> {
 	/**
 	 * DELETEs an existing record in the relevant table.
 	 * @param model	SearchModel used as parameters for the deletion of an existing record
-	 * @return 
+	 * @return		true or false based on success or failure of the deletion
 	 */
+	
 	public abstract boolean delete(M model);
 	
 	/**
@@ -53,7 +54,7 @@ public abstract class Dao <E extends Entity, M extends SearchModel> {
 	 * @param colName	name of the associated column in the database table
 	 * @return			an appropriate AND statement or an empty String
 	 */
-	protected String checkForAnd(String fieldText, String colName) {
+	private String checkForAnd(String fieldText, String colName) {
 		StringBuilder andStatement = new StringBuilder();
 		if (!fieldText.equals("")) {
 			return andStatement.append(colName).append(" = '").append(fieldText).append("'").toString();
@@ -65,7 +66,7 @@ public abstract class Dao <E extends Entity, M extends SearchModel> {
 	 * Check if the values of the given fields contain any input (i.e. if their
 	 * combined lengths are longer than 0).
 	 * @param fieldValues array of Strings: values of the fields to be checked
-	 * @return 
+	 * @return true or false based on the aggregate emptyness of the fields provided
 	 */
 	protected boolean fieldsAreEmpty(String[] fieldValues) {
 		StringBuilder emptyTest = new StringBuilder();
@@ -74,5 +75,25 @@ public abstract class Dao <E extends Entity, M extends SearchModel> {
 			emptyTest.append(fieldValue);
 		}
 			return emptyTest.length() == 0;
+	}
+	
+	/**
+	 * Generate a series of WHERE clauses from the values of input fields and
+	 * their corresponding table columns. Arguments must be parallel arrays.
+	 * @param fieldValues String array of values from user input fields
+	 * @param columnNames String array of column names for 
+	 * @return			  a String containing the required WHERE clauses separated
+	 *					  by ANDs
+	 */
+	protected String constructWhereClauses(String[] fieldValues, String[] columnNames) {
+		StringBuilder whereClauses = new StringBuilder();
+		for (int i = 0; i < fieldValues.length; i++) {
+			if (whereClauses.length() == 0) {	// if it's the first WHERE to be added don't include the "AND"
+				whereClauses.append(checkForAnd(fieldValues[i], columnNames[i]));
+			} else if (!fieldValues[i].equals("")) {	// otherwise add the "AND" before adding the additional statement
+				whereClauses.append(" AND ").append(checkForAnd(fieldValues[i], columnNames[i]));
+			}
+		}
+		return whereClauses.toString();
 	}
 }

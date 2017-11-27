@@ -243,29 +243,12 @@ public class PrisonerDAO extends Dao<Prisoner, PrisonerSearchModel> {
 
 		// complete the statement if the user entered no search criteria
 		if (fieldsAreEmpty(fieldValues)) {
-			baseStatement.append(" WHERE Prisoner.PRISONER_ID NOT NULL AND is_released = '0'");
 			System.out.println(baseStatement.toString());
 			return baseStatement.toString();
 		}
-
-		// otherwise continue building the statement
-		baseStatement.append(" WHERE ");
-
-		StringBuilder whereClauses = new StringBuilder();
-
-		/* 
-			construct WHERE clauses for each non-empty TextField
-			if the statement has multiple WHERE clauses include an "AND" between them
-		*/
-		for (int i = 0; i < fieldValues.length; i++) {
-			if (whereClauses.length() == 0) {	// if it's the first WHERE to be added don't include the "AND"
-				whereClauses.append(checkForAnd(fieldValues[i], columns[i]));
-			} else if (!fieldValues[i].equals("")) {	// otherwise add the "AND" before adding the additional statement
-				whereClauses.append(" AND ").append(checkForAnd(fieldValues[i], columns[i]));
-			}
-		}
-
-		baseStatement.append(whereClauses);
+		
+		baseStatement.append("WHERE ");
+		baseStatement.append(constructWhereClauses(fieldValues, columns));
 
 		// Prevent "Ambugious column" error by adding Table name
 		if (!model.getPersonId().equals("")) {
