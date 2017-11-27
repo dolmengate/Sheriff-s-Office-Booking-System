@@ -94,12 +94,6 @@ public class VisitorDAO extends Dao<Visitor, VisitorSearchModel> {
 		
 		// complete the statement if the user entered no search criteria
 		if (fieldsAreEmpty(fieldValues)) {
-//			baseStatement.append("Visitor.VISITOR_ID NOT NULL");
-			System.out.println(baseStatement.toString());
-			return baseStatement.toString();
-		}
-		
-		if (fieldsAreEmpty(fieldValues)){
 			System.out.println(baseStatement.toString());
 			return baseStatement.toString();
 		}

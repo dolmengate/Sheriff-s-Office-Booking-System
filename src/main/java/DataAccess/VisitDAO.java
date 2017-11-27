@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class VisitDAO extends Dao<Visit, VisitSearchModel> {
 	
@@ -25,8 +26,29 @@ public class VisitDAO extends Dao<Visit, VisitSearchModel> {
 			);
 			stmt = conn.createStatement();
 			stmt.setQueryTimeout(10);
-			ResultSet rs = stmt.executeQuery(constructSelectStatement());
 			
+			ResultSet rs = stmt.executeQuery(
+					constructSimpleSelectStatement(
+							"Visit",
+							new String[] {
+								model.getVisitId(), 
+								model.getStartTime(), 
+								model.getEndTime(),
+								model.getNotes(), 
+								model.getVisitorId(), 
+								model.getPrisonerId()
+							},
+							new String[] {
+									"VISIT_ID", 
+									"start_time", 
+									"end_time", 
+									"notes", 
+									"visitor_id", 
+									"prisoner_id"
+							}
+					)
+			);
+						
 			while (rs.next()) {
 				visits.add(
 					new Visit(
@@ -67,38 +89,4 @@ public class VisitDAO extends Dao<Visit, VisitSearchModel> {
 	public boolean delete(VisitSearchModel model) {
 		return false;
 	}
-	
-	private String constructSelectStatement() {
-		
-		StringBuilder baseStatement = new StringBuilder(
-				"SELECT * FROM Visit "
-		);
-		
-		// parallel arrays that associate a TextField with its relevant table column
-		String[] fieldValues = {
-			model.getVisitId(), 
-			model.getStartTime(), 
-			model.getEndTime(), 
-			model.getNotes(), 
-			model.getPrisonerId(), 
-			model.getPrisonerId()
-		};
-		
-		String[] columns = {
-			"VISIT_ID", "start_time", "end_time", "notes", "visitor_id", "prisoner_id"
-		};
-		
-		if (fieldsAreEmpty(fieldValues)) {
-			System.out.println(baseStatement.toString());
-			return baseStatement.toString();
-		}
-		
-		baseStatement.append("WHERE ");
-		baseStatement.append(constructWhereClauses(fieldValues, columns));	
-		
-		System.out.println(baseStatement);
-
-		return baseStatement.toString();
-	}
-	
 }

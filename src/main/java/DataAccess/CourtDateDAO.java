@@ -26,7 +26,24 @@ public class CourtDateDAO extends Dao<CourtDate, CourtDateSearchModel> {
 			);
 			stmt = conn.createStatement();
 			stmt.setQueryTimeout(10);
-			ResultSet rs = stmt.executeQuery(constructSelectStatement());
+			
+			ResultSet rs = stmt.executeQuery(
+					constructSimpleSelectStatement(
+							"Court_Date",
+							new String[] {
+								model.getCourtDateId(), 
+								model.getDate(), 
+								model.getVerdict(), 
+								model.getPrisonerId()
+							}, 
+							new String[] {
+								"COURT_DATE_ID", 
+								"date", 
+								"verdict", 
+								"prisoner_id"
+							}
+					)
+			);
 						
 			while (rs.next()) {
 				courtDates.add(new CourtDate(
@@ -63,40 +80,4 @@ public class CourtDateDAO extends Dao<CourtDate, CourtDateSearchModel> {
 	public boolean delete(CourtDateSearchModel model) {
 		return false;
 	}
-	
-	private String constructSelectStatement() {
-		
-		StringBuilder baseStatement = new StringBuilder(
-				"SELECT * FROM Court_Date "
-		);
-		
-		// parallel arrays that associate a TextField with its relevant table column
-		String[] fieldValues = {
-			model.getCourtDateId(), 
-			model.getDate(), 
-			model.getVerdict(), 
-			model.getPrisonerId()
-		};
-		
-		String[] columns = {
-			"COURT_DATE_ID", 
-			"date", 
-			"verdict", 
-			"prisoner_id"
-		};
-		
-		if (fieldsAreEmpty(fieldValues)) {
-//			baseStatement.append("Court_Date.COURT_DATE_ID NOT NULL");
-			System.out.println(baseStatement.toString());
-			return baseStatement.toString();
-		}
-		
-		baseStatement.append("WHERE ");
-		baseStatement.append(constructWhereClauses(fieldValues, columns));	
-		
-		System.out.println(baseStatement);
-
-		return baseStatement.toString();
-	}
-
 }

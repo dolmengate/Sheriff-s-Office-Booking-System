@@ -96,4 +96,28 @@ public abstract class Dao <E extends Entity, M extends SearchModel> {
 		}
 		return whereClauses.toString();
 	}
+	
+	/**
+	 * Creates a SELECT statement where there are no table JOINs based on given
+	 * fieldValues and columnNames. 
+	 * @param tableName	  name of the table to SELECT from
+	 * @param fieldValues String array of values from user input fields
+	 * @param columnNames String array of column names for 
+	 * @return			  a String containing an appropriate SELECT statement
+	 */
+	protected String constructSimpleSelectStatement(String tableName, String[] fieldValues, String[] columnNames) {
+		StringBuilder baseStatement = new StringBuilder("SELECT * FROM ").append(tableName);
+		
+		if (fieldsAreEmpty(fieldValues)) {
+			System.out.println(baseStatement.toString());
+			return baseStatement.toString();
+		}
+		
+		baseStatement.append(" WHERE ");
+		baseStatement.append(constructWhereClauses(fieldValues, columnNames));	
+		
+		System.out.println(baseStatement);
+
+		return baseStatement.toString();
+	}
 }
